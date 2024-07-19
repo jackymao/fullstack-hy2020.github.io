@@ -175,11 +175,8 @@ md
 <!-- Start by running the frontend outside the container and ensure that it works with the backend.-->
 开始先在容器外运行前端，确保它与后端正常工作。
 
-<!-- Containerize the application by creating <i>todo-app/todo-frontend/Dockerfile</i> and use [ENV](https://docs.docker.com/engine/reference/builder/#env) instruction to pass *REACT\_APP\_BACKEND\_URL* to the application and run it with the backend. The backend should still be running outside a container.-->
-在 <i>todo-app/todo-frontend/Dockerfile</i> 创建容器化应用，并使用 [ENV](https://docs.docker.com/engine/reference/builder/#env) 指令将 *REACT\_APP\_BACKEND\_URL* 传递给应用，并使用后端运行它。 后端仍应在容器外运行。
-
-<!-- Note that you need to set *REACT\_APP\_BACKEND\_URL* before building the frontend, otherwise it does not get defined in the code!-->
-**注意，在构建前端之前，你需要设置*REACT\_APP\_BACKEND\_URL*，否则它不会在代码中定义！**
+<!-- Containerize the application by creating <i>todo-app/todo-frontend/Dockerfile</i> and use [ENV](https://docs.docker.com/engine/reference/builder/#env) instruction to pass *REACT\_APP\_BACKEND\_URL* to the application and run it with the backend. The backend should still be running outside a container. Note that you need to set *REACT\_APP\_BACKEND\_URL* before the frontend is build, otherwise it does not get defined in the code!-->
+ 通过创建<i>todo-app/todo-frontend/Dockerfile</i>来容器化应用，并使用[ENV](https://docs.docker.com/engine/reference/builder/#env)指令将*REACT\_APP\_BACKEND\_URL*传递给应用并与后端一起运行。后端应该仍然在容器外运行。请注意，你需要在构建前端之前设置*REACT\_APP\_BACKEND\_URL*，否则它就不会在代码中被定义!
 
 #### Exercise 12.14: Testing during the build process
 

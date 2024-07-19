@@ -9,17 +9,17 @@ lang: en
 
 During the course, we have a goal and a need to learn a sufficient amount of JavaScript in addition to web development.
 
-JavaScript has advanced rapidly in the last few years and in this course, we use features from the newer versions. The official name of the JavaScript standard is [ECMAScript](https://en.wikipedia.org/wiki/ECMAScript). At this moment, the latest version is the one released in June of 2022 with the name [ECMAScript®2022](https://www.ecma-international.org/ecma-262/), otherwise known as ES13.
+JavaScript has advanced rapidly in the last few years and in this course, we use features from the newer versions. The official name of the JavaScript standard is [ECMAScript](https://en.wikipedia.org/wiki/ECMAScript). At this moment, the latest version is the one released in June of 2023 with the name [ECMAScript®2023](https://www.ecma-international.org/ecma-262/), otherwise known as ES14.
 
 Browsers do not yet support all of JavaScript's newest features. Due to this fact, a lot of code run in browsers has been <i>transpiled</i> from a newer version of JavaScript to an older, more compatible version.
 
-Today, the most popular way to do transpiling is by using [Babel](https://babeljs.io/). Transpilation is automatically configured in React applications created with create-react-app. We will take a closer look at the configuration of the transpilation in [part 7](/en/part7) of this course.
+Today, the most popular way to do transpiling is by using [Babel](https://babeljs.io/). Transpilation is automatically configured in React applications created with vite. We will take a closer look at the configuration of the transpilation in [part 7](/en/part7) of this course.
 
 [Node.js](https://nodejs.org/en/) is a JavaScript runtime environment based on Google's [Chrome V8](https://developers.google.com/v8/) JavaScript engine and works practically anywhere - from servers to mobile phones. Let's practice writing some JavaScript using Node. The latest versions of Node already understand the latest versions of JavaScript, so the code does not need to be transpiled.
 
 The code is written into files ending with <i>.js</i> that are run by issuing the command <em>node name\_of\_file.js</em>
 
-It is also possible to write JavaScript code into the Node.js console, which is opened by typing _node_ in the command line, as well as into the browser's developer tool console. [The newest revisions of Chrome handle the newer features of JavaScript pretty well](http://kangax.github.io/compat-table/es2016plus/) without transpiling the code. Alternatively, you can use a tool like [JS Bin](https://jsbin.com/?js,console).
+It is also possible to write JavaScript code into the Node.js console, which is opened by typing _node_ in the command line, as well as into the browser's developer tool console. [The newest revisions of Chrome handle the newer features of JavaScript pretty well](https://compat-table.github.io/compat-table/es2016plus/) without transpiling the code. Alternatively, you can use a tool like [JS Bin](https://jsbin.com/?js,console).
 
 JavaScript is sort of reminiscent, both in name and syntax, to Java. But when it comes to the core mechanism of the language they could not be more different. Coming from a Java background, the behavior of JavaScript can seem a bit alien, especially if one does not make the effort to look up its features.
 
@@ -61,7 +61,7 @@ console.log(t.length) // 4 is printed
 console.log(t[1])     // -1 is printed
 
 t.forEach(value => {
-  console.log(value)  // numbers 1, -1, 3, 5 are printed, each to own line
+  console.log(value)  // numbers 1, -1, 3, 5 are printed, each on its own line
 })                    
 ```
 
@@ -157,7 +157,7 @@ The properties of an object are referenced by using the "dot" notation, or by us
 
 ```js
 console.log(object1.name)         // Arto Hellas is printed
-const fieldName = 'age' 
+const fieldName = 'age'
 console.log(object1[fieldName])    // 35 is printed
 ```
 
@@ -172,7 +172,7 @@ The latter of the additions has to be done by using brackets because when using 
 
 Naturally, objects in JavaScript can also have methods. However, during this course, we do not need to define any objects with methods of their own. This is why they are only discussed briefly during the course.
 
-Objects can also be defined using so-called constructor functions, which results in a mechanism reminiscent of many other programming languages, e.g. Java's classes. Despite this similarity, JavaScript does not have classes in the same sense as object-oriented programming languages. There has been, however, an addition of the <i>class syntax</i> starting from version ES6, which in some cases helps structure object-oriented classes.
+Objects can also be defined using so-called constructor functions, which results in a mechanism reminiscent of many other programming languages, e.g. Java's classes. Despite this similarity, JavaScript does not have classes in the same sense as object-oriented programming languages. There has been, however, the addition of the <i>class syntax</i> starting from version ES6, which in some cases helps structure object-oriented classes.
 
 ### Functions
 
@@ -265,7 +265,7 @@ If and <i>when</i> you encounter an error message
 
 keep in mind the things told [here](/en/part1/introduction_to_react#do-not-render-objects).
 
-  <h4>1.3: course information step3</h4>
+  <h4>1.3: Course Information step 3</h4>
 
 Let's move forward to using objects in our application. Modify the variable definitions of the <i>App</i> component as follows and also refactor the application so that it still works:
 
@@ -293,9 +293,9 @@ const App = () => {
 }
 ```
 
-  <h4>1.4: course information step4</h4>
+  <h4>1.4: Course Information step 4</h4>
 
-And then place the objects into an array. Modify the variable definitions of <i>App</i> into the following form and modify the other parts of the application accordingly:
+Place the objects into an array. Modify the variable definitions of <i>App</i> into the following form and modify the other parts of the application accordingly:
 
 ```js
 const App = () => {
@@ -341,7 +341,7 @@ const App = () => {
 }
 ```
 
-  <h4>1.5: course information step5</h4>
+  <h4>1.5: Course Information step 5</h4>
 
 Let's take the changes one step further. Change the course and its parts into a single JavaScript object. Fix everything that breaks.
 
@@ -457,7 +457,7 @@ const referenceToGreet = arto.greet
 referenceToGreet() // prints "hello, my name is undefined"
 ```
 
-When calling the method through a reference, the method loses knowledge of what the original _this_ was. Contrary to other languages, in JavaScript the value of [this](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this) is defined based on <i>how the method is called</i>. When calling the method through a reference the value of _this_ becomes the so-called [global object](https://developer.mozilla.org/en-US/docs/Glossary/Global_object) and the end result is often not what the software developer had originally intended.
+When calling the method through a reference, the method loses knowledge of what the original _this_ was. Contrary to other languages, in JavaScript the value of [this](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this) is defined based on <i>how the method is called</i>. When calling the method through a reference, the value of _this_ becomes the so-called [global object](https://developer.mozilla.org/en-US/docs/Glossary/Global_object) and the end result is often not what the software developer had originally intended.
 
 Losing track of _this_ when writing JavaScript code brings forth a few potential issues. Situations often arise where React or Node (or more specifically the JavaScript engine of the web browser) needs to call some method in an object that the developer has defined. However, in this course, we avoid these issues by using "this-less" JavaScript.
 
@@ -518,13 +518,13 @@ When it comes to syntax, the classes and the objects created from them are very 
 
 The introduction of the class syntax was a controversial addition. Check out [Not Awesome: ES6 Classes](https://github.com/petsel/not-awesome-es6-classes) or [Is “Class” In ES6 The New “Bad” Part? on Medium](https://medium.com/@rajaraodv/is-class-in-es6-the-new-bad-part-6c4e6fe1ee65) for more details.
 
-The ES6 class syntax is used a lot in "old" React and also in Node.js, hence an understanding of it is beneficial even in this course. However, since we are using the new [Hooks](https://reactjs.org/docs/hooks-intro.html) feature of React throughout this course, we have no concrete use for JavaScript's class syntax.
+The ES6 class syntax is used a lot in "old" React and also in Node.js, hence an understanding of it is beneficial even in this course. However, since we are using the new [Hooks](https://react.dev/reference/react) feature of React throughout this course, we have no concrete use for JavaScript's class syntax.
 
 ### JavaScript materials
 
 There exist both good and poor guides for JavaScript on the Internet. Most of the links on this page relating to JavaScript features reference [Mozilla's JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
 
-It is highly recommended to immediately read [A re-introduction to JavaScript (JS tutorial)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript) on Mozilla's website.
+It is highly recommended to immediately read [JavaScript language overview](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_overview) on Mozilla's website.
 
 If you wish to get to know JavaScript deeply there is a great free book series on the Internet called [You-Dont-Know-JS](https://github.com/getify/You-Dont-Know-JS).
 

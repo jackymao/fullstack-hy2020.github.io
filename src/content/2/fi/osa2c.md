@@ -17,17 +17,17 @@ Tehdään projektin juurihakemistoon tiedosto <i>db.json</i>:
 {
   "notes": [
     {
-      "id": 1,
+      "id": "1",
       "content": "HTML is easy",
       "important": true
     },
     {
-      "id": 2,
+      "id": "2",
       "content": "Browser can execute only JavaScript",
       "important": false
     },
     {
-      "id": 3,
+      "id": "3",
       "content": "GET and POST are the most important methods of HTTP protocol",
       "important": true
     }
@@ -35,7 +35,7 @@ Tehdään projektin juurihakemistoon tiedosto <i>db.json</i>:
 }
 ```
 
-JSON Server on mahdollista [asentaa](https://github.com/typicode/json-server#install) koneelle ns. globaalisti komennolla _npm install -g json-server_. Globaali asennus edellyttää kuitenkin pääkäyttäjän oikeuksia eli se ei ole mahdollista laitoksen koneilla tai uusilla fuksiläppäreillä.
+JSON Server on mahdollista [asentaa](https://github.com/typicode/json-server#install) koneelle ns. globaalisti komennolla _npm install -g json-server_. Globaali asennus edellyttää kuitenkin pääkäyttäjän oikeuksia.
 
 Globaali asennus ei ole kuitenkaan tarpeen, sillä voimme käynnistää JSON Serverin myös _npx_-komennon avulla:
 
@@ -43,13 +43,13 @@ Globaali asennus ei ole kuitenkaan tarpeen, sillä voimme käynnistää JSON Ser
 npx json-server --port=3001 --watch db.json
 ```
 
-Oletusarvoisesti JSON Server käynnistyy porttiin 3000. Koska create-react-app:illa luodut projektit varaavat jo portin 3000, joudumme nyt määrittelemään JSON Serverille vaihtoehtoisen portin 3001.
+Oletusarvoisesti JSON Server käynnistyy porttiin 3000. Käytämme nyt kuitenkin porttia 3001.
 
 Mennään selaimella osoitteeseen <http://localhost:3001/notes>. Kuten huomaamme, JSON Server tarjoaa osoitteessa tiedostoon tallentamamme muistiinpanot JSON-muodossa:
 
 ![](../../images/2/14new.png)
 
-Jos selaimesi ei osaa näyttää JSON-muotoista dataa formatoituna, asenna jokin sopiva plugin, esim. [JSONVue](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) helpottamaan elämääsi.
+Jos selaimesi ei osaa näyttää JSON-muotoista dataa formatoituna, asenna jokin sopiva plugin, esim. [JSONView](https://chromewebstore.google.com/detail/gmegofmjomhknnokphhckolhcffdaihd) helpottamaan elämääsi.
 
 Jatkossa ideana onkin se, että muistiinpanot talletetaan palvelimelle eli tässä vaiheessa JSON Serverille. React-koodi hakee muistiinpanot palvelimelta ja renderöi ne ruudulle. Kun sovellukseen lisätään uusi muistiinpano, React-koodi lähettää sen myös palvelimelle, jotta uudet muistiinpanot jäävät pysyvästi "muistiin".
 
@@ -135,75 +135,63 @@ Voisimme käyttää datan palvelimelta hakemiseen aiemmin mainittua promiseihin 
 
 Käytetään selaimen ja palvelimen väliseen kommunikaatioon kuitenkin [axios](https://github.com/axios/axios)-kirjastoa, joka toimii samaan tapaan kuin fetch, mutta on hieman mukavampikäyttöinen. Hyvä syy axios:in käytölle on myös se, että pääsemme tutustumaan siihen miten ulkopuolisia kirjastoja eli <i>npm-paketteja</i> liitetään React-projektiin.
 
-Nykyään lähes kaikki JavaScript-projektit määritellään node "pakkausmanagerin" eli [npm](https://docs.npmjs.com/getting-started/what-is-npm):n avulla. Myös create-react-app:in avulla generoidut projektit ovat npm-muotoisia projekteja. Varma tuntomerkki siitä on projektin juuressa oleva tiedosto <i>package.json:</i>
+Nykyään lähes kaikki JavaScript-projektit määritellään node "pakkausmanagerin" eli [npm](https://docs.npmjs.com/getting-started/what-is-npm):n avulla. Myös Viten avulla generoidut projektit ovat npm-muotoisia projekteja. Varma tuntomerkki siitä on projektin juuressa oleva tiedosto <i>package.json:</i>
 
 ```json
 {
   "name": "notes-frontend",
-  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "vite": "^4.4.5"
   }
 }
 ```
 
 Tässä vaiheessa meitä kiinnostaa osa <i>dependencies</i>, joka määrittelee mitä <i>riippuvuuksia</i> eli ulkoisia kirjastoja projektilla on.
 
-Voisimme määritellä Axios-kirjaston suoraan tiedostoon <i>package.json</i>, mutta on parempi asentaa se komentoriviltä:
+Voisimme määritellä Axios-kirjaston suoraan tiedostoon <i>package.json</i>, mutta on parempi asentaa se komentoriviltä. **Huomaa, että _npm_-komennot tulee antaa aina projektin juurihakemistossa** eli siinä, jossa tiedosto <i>package.json</i> on.
 
 ```bash
 npm install axios
 ```
-
-**Huomaa, että _npm_-komennot tulee antaa aina projektin juurihakemistossa** eli siinä, jossa tiedosto <i>package.json</i> on.
 
 Nyt Axios on mukana riippuvuuksien joukossa:
 
 ```json
 {
   "name": "notes-frontend",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.2.2", // highlight-line
+    "axios": "^1.4.0", // highlight-line
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-dom": "^18.2.0"
   },
   // ...
 }
@@ -223,10 +211,10 @@ ja tehdään tiedoston <i>package.json</i> osaan <i>scripts</i> pieni lisäys
 {
   // ... 
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
     "server": "json-server -p3001 --watch db.json" // highlight-line
   },
 }
@@ -264,12 +252,12 @@ Parametrissa oli siis hienoinen ero. Axios tallennettiin sovelluksen suoritusaik
 Axios on nyt valmis käyttöömme. Jatkossa oletetaan, että JSON Server on käynnissä portissa 3001. Lisäksi varsinainen React-sovellus tulee käynnistää erikseen erilliseen komentorivi-ikkunaan:
 
 ```bash
-npm start
+npm run dev
 ```
 
 Kirjaston voi ottaa käyttöön samaan tapaan kuin esim. React otetaan käyttöön eli sopivalla <em>import</em>-lauseella.
 
-Lisätään seuraava tiedostoon <i>index.js</i>:
+Lisätään seuraava tiedostoon <i>main.jsx</i>:
 
 ```js
 import axios from 'axios'
@@ -297,7 +285,7 @@ Promise siis edustaa asynkronista operaatiota. Promise voi olla kolmessa eri til
 - Jos operaatio päättyy onnistuneesti, promise menee tilaan <i>fulfilled</i>, josta joskus käytetään myös nimitystä <i>resolved</i>.
 - Kolmas mahdollinen tila on <i>rejected</i>, ja se edustaa epäonnistunutta operaatiota.
 
-Esimerkkimme ensimmäinen promise on <i>fulfilled</i>, eli vastaa onnistunutta <em>axios.get('http://localhost:3001/notes')</em> pyyntöä. Promiseista toinen taas on <i>rejected</i>. Syy selviää konsolista, eli yritimme tehdä HTTP GET -pyyntöä osoitteeseen, jota ei ole olemassa.
+Esimerkkimme ensimmäinen promise on <i>fulfilled</i>, eli vastaa onnistunutta <em>axios.get('http://localhost:3001/notes')</em> pyyntöä. Promiseista toinen taas on <i>rejected</i>. Syy selviää konsolista, eli yritimme tehdä HTTP GET ‑pyyntöä osoitteeseen, jota ei ole olemassa.
 
 Jos ja kun haluamme tietoon promisea vastaavan operaation tuloksen, tulee promiselle rekisteröidä tapahtumankuuntelija. Tämä tapahtuu metodilla <em>then</em>:
 
@@ -313,7 +301,7 @@ Konsoliin tulostuu:
 
 ![](../../images/2/17new.png)
 
-JavaScriptin suoritusympäristö kutsuu <em>then</em>-metodin avulla rekisteröityä takaisinkutsufunktiota antaen sille parametriksi olion <em>response</em>, joka sisältää kaiken oleellisen HTTP GET -pyynnön vastaukseen liittyvän, eli palautetun <i>datan</i>, <i>statuskoodin</i> ja <i>headerit</i>.
+JavaScriptin suoritusympäristö kutsuu <em>then</em>-metodin avulla rekisteröityä takaisinkutsufunktiota antaen sille parametriksi olion <em>response</em>, joka sisältää kaiken oleellisen HTTP GET ‑pyynnön vastaukseen liittyvän, eli palautetun <i>datan</i>, <i>statuskoodin</i> ja <i>headerit</i>.
 
 Promise-oliota ei ole yleensä tarvetta tallettaa muuttujaan, ja onkin tapana ketjuttaa metodin <em>then</em> kutsu suoraan Axiosin metodin kutsun perään:
 
@@ -342,7 +330,7 @@ Axios osaa kuitenkin parsia datan JavaScript-taulukoksi, sillä palvelin on kert
 
 Voimme vihdoin siirtyä käyttämään sovelluksessamme palvelimelta haettavaa dataa.
 
-Tehdään se aluksi "huonosti", eli lisätään sovellusta vastaavan komponentin <i>App</i> renderöinti takaisinkutsufunktion sisälle muuttamalla <i>index.js</i> seuraavaan muotoon:
+Tehdään se aluksi "huonosti", eli lisätään sovellusta vastaavan komponentin <i>App</i> renderöinti takaisinkutsufunktion sisälle muuttamalla <i>main.jsx</i> seuraavaan muotoon:
 
 ```js
 import ReactDOM from 'react-dom/client'
@@ -361,15 +349,15 @@ Ei ole kuitenkaan ihan selvää, mihin kohtaan komponentin koodia komento <em>ax
 
 ### Effect-hookit
 
-Olemme jo käyttäneet Reactin version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) mukanaan tuomia [state hookeja](https://reactjs.org/docs/hooks-state.html) tuomaan funktioina määriteltyihin React-komponentteihin tilan. Versio 16.8.0 tarjoaa kokonaan uutena ominaisuutena myös
-[effect-hookit](https://reactjs.org/docs/hooks-effect.html), joista dokumentaatio kertoo:
+Olemme jo käyttäneet Reactin version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0) mukanaan tuomia [state hookeja](https://react.dev/learn/state-a-components-memory) tuomaan funktioina määriteltyihin React-komponentteihin tilan. Versio 16.8.0 tarjoaa kokonaan uutena ominaisuutena myös
+[effect-hookit](https://react.dev/reference/react/hooks#effect-hooks), joista dokumentaatio kertoo:
 
 > <i>The Effect Hook lets you perform side effects in function components.</i>
 > <i><strong>Data fetching</strong>, setting up a subscription, and manually changing the DOM in React components are all examples of side effects. </i>
 
 Eli effect-hookit ovat juuri oikea tapa hakea dataa palvelimelta.
 
-Poistetaan nyt datan hakeminen tiedostosta <i>index.js</i>. Komponentille <i>App</i> ei ole enää tarvetta välittää dataa propseina. Eli <i>index.js</i> pelkistyy seuraavaan muotoon:
+Poistetaan nyt datan hakeminen tiedostosta <i>main.jsx</i>. Komponentille <i>App</i> ei ole enää tarvetta välittää dataa propseina. Eli <i>main.jsx</i> pelkistyy seuraavaan muotoon:
 
 ```js
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)
@@ -475,13 +463,13 @@ const hook = () => {
 useEffect(hook, [])
 ```
 
-Nyt huomaamme selvemmin, että funktiolle [useEffect](https://reactjs.org/docs/hooks-reference.html#useeffect) annetaan <i>kaksi parametria</i>. Näistä ensimmäinen on funktio eli itse <i>efekti</i>. Dokumentaation mukaan
+Nyt huomaamme selvemmin, että funktiolle [useEffect](https://react.dev/reference/react/useEffect) annetaan <i>kaksi parametria</i>. Näistä ensimmäinen on funktio eli itse <i>efekti</i>. Dokumentaation mukaan
 
 > <i>By default, effects run after every completed render, but you can choose to fire it only when certain values have changed.</i>
 
 Eli oletusarvoisesti efekti suoritetaan <i>aina</i> sen jälkeen, kun komponentti renderöidään. Meidän tapauksessamme haluamme suorittaa efektin vain ensimmäisen renderöinnin yhteydessä.
 
-Funktion <em>useEffect</em> toista parametria käytetään [tarkentamaan sitä, miten usein efekti suoritetaan](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect). Jos toisena parametrina on tyhjä taulukko <em>[]</em>, suoritetaan efekti ainoastaan komponentin ensimmäisen renderöinnin jälkeen.
+Funktion <em>useEffect</em> toista parametria käytetään [tarkentamaan sitä, miten usein efekti suoritetaan](https://react.dev/reference/react/useEffect#parameters). Jos toisena parametrina on tyhjä taulukko <em>[]</em>, suoritetaan efekti ainoastaan komponentin ensimmäisen renderöinnin jälkeen.
 
 Effect hookien avulla on mahdollisuus tehdä paljon muutakin kuin hakea dataa palvelimelta, mutta tämä riittää meille tässä vaiheessa.
 
@@ -519,7 +507,7 @@ useEffect(() => {
 
 Sovelluksessa on tällä hetkellä vielä se ongelma, että jos lisäämme uusia muistiinpanoja, ne eivät tallennu palvelimelle asti. Eli kun lataamme sovelluksen uudelleen, kaikki lisäykset katoavat. Korjaus asiaan tulee pian.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes/tree/part2-4), branchissa <i>part2-4</i>.
+Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part2-4), branchissa <i>part2-4</i>.
 
 ### Sovelluskehityksen suoritusympäristö
 
@@ -527,7 +515,7 @@ Sovelluksemme kokonaisuuden konfiguraatiosta on pikkuhiljaa muodostunut melko mo
 
 ![](../../images/2/18e.png)
 
-React-sovelluksen muodostavaa JavaScript-koodia siis suoritetaan selaimessa. Selain hakee JavaScriptin <i>React Development Serveriltä</i>, joka on se ohjelma, joka käynnistyy kun suoritetaan komento <em>npm start</em>. Development Server muokkaa sovelluksen JavaScriptin selainta varten sopivaan muotoon, se mm. yhdistelee eri tiedostoissa olevan JavaScript-koodin yhdeksi tiedostoksi. Puhumme enemmän Development Serveristä kurssin [osassa 7](/osa7).
+React-sovelluksen muodostavaa JavaScript-koodia siis suoritetaan selaimessa. Selain hakee JavaScriptin <i>React Development Serveriltä</i>, joka on se ohjelma, joka käynnistyy kun suoritetaan komento <em>npm run dev</em>. Development Server muokkaa sovelluksen JavaScriptin selainta varten sopivaan muotoon, se mm. yhdistelee eri tiedostoissa olevan JavaScript-koodin yhdeksi tiedostoksi. Puhumme enemmän Development Serveristä kurssin [osassa 7](/osa7).
 
 JSON-muodossa olevan datan selaimessa pyörivä React-sovellus hakee siis koneella portissa 3001 käynnissä olevalta JSON Serveriltä, joka taas saa JSON-datan tiedostosta <i>db.json</i>.
 
@@ -549,22 +537,22 @@ Jatketaan puhelinluettelon kehittämistä. Talleta sovelluksen alkutila projekti
     { 
       "name": "Arto Hellas", 
       "number": "040-123456",
-      "id": 1
+      "id": "1"
     },
     { 
       "name": "Ada Lovelace", 
       "number": "39-44-5323523",
-      "id": 2
+      "id": "2"
     },
     { 
       "name": "Dan Abramov", 
       "number": "12-43-234345",
-      "id": 3
+      "id": "3"
     },
     { 
       "name": "Mary Poppendieck", 
       "number": "39-23-6423122",
-      "id": 4
+      "id": "4"
     }
   ]
 }
@@ -586,6 +574,6 @@ Error: listen EADDRINUSE 0.0.0.0:3001
 
 on portti 3001 jo jonkin muun sovelluksen, esim. jo käynnissä olevan JSON Serverin käytössä. Sulje toinen sovellus tai jos se ei onnistu, vaihda porttia.
 
-Muuta sovellusta siten, että alkutila haetaan Axios-kirjaston avulla palvelimelta. Hoida datan hakeminen [Effect hookilla](https://reactjs.org/docs/hooks-effect.html)).
+Muuta sovellusta siten, että alkutila haetaan Axios-kirjaston avulla palvelimelta. Hoida datan hakeminen [Effect hookilla](https://react.dev/reference/react/useEffect).
 
 </div>

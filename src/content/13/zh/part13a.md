@@ -91,7 +91,7 @@ MongoDB不知道存储实体的字段的类型，但是它不知道用户记录i
 但是，我们将利用Fly.io和Heroku云服务平台上可以为应用程序创建Postgres数据库的事实，这些平台在第3章节和第4章节都很熟悉。
 
 <!-- In the theory material of this section, we will be building a Postgres-enabled version from the backend of the notes-storage application, which was built in sections 3 and 4.-->
-在本节的理论材料中，我们将从第3和第4节构建的笔记存储应用程序的后端构建一个启用Postgres的版本。
+ 在本节的理论材料中，我们将从第3和第4节中建立的笔记存储应用的后端建立一个支持Postgres的版本。
 
 <!-- Since we don''t need any database in the cloud in this part (we only use the application locally), there is a possibility to use the lessons of the course [part 12](/en/part12) and use Postgres locally with Docker. After the Postgres instructions for cloud services, we also give a short instruction on how to easily get Postgres up and running with Docker.-->
 由于在这一部分我们不需要在云端使用任何资料库（我们只在本地使用应用程式），所以可以使用[第12章节](/en/part12)的课程并在本地使用Postgres和Docker。在Postgres说明云端服务之后，我们还简单介绍了如何使用Docker轻松启动Postgres。
@@ -140,7 +140,7 @@ heroku addons:create heroku-postgresql:hobby-dev -a <app-name>
 ```bash
 heroku config -a <app-name>
 === cryptic-everglades-76708 Config Vars
-DATABASE_URL: postgres://<username>:<password>@<host-of-postgres-addon>:5432/<db-name>
+DATABASE_URL: postgres://<username>:thepasswordishere@<host-of-postgres-addon>:5432/<db-name>
 ```
 
 <!-- The database can be accessed by running _psql_ command on the Heroku server as follows (note that the command parameters depend on the connection url of the Heroku database):-->
@@ -370,7 +370,7 @@ If Heroku is used, the connect string can be seen by using the command _heroku c
 
 ```bash
 $ cat .env
-DATABASE_URL=postgres://<username>:<password>@ec2-54-83-137-206.compute-1.amazonaws.com:5432/<databasename>
+DATABASE_URL=postgres://<username>:thepasswordishere@ec2-54-83-137-206.compute-1.amazonaws.com:5432/<databasename>
 ```
 
 When using Fly.io, the local connection to the database should first be enabled by [tunneling](https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-outside-fly)

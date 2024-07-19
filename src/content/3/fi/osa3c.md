@@ -11,7 +11,7 @@ Ennen kuin siirrymme osan varsinaiseen aiheeseen eli tiedon tallettamiseen tieto
 
 ### Node-sovellusten debuggaaminen
 
-Nodella tehtyjen sovellusten debuggaaminen on jossain määrin hankalampaa kuin selaimessa toimivan JavaScriptin. Vanha hyvä keino on tietysti konsoliin tulostelu. Se kannattaa aina. On mielipiteitä, joiden mukaan konsoliin tulostelun sijaan olisi syytä suosia jotain kehittyneempää menetelmää, mutta se ei ole koko totuus. Jopa maailman aivan eliittiin kuuluvat open source -kehittäjät [käyttävät](https://tenderlovemaking.com/2016/02/05/i-am-a-puts-debuggerer.html) tätä [menetelmää](https://swizec.com/blog/javascript-debugging-slightly-beyond-consolelog/).
+Nodella tehtyjen sovellusten debuggaaminen on jossain määrin hankalampaa kuin selaimessa toimivan JavaScriptin. Vanha hyvä keino on tietysti konsoliin tulostelu. Se kannattaa aina. On mielipiteitä, joiden mukaan konsoliin tulostelun sijaan olisi syytä suosia jotain kehittyneempää menetelmää, mutta se ei ole koko totuus. Jopa maailman aivan eliittiin kuuluvat open source ‑kehittäjät [käyttävät](https://tenderlovemaking.com/2016/02/05/i-am-a-puts-debuggerer.html) tätä [menetelmää](https://swizec.com/blog/javascript-debugging-slightly-beyond-consolelog/).
 
 #### Visual Studio Code
 
@@ -55,19 +55,19 @@ Kaikki sovelluksen console.log-tulostukset tulevat debuggerin <i>Console</i>-vä
 
 #### Epäile kaikkea
 
-Full Stack -sovellusten debuggaaminen vaikuttaa alussa erittäin hankalalta. Kun kohta kuvaan tulee myös tietokanta, ja frontend on yhdistetty backendiin, on potentiaalisia virhelähteitä todella paljon.
+Full Stack ‑sovellusten debuggaaminen vaikuttaa alussa erittäin hankalalta. Kun kohta kuvaan tulee myös tietokanta, ja frontend on yhdistetty backendiin, on potentiaalisia virhelähteitä todella paljon.
 
 Kun sovellus "ei toimi", onkin selvitettävä missä vika on. On erittäin yleistä, että vika on sellaisessa paikassa, jota ei osaa ollenkaan epäillä, ja menee minuutti-, tunti- tai jopa päiväkausia ennen kuin oikea ongelmien lähde löytyy.
 
 Avainasemassa onkin systemaattisuus. Koska virhe voi olla melkein missä vain, <i>kaikkea pitää epäillä</i>, ja tulee pyrkiä poissulkemaan ne osat, joissa virhe ei ainakaan ole. Konsoliin kirjoitus, Postman, debuggeri ja kokemus auttavat.
 
-Virheiden ilmaantuessa <i>ylivoimaisesti huonoin strategia</i> on jatkaa koodin kirjoittamista. Se on tae siitä, että koodissa on pian kymmenen ongelmaa lisää ja niiden syyn selvittäminen on entistäkin vaikeampaa. Toyota Production Systemin periaate [Stop and fix](http://gettingtolean.com/toyota-principle-5-build-culture-stopping-fix/) toimii tässäkin yhteydessä paremmin kuin hyvin.
+Virheiden ilmaantuessa <i>ylivoimaisesti huonoin strategia</i> on jatkaa koodin kirjoittamista. Se on tae siitä, että koodissa on pian kymmenen ongelmaa lisää ja niiden syyn selvittäminen on entistäkin vaikeampaa. Toyota Production Systemin periaate [Stop and fix](https://leanscape.io/principles-of-lean-13-jidoka/) toimii tässäkin yhteydessä paremmin kuin hyvin.
 
 ### MongoDB
 
 Jotta saisimme talletettua muistiinpanot pysyvästi, tarvitsemme tietokannan. Useimmilla Tietojenkäsittelytieteen osaston kursseilla on käytetty relaatiotietokantoja. Melkein kaikissa tämän kurssin osissa käytämme [MongoDB](https://www.mongodb.com/):tä, joka on ns. [dokumenttitietokanta](https://en.wikipedia.org/wiki/Document-oriented_database). 
 
-Tärkein syy Mongon käytölle kurssilla on se, että Mongo on tietokantanoviiseille helpompikäyttöinen kuin relaatiotietokannat. Kurssin [osassa 13](https://fullstackopen.com/osa13) tutustutaan relaatiotietokantoja käyttävien Node-sovellusten tekemiseen.
+Tärkein syy Mongon käytölle kurssilla on se, että Mongo on tietokantanoviiseille helpompikäyttöisempi kuin relaatiotietokannat. Kurssin [osassa 13](https://fullstackopen.com/osa13) tutustutaan relaatiotietokantoja käyttävien Node-sovellusten tekemiseen.
 
 Mongon valinta tämän kurssin alkuun on siis tehty enimmäkseen pedagogisista perusteista. Itse suosittelen useimpiin sovelluksiin lähtökohtaisesti relaatiotietokantaa. Eli suosittelen lämpimästi tekemään myös tämän kurssin [Osan 13](https://fullstackopen.com/osa13). 
 
@@ -95,7 +95,7 @@ Luodaan <i>security</i>-välilehdeltä tietokantakäyttäjätunnus joka on siis 
 
 Seuraavaksi tulee määritellä ne IP-osoitteet, joista tietokantaan pääsee käsiksi ja sallitaan yksinkertaisuuden vuoksi yhteydet kaikkialta:
 
-![Valitaan Network access -välilehdeltä 'Allow access from anywhere'](../../images/3/mongo4.png)
+![Valitaan Network access ‑välilehdeltä 'Allow access from anywhere'](../../images/3/mongo4.png)
 
 Lopulta ollaan valmiina ottamaan tietokantayhteys. Valitaan <i>connect</i> ja sen jälkeisestä näkymästä <i>connect your application</i>:
 
@@ -108,12 +108,12 @@ Näkymä kertoo <i>MongoDB URI:n</i> eli osoitteen, jonka avulla sovelluksemme k
 Osoite näyttää seuraavalta:
 
 ```bash
-mongodb+srv://fullstack:<password>@cluster0.o1opl.mongodb.net/?retryWrites=true&w=majority
+mongodb+srv://fullstack:thepasswordishere@cluster0.o1opl.mongodb.net/?retryWrites=true&w=majority
 ```
 
 Olemme nyt valmiina kannan käyttöön.
 
-Voisimme käyttää kantaa JavaScript-koodista suoraan Mongon virallisen [MongoDB Node.js driver](https://mongodb.github.io/node-mongodb-native/) -kirjaston avulla, mutta se on ikävän työlästä. Käytämmekin hieman korkeammalla tasolla toimivaa [Mongoose](http://mongoosejs.com/index.html)-kirjastoa.
+Voisimme käyttää kantaa JavaScript-koodista suoraan Mongon virallisen [MongoDB Node.js driver](https://mongodb.github.io/node-mongodb-native/) ‑kirjaston avulla, mutta se on ikävän työlästä. Käytämmekin hieman korkeammalla tasolla toimivaa [Mongoose](http://mongoosejs.com/index.html)-kirjastoa.
 
 Mongoosesta voisi käyttää luonnehdintaa <i>object document mapper</i> (ODM), ja sen avulla JavaScript-olioiden tallettaminen MongoDB:n dokumenteiksi on suoraviivaista.
 
@@ -149,7 +149,7 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model('Note', noteSchema)
 
 const note = new Note({
-  content: 'HTML is Easy',
+  content: 'HTML is easy',
   important: true,
 })
 
@@ -359,7 +359,7 @@ const mongoose = require('mongoose')
 
 // ÄLÄ KOSKAAN TALLETA SALASANOJA GitHubiin!
 const url =
-  `mongodb+srv://fullstack:${fullstack@cluster0.o1opl.mongodb.net/?retryWrites=true&w=majority`
+  `mongodb+srv://fullstack:${password}@cluster0.o1opl.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose.set('strictQuery',false)
 mongoose.connect(url)
@@ -503,11 +503,11 @@ npm install dotenv
 Sovelluksen juurihakemistoon tehdään sitten tiedosto nimeltään <i>.env</i>, jonne tarvittavien ympäristömuuttujien arvot määritellään. Tiedosto näyttää seuraavalta:
 
 ```bash
-MONGODB_URI=mongodb+srv://fullstack:<password>@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://fullstack:thepasswordishere@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority
 PORT=3001
 ```
 
-Huomaa, että sinun tulee sisällyttää salasanasi osaksi url:ia, &lt;password&gt; kohtaan.
+Huomaa, että sinun tulee sisällyttää salasanasi osaksi url:ia, <i>thepasswordishere</i> tilalle.
 
 Määrittelimme samalla aiemmin kovakoodaamamme sovelluksen käyttämän portin eli ympäristömuuttujan <em>PORT</em>.
 
@@ -548,7 +548,7 @@ Koska Fly.io ei hyödynnä gitiä, menee myös .env-tiedosto Fly.io:n palvelimel
 ja asettaa ympäristömuuttujan arvo komennolla:
 
 ```
-fly secrets set MONGODB_URI='mongodb+srv://fullstack:<password>@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority'
+fly secrets set MONGODB_URI='mongodb+srv://fullstack:thepasswordishere@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority'
 ```
 
 Koska .env-tiedosto määrittelee myös ympäristömuuttujan PORT arvon, on .env:in ignorointi oikeastaan välttämätöntä jotta sovellus ei yritä käynnistää itseään väärään portiin.
@@ -582,7 +582,7 @@ app.post('/api/notes', (request, response) => {
 })
 ```
 
-Muistiinpano-oliot siis luodaan _Note_-konstruktorifunktiolla. Pyyntöön vastataan _save_-operaation takaisinkutsufunktion sisällä. Näin varmistutaan, että operaation vastaus tapahtuu vain, jos operaatio on onnistunut. Palaamme virheiden käsittelyyn myöhemmin.
+Muistiinpano-oliot siis luodaan _Note_-konstruktorifunktiolla. Pyyntöön vastataan metodin  _save_ takaisinkutsufunktion sisällä. Näin varmistutaan, että operaation vastaus tapahtuu vain, jos operaatio on onnistunut. Palaamme virheiden käsittelyyn myöhemmin.
 
 Takaisinkutsufunktion parametrina oleva _savedNote_ on talletettu muistiinpano. HTTP-pyyntöön palautetaan kuitenkin automaattisesti siitä metodilla _toJSON_ formatoitu muoto:
 
@@ -614,11 +614,11 @@ Kun kuvioissa on mukana tietokanta, on tietokannan tilan tarkastelu MongoDB Atla
 
 Sovelluksen tämän hetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part3-notes-backend/tree/part3-4), branchissa <i>part3-4</i>.
 
-### Todellisen full stack -sovelluskehittäjän vala
+### Todellisen full stack ‑sovelluskehittäjän vala
 
-Sovelluksemme koostuu nyt frontendin ja backendin lisäksi myös tietokannasta. Virhelähteiden määrä siis kasvaa ja päivitämme full stack -kehittäjän valaa seuraavasti:
+Sovelluksemme koostuu nyt frontendin ja backendin lisäksi myös tietokannasta. Virhelähteiden määrä siis kasvaa ja päivitämme full stack ‑kehittäjän valaa seuraavasti:
 
-Full stack -ohjelmointi on <i>todella</i> hankalaa, ja sen takia lupaan hyödyntää kaikkia ohjelmointia helpottavia keinoja:
+Full stack ‑ohjelmointi on <i>todella</i> hankalaa, ja sen takia lupaan hyödyntää kaikkia ohjelmointia helpottavia keinoja:
 
 - pidän selaimen konsolin koko ajan auki
 - tarkkailen säännöllisesti selaimen network-välilehdeltä, että frontendin ja backendin välinen kommunikaatio tapahtuu oletusteni mukaan
@@ -778,13 +778,13 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-// tämä tulee kaikkien muiden middlewarejen rekisteröinnin jälkeen!
+// tämä tulee kaikkien muiden middlewarejen ja routejen rekisteröinnin jälkeen!
 app.use(errorHandler)
 ```
 
 Virheenkäsittelijä tarkastaa, onko kyse <i>CastError</i>-poikkeuksesta eli virheellisestä olio-id:stä. Jos on, käsittelijä lähettää pyynnön tehneelle selaimelle vastauksen käsittelijän parametrina olevan response-olion avulla. Muussa tapauksessa se siirtää funktiolla <em>next</em> virheen käsittelyn Expressin oletusarvoisen virheidenkäsittelijän hoidettavaksi.
 
-Huomaa, että virheidenkäsittelijämiddleware tulee rekisteröidä muiden middlewarejen rekisteröinnin jälkeen.
+Huomaa, että virheidenkäsittelijämiddleware tulee rekisteröidä muiden middlewarejen sekä routejen rekisteröinnin jälkeen.
 
 ### Middlewarejen käyttöönottojärjestys
 
@@ -850,17 +850,17 @@ app.get('/api/notes', (request, response) => {
 })
 ```
 
-Nyt olemattomien osoitteiden käsittely on sijoitettu <i>ennen HTTP GET -pyynnön käsittelyä</i>. Koska olemattomien osoitteiden käsittelijä vastaa kaikkiin pyyntöihin <i>404 Unknown Endpoint</i>, ei mihinkään sen jälkeen määriteltyyn reittiin tai middlewareen (poikkeuksena virheenkäsittelijä) enää mennä.
+Nyt olemattomien osoitteiden käsittely on sijoitettu <i>ennen HTTP GET ‑pyynnön käsittelyä</i>. Koska olemattomien osoitteiden käsittelijä vastaa kaikkiin pyyntöihin <i>404 Unknown Endpoint</i>, ei mihinkään sen jälkeen määriteltyyn reittiin tai middlewareen (poikkeuksena virheenkäsittelijä) enää mennä.
 
 ### Muut operaatiot
 
 Toteutetaan vielä jäljellä olevat operaatiot, eli yksittäisen muistiinpanon poisto ja muokkaus.
 
-Poisto onnistuu helpoiten metodilla [findByIdAndRemove](https://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove):
+Poisto onnistuu helpoiten metodilla [findByIdAndDelete](https://mongoosejs.com/docs/api/model.html#Model.findByIdAndDelete):
 
 ```js
 app.delete('/api/notes/:id', (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id)
+  Note.findByIdAndDelete(request.params.id)
     .then(result => {
       response.status(204).end()
     })
@@ -919,7 +919,7 @@ Muista, että virheitä heittävät routejen metodit tarvitsevat myös kolmannen
 
 #### 3.17*: puhelinluettelo ja tietokanta, step5
 
-Jos frontendissä annetaan numero henkilölle, joka on jo olemassa, päivittää frontend tehtävässä 2.18 tehdyn toteutuksen ansiosta tiedot uudella numerolla tekemällä HTTP PUT -pyynnön henkilön tietoja vastaavaan url:iin.
+Jos frontendissä annetaan numero henkilölle, joka on jo olemassa, päivittää frontend tehtävässä 2.18 tehdyn toteutuksen ansiosta tiedot uudella numerolla tekemällä HTTP PUT ‑pyynnön henkilön tietoja vastaavaan url:iin.
 
 Laajenna backendisi käsittelemään tämä tilanne.
 

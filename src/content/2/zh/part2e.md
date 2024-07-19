@@ -331,7 +331,7 @@ React 的哲学与此截然相反。由于将 CSS、HTML 和 JavaScript 分离�
 ![error message 404 not found when changing multiple browsers](../../images/2/29b.png)
 
 <!-- Fix the issue according to the example shown in [promise and errors](/en/part2/altering_data_in_server#promises-and-errors) in part 2. Modify the example so that the user is shown a message when the operation does not succeed. The messages shown for successful and unsuccessful events should look different:-->
-根据第2章节中[承诺和错误]（/en/part2/altering_data_in_server#promises-and-errors）的示例修复问题。 修改示例，以便在操作不成功时向用户显示消息。 成功和不成功事件显示的消息应该有所不同：
+按照第二章节中[ promise 和错误](/en/part2/altering_data_in_server#promises-and-errors)所示的例子来解决这个问题。修改这个例子，使用户在操作不成功时显示一条信息。为成功和不成功的事件显示的信息应该是不同的。
 
 ![error message shown on screen instead of in console feature add-on](../../images/2/28e.png)
 

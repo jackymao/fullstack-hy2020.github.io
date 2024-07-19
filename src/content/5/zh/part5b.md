@@ -305,9 +305,10 @@ const NoteForm = ({ onSubmit, handleChange, value}) => {
 目前应用程序的状态位于_App_组件中。
 
 <!-- React documentation says the [following](https://reactjs.org/docs/lifting-state-up.html) about where to place the state:-->
-React 文档关于放置 state 的位置有[如下](https://reactjs.org/docs/lifting-state-up.html)说明：
+ React 文档对放置状态的位置进行了[如下](https://zh-hans.react.dev/learn/sharing-state-between-components)说明：
 
-<i>Often, several components need to reflect the same changing data. We recommend lifting the shared state up to their closest common ancestor.</i>
+<!-- <i>Often, several components need to reflect the same changing data. We recommend lifting the shared state up to their closest common ancestor.</i> -->
+> <i>有时，您希望两个组件的状态始终一起更改。要做到这一点，请从它们中删除状态，将其移动到它们最近的公共父级，然后通过 props 将其传递给它们。这被称为提升状态，这是你编写 React 代码时最常做的事情之一。</i>
 
 <!-- If we think about the state of the forms, so for example the contents of a new note before it has been created, the _App_ component does not need it for anything.-->
 如果我们考虑表单的状态，比如一个新笔记内容在它被创建之前，_App_ 组件不需要它。
@@ -315,7 +316,7 @@ React 文档关于放置 state 的位置有[如下](https://reactjs.org/docs/lif
 我们也可以把表单的状态移到相应的组件上。
 
 <!-- The component for a note changes like so:-->
-笔记的组件变化如下：
+一个笔记的组件是这样变化的：
 
 ```js
 import { useState } from 'react'
@@ -351,19 +352,19 @@ const NoteForm = ({ createNote }) => {
 export default NoteForm
 ```
 
-<!-- **NOTE** At the same time, we changed the behavior of the application so that new notes are important by default, i.e. the field <i>important</i> gets the value <i>true</i>.-->
-**注意**：同时，我们更改了应用程序的行为，使新笔记默认为重要，即<i>重要</i>字段的值为<i>true</i>。
+<!-- **NOTE** At the same time, we changed the behavior of the application so that new notes are important by default, i.e. the field <i>important</i> gets the value <i>true</i>. -->
+**注意** 同时，我们改变了应用的行为，使得新的笔记默认为重要，也就是说，<i>important</i> 字段获得的值为 <i>true</i>。
 
-<!-- The <i>newNote</i> state attribute and the event handler responsible for changing it have been moved from the _App_ component to the component responsible for the note form.-->
-<i>新Note</i> 状态属性和负责改变它的事件处理程序已从_App_组件移至负责笔记表单的组件。
+<!-- The <i>newNote</i> state variable and the event handler responsible for changing it have been moved from the _App_ component to the component responsible for the note form. -->
+<i>newNote</i> 状态变量和负责改变它的事件处理器已经从 _App_ 组件移动到负责笔记表单的组件。
 
-<!-- There is only one prop left, the _createNote_ function, which the form calls when a new note is created.-->
-只剩下一个属性，即当创建新笔记时，表单调用的_createNote_函数。
+<!-- There is only one prop left, the _createNote_ function, which the form calls when a new note is created. -->
+现在只剩下一个 prop，即 _createNote_ 函数，当创建新的笔记时，表单会调用它。
 
-<!-- The _App_ component becomes simpler now that we have got rid of the <i>newNote</i> state and its event handler.-->
-现在我们摒弃了<i>newNote</i> 状态及其事件处理器，_App_ 组件变得更加简单。
-<!-- The _addNote_ function for creating new notes receives a new note as a parameter, and the function is the only prop we send to the form:-->
-_addNote_ 功能用于创建新笔记，接收一个新笔记作为参数，该功能是我们唯一发送给表单的属性：
+<!-- The _App_ component becomes simpler now that we have got rid of the <i>newNote</i> state and its event handler. -->
+<!-- The _addNote_ function for creating new notes receives a new note as a parameter, and the function is the only prop we send to the form: -->
+_App_ 组件现在变得更简单，因为我们已经摆脱了 <i>newNote</i> 状态和它的事件处理器。
+创建新笔记的 _addNote_ 函数接收一个新的笔记作为参数，函数是我们发送给表单的唯一 prop：
 
 ```js
 const App = () => {
@@ -386,26 +387,25 @@ const App = () => {
 }
 ```
 
-<!-- We could do the same for the log in form, but we''ll leave that for an optional exercise.-->
-我们也可以对登入表单做同样的事情，但我们将把它留给作为一个可选的练习。
+<!-- We could do the same for the log in form, but we'll leave that for an optional exercise. -->
+我们可以对登录表单做同样的事情，但我们将把这留作可选的练习。
 
-<!-- The application code can be found on [GitHub](https://github.com/fullstack-hy2020/part2-notes/tree/part5-5),-->
-or you can clone the repository
-
-应用代码可以在[GitHub](https://github.com/fullstack-hy2020/part2-notes/tree/part5-5)上找到，或者你也可以克隆这个仓库。
-<!-- branch <i>part5-5</i>.-->
-<i>part5-5</i>：分支
+<!-- The application code can be found on [GitHub](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part5-5), branch <i>part5-5</i>. -->
+应用程序代码可以在 [GitHub](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part5-5) 上找到，分支为 <i>part5-5</i>。
 
 ### References to components with ref
 
-<!-- Our current implementation is quite good; it has one aspect that could be improved.-->
-我们目前的实施非常好；它有一个可以改进的方面。
+<!-- Our current implementation is quite good, it has one aspect that could be improved.-->
+我们目前的实现相当不错，但它有一个可以改进的方面。
 
-<!-- After a new note is created, it would make sense to hide the new note form. Currently, the form stays visible. There is a slight problem with hiding the form. The visibility is controlled with the <i>visible</i> variable inside of the <i>Togglable</i> component. How can we access it outside of the component?-->
-在创建一个新笔记之后，隐藏新笔记表单会是一个明智的做法。目前，表单仍然可见。这里有一个小问题：可见性是由<i>Togglable</i>组件内的<i>visible</i>变量控制的。那么，我们如何在组件外部访问它呢？
+<!-- After a new note is created, it would make sense to hide the new note form. Currently, the form stays visible. There is a slight problem with hiding the form. The visibility is controlled with the <i>visible</i> state variable inside of the <i>Togglable</i> component.  -->
+创建新的笔记后，隐藏新的笔记表单是有意义的。目前，表单仍然可见。隐藏表单有一个小问题。可见性是由 <i>Togglable</i> 组件内部的 <i>visible</i> 状态变量控制的。
 
-<!-- There are many ways to implement closing the form from the parent component, but let's use the [ref](https://react.dev/learn/referencing-values-with-refs) mechanism of React, which offers a reference to the component.-->
-有很多种方式可以实现从父组件关闭表单，但让我们使用React的[ref](https://react.dev/learn/referencing-values-with-refs)机制，它提供了对组件的引用。
+<!-- One solution to this would be to move control of the Togglable component's state outside the component. However, we won't do that now, because we want the component to be responsible for its own state. So we have to find another solution, and find a mechanism to change the state of the component externally. -->
+解决这个问题的一个办法是将 Togglable 组件的状态控制移出组件。然而，我们现在不会这样做，因为我们希望组件负责自己的状态。所以我们必须找到另一种解决方案，并找到一种机制来从外部改变组件的状态。
+
+<!-- There are several different ways to implement access to a component's functions from outside the component, but let's use the [ref](https://react.dev/learn/referencing-values-with-refs) mechanism of React, which offers a reference to the component. -->
+有几种不同的方法可以实现从组件外部访问组件的函数，但让我们使用 React 的 [ref](https://react.dev/learn/referencing-values-with-refs) 机制，它提供了对组件的引用。
 
 <!-- Let's make the following changes to the <i>App</i> component:-->
 让我们对<i>App</i>组件做出以下更改：
@@ -663,8 +663,8 @@ const Blog = ({ blog }) => {
 
 #### 5.8: Blog list frontend, step8
 
-<!-- We notice that something is wrong. When a new blog is created in the app, the name of the user that added the blog is not shown in the details of the blog:-->
-我们注意到出了点问题。当在应用程序中创建新博客时，添加博客的用户名称不会显示在博客的详细信息中：
+<!-- Implement the functionality for the like button. Likes are increased by making an HTTP _PUT_ request to the unique address of the blog post in the backend.-->
+ 实现喜欢按钮的功能。通过向后端的博文的唯一地址发出HTTP _PUT_请求来增加赞。
 
 ![browser showing missing name underneath like button](../../images/5/59new.png)
 
@@ -711,28 +711,41 @@ const Blog = ({ blog }) => {
 后端也必须更新以处理用户参考。
 
 <!-- **One last warning:** if you notice that you are using async/await and the _then_-method in the same code, it is almost certain that you are doing something wrong. Stick to using one or the other, and never use both at the same time "just in case".-->
-**最后一次警告：**如果你注意到你在同一段代码中使用了 async/await 和 _then_ 方法，那么几乎可以肯定你做错了什么。坚持使用其中一个，永远不要“以防万一”同时使用两者。
+ **最后一个警告：**如果你注意到你在同一段代码中使用async/await和_then_方法，几乎可以肯定你做错了什么。坚持使用其中一个，而不要同时使用两个，"以防万一"。
 
-#### 5.10: Blog list frontend, step10
+#### 5.9: Blog List Frontend, step 9
 
-<!-- Modify the application to list the blog posts by the number of <i>likes</i>. Sorting the blog posts can be done with the array [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) method.-->
-修改应用程序，以<i>喜欢</i>的数量列出博客文章。可以使用数组[sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)方法对博客文章进行排序。
+<!-- We notice that something is wrong. When a blog is liked in the app, the name of the user that added the blog is not shown in its details: -->
+我们注意到有些地方出问题了。当在应用中喜欢一篇博客时，添加该博客的用户的名字并未显示在其详细信息中：
 
-#### 5.11: Blog list frontend, step11
+![浏览器显示在喜欢按钮下方缺少名字](../../images/5/59put.png)
 
-<!-- Add a new button for deleting blog posts. Also, implement the logic for deleting blog posts in the frontend.-->
-添加一个新的按钮用于删除博客帖子。此外，还要在前端实现删除博客帖子的逻辑。
+<!-- When the browser is reloaded, the information of the person is displayed. This is not acceptable, find out where the problem is and make the necessary correction. -->
+当浏览器刷新时，人物的信息就显示出来了。这是不可接受的，找出问题所在并做出必要的修正。
 
-<!-- Your application could look something like this:-->
-你的申请可能长这样：
+<!-- Of course, it is possible that you have already done everything correctly and the problem does not occur in your code. In that case, you can move on. -->
+当然，也有可能你已经做得一切都正确，问题并没有出现在你的代码中。在那种情况下，你可以继续前进。
 
-![browser of confirmation of blog removal](../../images/5/14ea.png)
+#### 5.10: Blog List Frontend, step 10
 
-<!-- The confirmation dialog for deleting a blog post is easy to implement with the [window.confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) function.-->
-使用[window.confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm)函数实现删除博客文章的确认对话框很容易。
+<!-- Modify the application to sort the blog posts by the number of <i>likes</i>. The Sorting can be done with the array [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) method. -->
+修改应用程序，按照 <i>likes</i> 的数量对博客帖子进行排序。排序可以使用数组的 [sort](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) 方法。
 
-<!-- Show the button for deleting a blog post only if the blog post was added by the user.-->
-只有在博客文章是由用户添加的时候，才会显示删除博客文章的按钮。
+#### 5.11: Blog List Frontend, step 11
+
+<!-- Add a new button for deleting blog posts. Also, implement the logic for deleting blog posts in the frontend. -->
+添加一个新的按钮用于删除博客帖子。同时，在前端实现删除博客帖子的逻辑。
+
+<!-- Your application could look something like this: -->
+你的应用程序可能看起来像这样：
+
+![博客移除确认的浏览器](../../images/5/14ea.png)
+
+<!-- The confirmation dialog for deleting a blog post is easy to implement with the [window.confirm](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) function. -->
+使用 [window.confirm](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/confirm) 函数，实现删除博客帖子的确认对话框非常简单。
+
+<!-- Show the button for deleting a blog post only if the blog post was added by the user. -->
+只有当博客帖子是由用户添加的时候，才显示删除博客帖子的按钮。
 
 </div>
 
@@ -780,8 +793,9 @@ Togglable.propTypes = {
 
 ![console error stating buttonLabel is undefined](../../images/5/15.png)
 
-<!-- The application still works and nothing forces us to define props despite the PropTypes definitions. Mind you, it is extremely unprofessional to leave <i>any</i> red output in the browser console.-->
-应用程序仍然有效，尽管有PropTypes定义，但没有任何强迫我们定义props。请注意，在浏览器控制台留下<i>任何</i>红色输出都是极不专业的。
+
+<!-- The application still works and nothing forces us to define props despite the PropTypes definitions. Mind you, it is extremely unprofessional to leave <i>any</i> red output to the browser console.-->
+ 尽管有PropTypes的定义，应用仍然可以工作，没有任何东西强迫我们定义prop。请注意，给浏览器控制台留下<i>任何</i>红色输出是非常不专业的。
 
 <!-- Let's also define PropTypes to the <i>LoginForm</i> component:-->
 也让我们为 <i>LoginForm</i> 组件定义 PropTypes：
@@ -816,18 +830,13 @@ LoginForm.propTypes = {
 ### ESlint
 
 <!-- In part 3 we configured the [ESlint](/en/part3/validation_and_es_lint#lint) code style tool to the backend. Let's take ESlint to use in the frontend as well.-->
-在第三章节，我们将[ESlint](/en/part3/validation_and_es_lint#lint)代码风格工具配置到了后端。让我们也将ESlint用于前端。
+ 在第三章节，我们将[ESlint](/zh/part3/es_lint与代码检查#lint)代码风格工具配置到后端。让我们把ESlint也用在前端。
 
-<!-- Create-react-app has installed ESlint to the project by default, so all that's left for us to do is define our desired configuration in the <i>.eslintrc.js</i> file.-->
-默认情况下，Create-react-app已经将ESLint安装到项目中，因此我们要做的就是在<i>.eslintrc.js</i>文件中定义所需的配置。
+<!-- Vite has installed ESlint to the project by default, so all that's left for us to do is define our desired configuration in the <i>.eslintrc.cjs</i> file. -->
+Vite 默认将 ESlint 安装到项目中，所以我们剩下要做的就是在 .eslintrc.cjs 文件中定义我们想要的配置。
 
-
-<!-- *NB:* do not run the _eslint --init_ command. It will install the latest version of ESlint that is not compatible with the configuration file created by create-react-app!-->
-*不要运行_eslint --init_ 命令。它将安装最新版本的ESlint，而这与create-react-app创建的配置文件不兼容！*
-
-<!-- Next, we will start testing the frontend and in order to avoid undesired and irrelevant linter errors we will install the [eslint-plugin-jest](https://www.npmjs.com/package/eslint-plugin-jest) package:-->
-接下来，我们将开始测试前端，为了避免不需要和不相关的 linter 错误，我们将安装 [eslint-plugin-jest](https://www.npmjs.com/package/eslint-plugin-jest) 包：
-
+<!-- Let's create a <i>.eslintrc.cjs</i> file with the following contents: -->
+让我们创建一个包含以下内容的 .eslintrc.cjs 文件：
 ```bash
 npm install --save-dev eslint-plugin-jest
 ```
@@ -836,61 +845,52 @@ npm install --save-dev eslint-plugin-jest
 让我们创建一个<i>.eslintrc.js</i>文件，内容如下：
 
 ```js
-/* eslint-env node */
 module.exports = {
-  "env": {
-      "browser": true,
-      "es6": true,
-      "jest/globals": true
+  root: true,
+  env: {
+    browser: true,
+    es2020: true,
   },
-  "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended"
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:react-hooks/recommended',
   ],
-  "parserOptions": {
-      "ecmaFeatures": {
-          "jsx": true
-      },
-      "ecmaVersion": 2018,
-      "sourceType": "module"
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  settings: { react: { version: '18.2' } },
+  plugins: ['react-refresh'],
+  rules: {
+    "indent": [
+        "error",
+        2  
+    ],
+    "linebreak-style": [
+        "error",
+        "unix"
+    ],
+    "quotes": [
+        "error",
+        "single"
+    ],
+    "semi": [
+        "error",
+        "never"
+    ],
+    "eqeqeq": "error",
+    "no-trailing-spaces": "error",
+    "object-curly-spacing": [
+        "error", "always"
+    ],
+    "arrow-spacing": [
+        "error", { "before": true, "after": true }
+    ],
+    "no-console": 0,
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": 0,
+    "no-unused-vars": 0    
   },
-  "plugins": [
-      "react", "jest"
-  ],
-  "rules": {
-      "indent": [
-          "error",
-          2
-      ],
-      "linebreak-style": [
-          "error",
-          "unix"
-      ],
-      "quotes": [
-          "error",
-          "single"
-      ],
-      "semi": [
-          "error",
-          "never"
-      ],
-      "eqeqeq": "error",
-      "no-trailing-spaces": "error",
-      "object-curly-spacing": [
-          "error", "always"
-      ],
-      "arrow-spacing": [
-          "error", { "before": true, "after": true }
-      ],
-      "no-console": 0,
-      "react/prop-types": 0,
-      "react/react-in-jsx-scope": "off"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
 }
 ```
 
@@ -902,8 +902,9 @@ module.exports = {
 
 ```bash
 node_modules
-build
-.eslintrc.js
+dist
+.eslintrc.cjs
+vite.config.js
 ```
 
 <!-- Now the directories <em>build</em> and <em>node_modules</em> will be skipped when linting.-->
@@ -958,26 +959,18 @@ export default Togglable
 <!-- You can find the code for our current application in its entirety in the <i>part5-7</i> branch of [this GitHub repository](https://github.com/fullstack-hy2020/part2-notes/tree/part5-7).-->
 你可以在[这个GitHub仓库](https://github.com/fullstack-hy2020/part2-notes/tree/part5-7)的<i>part5-7</i>分支找到我们当前应用的完整代码。
 
-<!-- Note that create-react-app has also a [default ESLint-configuration](https://www.npmjs.com/package/eslint-config-react-app), that we have now overridden. [The documentation](https://create-react-app.dev/docs/setting-up-your-editor/#extending-or-replacing-the-default-eslint-config) mentions that it is ok to replace the default but does not encourage us to do so:-->
-注意，create-react-app还有一个[默认的ESLint配置](https://www.npmjs.com/package/eslint-config-react-app)，我们现在已经覆盖了它。[文档](https://create-react-app.dev/docs/setting-up-your-editor/#extending-or-replacing-the-default-eslint-config)提到可以替换默认配置，但不鼓励我们这么做。
-<!--  <i>We highly recommend extending the base config, as removing it could introduce hard-to-find issues</i>.-->
-<i>我们强烈建议扩展基础配置，因为删除它可能会引入难以发现的问题。</i>
-
 </div>
 
 <div class="tasks">
 
 ### Exercise 5.12.
 
-#### 5.12: Blog list frontend, step12
+#### 5.12: Blog List Frontend, step 12
 
-<!-- Define PropTypes for one of the components of your application, and add ESlint to the project. Define the configuration according to your liking. Fix all of the linter errors.-->
-定义应用程序的一个组件的PropTypes，并将ESlint添加到项目中。根据您的喜好定义配置。修复所有的linter错误。
+<!-- Define PropTypes for one of the components of your application, and add ESlint to the project. Define the configuration according to your liking. Fix all of the linter errors. -->
+为你的应用程序的一个组件定义 PropTypes，并将 ESlint 添加到项目中。根据你的喜好定义配置。修复所有的 linter 错误。
 
-<!-- Create-react-app has installed ESlint to the project by default, so all that's left for you to do is define your desired configuration in the <i>.eslintrc.js</i> file.-->
-默认情况下，Create-react-app已经将ESlint安装到了项目中，因此您所要做的就是在<i>.eslintrc.js</i>文件中定义所需的配置。
-
-<!-- *NB:* do not run the _eslint --init_ command. It will install the latest version of ESlint that is not compatible with the configuration file created by create-react-app!-->
-*不要运行_eslint --init_ 命令。它会安装ESLint的最新版本，这与create-react-app创建的配置文件不兼容！*
+<!-- Vite has installed ESlint to the project by default, so all that's left for you to do is define your desired configuration in the <i>.eslintrc.cjs</i> file. -->
+Vite 已经默认在项目中安装了 ESlint，所以你需要做的就是在 <i>.eslintrc.cjs</i> 文件中定义你想要的配置。
 
 </div>

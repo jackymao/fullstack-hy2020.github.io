@@ -23,16 +23,18 @@ Muistiinpanoja tallettava kokoelma <i>notes</i> näyttää seuraavanlaiselta
 [
   {
     "_id": "600c0e410d10256466898a6c",
-    "content": "HTML is easy"
+    "content": "HTML is easy",
     "date": 2021-01-23T11:53:37.292+00:00,
-    "important": false
+    "important": false,
+    "user": "600c0e410d10256466883a6a",
     "__v": 0
   },
   {
     "_id": "600c0edde86c7264ace9bb78",
-    "content": "CSS is hard"
+    "content": "CSS is hard",
     "date": 2021-01-23T11:56:13.912+00:00,
-    "important": true
+    "important": true,
+    "user": "600c0e410d10256466883a6a",
     "__v": 0
   },
 ]
@@ -66,7 +68,7 @@ Syy sille miksi kurssin aiemmat osat käyttivät MongoDB:tä liittyvät juuri se
 
 ### Sovelluksen tietokanta
 
-Tarvitsemme sovellustamme varten relaatiotietokannan. Vaihtoehtoja on monia, käytämme kurssilla tämän hetken suosituinta Open Source -ratkaisua [PostgreSQL:ää](https://www.postgresql.org/). Voit halutessasi asentaa Postgresin (kuten tietokantaa usein kutsutaan) koneellesi. Helpommalla pääset käyttämällä jotain pilvipalveluna tarjottavaa Postgresia, esim. [ElephantSQL:ää](https://www.elephantsql.com/).
+Tarvitsemme sovellustamme varten relaatiotietokannan. Vaihtoehtoja on monia, käytämme kurssilla tämän hetken suosituinta Open Source ‑ratkaisua [PostgreSQL:ää](https://www.postgresql.org/). Voit halutessasi asentaa Postgresin (kuten tietokantaa usein kutsutaan) koneellesi. Helpommalla pääset käyttämällä jotain pilvipalveluna tarjottavaa Postgresia, esim. [ElephantSQL:ää](https://www.elephantsql.com/).
 
 Käytämme nyt hyväksemme sitä, että osista 3 ja 4 tuttuille pilvipalvelualustoille Fly.io ja Heroku on mahdollista luoda sovellukselle Postgres-tietokanta.
 
@@ -106,7 +108,7 @@ heroku create
 heroku addons:create heroku-postgresql:hobby-dev
 heroku config
 === cryptic-everglades-76708 Config Vars
-DATABASE_URL: postgres://<username>:<password>@ec2-44-199-83-229.compute-1.amazonaws.com:5432/<db-name>
+DATABASE_URL: postgres://<username>:thepasswordishere@ec2-44-199-83-229.compute-1.amazonaws.com:5432/<db-name>
 ```
 
 Tietokantaan saadaan psql-konsoliyhteys suorittamalla _psql_ Herokun palvelimella seuraavasti (huomaa, että komennon parametrit riippuvat Heroku-sovelluksen connect urlista):
@@ -155,7 +157,7 @@ Näin määriteltynä tietokantaan talletettu data sailyy ainoastaan niin kauan 
 
 #### psql-konsolin käyttöä
 
-Erityisesti relaatiotietokantaa käytettäessä on oleellista päästä tietokantaan käsiksi myös suoraan. Tapoja tähän on monia, on olemassa mm. useita erilaisia graafisia käyttöliittymiä, kuten [pgAdmin](https://www.pgadmin.org/). Käytetää nnyt kuitenkin Postgresin [psql](https://www.postgresql.org/docs/current/app-psql.html)-komentorivityökalua.
+Erityisesti relaatiotietokantaa käytettäessä on oleellista päästä tietokantaan käsiksi myös suoraan. Tapoja tähän on monia, on olemassa mm. useita erilaisia graafisia käyttöliittymiä, kuten [pgAdmin](https://www.pgadmin.org/). Käytetään nyt kuitenkin Postgresin [psql](https://www.postgresql.org/docs/current/app-psql.html)-komentorivityökalua.
 
 Kun konsoli on avattu, kokeillan psql:n tärkeintä komentoa _\d_, joka kertoo tietokannan sisällön:
 
@@ -177,7 +179,7 @@ CREATE TABLE notes (
 );
 ```
 
-Muutama huomio: sarake  <i>id </i> on määritelty <i>pääavaimeksi</i> (engl. primary key), eli sarakkeen arvon tulee olla jokaisella taulun rivillä uniikki ja arvo ei saa olla tyhjä. Tyypiksi sarakkeelle on määritelty [SERIAL](https://www.postgresql.org/docs/9.1/datatype-numeric.html#DATATYPE-SERIAL), joka ei ole todellinen tyyppi vaan lyhennysmerkintä sille, että kyseessä on kokonaislukuarvoinen sarake, jolle Postgres antaa automaattisesti uniikin, kasvavan arvon rivejä luotaessa. Tekstiarvoinen sarakke <i>content</i> on määritelty siten, että sille on pakko antaa arvo.
+Muutama huomio: sarake  <i>id </i> on määritelty <i>pääavaimeksi</i> (engl. primary key), eli sarakkeen arvon tulee olla jokaisella taulun rivillä uniikki ja arvo ei saa olla tyhjä. Tyypiksi sarakkeelle on määritelty [SERIAL](https://www.postgresql.org/docs/9.1/datatype-numeric.html#DATATYPE-SERIAL), joka ei ole todellinen tyyppi vaan lyhennysmerkintä sille, että kyseessä on kokonaislukuarvoinen sarake, jolle Postgres antaa automaattisesti uniikin, kasvavan arvon rivejä luotaessa. Tekstiarvoinen sarake <i>content</i> on määritelty siten, että sille on pakko antaa arvo.
 
 Katsotaan tilannetta konsolista käsin. Ensin komento _\d_, joka kertoo mitä tauluja kannassa on:
 
@@ -262,7 +264,7 @@ Alustetaan sovellus tavalliseen tapaan komennolla <i>npm init</i> ja asennetaan 
 npm install express dotenv pg sequelize
 ```
 
-Näistä jälkimmäinen [Sequelize](https://sequelize.org/master/) on kirjasto, jonka kautta käytämme Postgresia. Sequelize on niin sanottu [Object relational mapping](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) (ORM) -kirjasto, joka mahdollistaa JavaScript-olioiden tallentamisen relaatiotietokantaan ilman SQL-kielen käyttöä, samaan tapaan kuin MongoDB:n yhteydessä käyttämämme Mongoose.
+Näistä jälkimmäinen [Sequelize](https://sequelize.org/master/) on kirjasto, jonka kautta käytämme Postgresia. Sequelize on niin sanottu [Object relational mapping](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping) (ORM) ‑kirjasto, joka mahdollistaa JavaScript-olioiden tallentamisen relaatiotietokantaan ilman SQL-kielen käyttöä, samaan tapaan kuin MongoDB:n yhteydessä käyttämämme Mongoose.
 
 Testataan, että yhteyden muodostaminen onnistuu. Luodaan tiedosto <i>index.js</i> ja sille seuraava sisältö:
 
@@ -306,7 +308,7 @@ Herokua käyttäessäsi saat connect stringin selville komennolla _heroku config
 
 ```bash
 $ cat .env
-DATABASE_URL=postgres://<username>:<password>@ec2-54-83-137-206.compute-1.amazonaws.com:5432/<databasename>
+DATABASE_URL=postgres://<username>:thepasswordishere@ec2-54-83-137-206.compute-1.amazonaws.com:5432/<databasename>
 ```
 
 Fly.io:a käyttäessä paikallinen tietokantayhteys taytyy ensin tehdä mahdolliseksi [tunneloimalla](https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-outside-fly) paikallisen koneen portti 5432 Fly.io:n tietokannan porttiin komennolla
@@ -327,7 +329,7 @@ Fly.io:n connect-string on seuraavaa muotoa:
 
 ```bash
 $ cat .env
-DATABASE_URL=postgres://postgres:<password>@localhost:5432/postgres
+DATABASE_URL=postgres://postgres:thepasswordishere@localhost:5432/postgres
 ```
 
 Salasana on se, jonka on otettu talteen tietokantaa luodessa.
@@ -430,7 +432,7 @@ const { Sequelize, Model, DataTypes } = require('sequelize') // highlight-line
 const express = require('express')
 const app = express()
 
-const sequelize = new Sequelize(process.env.DATABASE_UR)
+const sequelize = new Sequelize(process.env.DATABASE_URL)
 
 // highlight-start
 class Note extends Model {}
@@ -474,7 +476,7 @@ app.listen(PORT, () => {
 
 Muutama kommentti koodista. Modelin <i>Note</i> määrittelyssä ei ole mitään kovin yllättävää, jokaiselle sarakkeelle on määritelty tyyppi, sekä tarvittaessa muut ominaisuudet, kuten se onko kyseessä taulun pääavain. Modelin määrittelyssä oleva toinen parametri sisältää <i>sequelize</i>-olion sekä muuta konfiguraatiotietoa. Määrittelimme, että taululla ei ole usein käytettyjä aikaleimasarakkeita (created\_at ja updated\_at).
 
-Määrittelimme myös <i>underscored: true</i>, joka tarkoittaa sitä, että taulujen nimet johdetaan modelien nimistä monikkomuotoisina [snake case](https://en.wikipedia.org/wiki/Snake_case) -versiona. Käytännössä tämä tarkoittaa sitä, että jos modelin nimi on, kuten tapauksessamme, <i>Note</i> päätellään siitä, että vastaavan taulun nimi on pienellä alkukirjaimella kirjoitettu nimen monikko eli <i>notes</i>. Jos taas modelin nimi olisi "kaksiosainen" esim. <i>StudyGroup</i> olisi taulun nimi <i>study_groups</i>. Sequelize mahdollistaa automaattisen taulujen nimien päättelyn sijaan myös eksplisiittisesti määriteltävät taulujen nimet.
+Määrittelimme myös <i>underscored: true</i>, joka tarkoittaa sitä, että taulujen nimet johdetaan modelien nimistä monikkomuotoisina [snake case](https://en.wikipedia.org/wiki/Snake_case) ‑versiona. Käytännössä tämä tarkoittaa sitä, että jos modelin nimi on, kuten tapauksessamme, <i>Note</i> päätellään siitä, että vastaavan taulun nimi on pienellä alkukirjaimella kirjoitettu nimen monikko eli <i>notes</i>. Jos taas modelin nimi olisi "kaksiosainen" esim. <i>StudyGroup</i> olisi taulun nimi <i>study_groups</i>. Sequelize mahdollistaa automaattisen taulujen nimien päättelyn sijaan myös eksplisiittisesti määriteltävät taulujen nimet.
 
 Sama käytäntöä nimityksien osalta koskee myös sarakkeita. Jos olisimme määritelleet, että muistiinpanoon liittyy <i>creationYear</i>, eli tieto sen luomisvuodesta, määrittelisimme sen modeliin seuraavasti:
 
@@ -572,7 +574,7 @@ Teemme tämän osan tehtävissä [osan 4](/osa4) tehtävien kanssa samanlaisen b
 
 #### Tehtävä 13.1.
 
-Tee sovellukselle GitHub-repositorio ja luo sen sisällä sovellusta varten Heroku-sovellus sekä Postgres-tietokanta. Varmista, että saat luotua yhteyden sovelluksen tietokantaan.
+Tee sovellukselle GitHub-repositorio ja luo sen sisällä sovellusta varten Fly.io tai Heroku-sovellus sekä Postgres-tietokanta. Varmista, että saat luotua yhteyden sovelluksen tietokantaan. Kuten [täällä](/osa13/relaatiotietokannan_kaytto_sequelize_kirjastolla#sovelluksen-tietokanta) mainittiin, voit hoitaa tietokannan myös esim. Dockerin avulla, tällöin et tarvitse Fly.io- tai Heroku-sovellusta.
 
 #### Tehtävä 13.2.
 
@@ -604,7 +606,7 @@ Robert C. Martin: 'FP vs. OO List Processing', 0 likes
 
 ### Tietokantataulujen automaattinen luominen
 
-Sovelluksessamme on nyt yksi ikävä puoli, se olettaa että täsmälleen oikean skeeman omaava tietokanta on olemassa, eli että taulu <i>notes</i> on luotu sopivalla _create table_ -komennolla.
+Sovelluksessamme on nyt yksi ikävä puoli, se olettaa että täsmälleen oikean skeeman omaava tietokanta on olemassa, eli että taulu <i>notes</i> on luotu sopivalla _create table_ ‑komennolla.
 
 Koska ohjelmakoodi säilytetään GitHubissa, olisi järkevää säilyttää myös tietokannan luovat komennot ohjelmakoodin yhteydessä, jotta tietokannan skeema on varmasti sama mitä ohjelmakoodi odottaa. Sequelize pystyy itse asiassa generoimaan skeeman automaattisesti modelien määritelmästä modelien metodin [sync](https://sequelize.org/master/manual/model-basics.html#model-synchronization) avulla.
 

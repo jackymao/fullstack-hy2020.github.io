@@ -9,7 +9,7 @@ lang: fi
 
 Haluamme toteuttaa sovellukseemme käyttäjien hallinnan. Käyttäjät tulee tallettaa tietokantaan, ja jokaisesta muistiinpanosta tulee tietää sen luonut käyttäjä. Muistiinpanojen poiston ja editoinnin tulee olla sallittua ainoastaan muistiinpanot tehneelle käyttäjälle.
 
-Aloitetaan lisäämällä tietokantaan tieto käyttäjistä. Käyttäjän <i>User</i> ja muistiinpanojen <i>Note</i> välillä on yhden suhde moneen -yhteys:
+Aloitetaan lisäämällä tietokantaan tieto käyttäjistä. Käyttäjän <i>User</i> ja muistiinpanojen <i>Note</i> välillä on yhden suhde moneen ‑yhteys:
 
 ![Yhteen käyttäjään liittyy monta muistiinpanoa eli UML:nä User 1 --- * Note](https://yuml.me/a187045b.png)
 
@@ -203,7 +203,7 @@ Asennetaan salasanojen hashaamiseen käyttämämme [bcrypt](https://github.com/k
 npm install bcrypt
 ```
 
-Käyttäjien luominen tapahtuu osassa 3 läpikäytyjä [RESTful](/osa3/node_js_ja_express#rest)-periaatteita seuraten tekemällä HTTP POST -pyyntö polkuun <i>users</i>.
+Käyttäjien luominen tapahtuu osassa 3 läpikäytyjä [RESTful](/osa3/node_js_ja_express#rest)-periaatteita seuraten tekemällä HTTP POST ‑pyyntö polkuun <i>users</i>.
 
 Määritellään käyttäjienhallintaa varten oma <i>router</i> tiedostoon <i>controllers/users.js</i>, ja liitetään se <i>app.js</i>-tiedostossa huolehtimaan polulle <i>/api/users/</i> tulevista pyynnöistä:
 
@@ -286,10 +286,10 @@ describe('when there is initially one user at db', () => {
       .expect('Content-Type', /application\/json/)
 
     const usersAtEnd = await helper.usersInDb()
-    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
 
     const usernames = usersAtEnd.map(u => u.username)
-    expect(usernames).toContain(newUser.username)
+    assert(usernames.includes(newUser.username))
   })
 })
 ```
@@ -335,34 +335,26 @@ describe('when there is initially one user at db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('expected `username` to be unique')
-
     const usersAtEnd = await helper.usersInDb()
-    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+    assert(result.body.error.includes('expected `username` to be unique'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 })
 ```
 
 Testi ei tietenkään mene läpi tässä vaiheessa. Toimimme nyt [TDD:n eli test driven developmentin](https://en.wikipedia.org/wiki/Test-driven_development) hengessä, eli uuden ominaisuuden testi kirjoitetaan ennen ominaisuuden ohjelmointia.
 
-Mongoosen validoinnit eivät tarjoa valmista mahdollisuutta kentän arvon uniikkiuden tarkastamiseen.  Ongelmaan tuo ratkaisun npm-pakettina asennettava [mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator). Asennetaan kirjasto tuttuun tapaan komennolla
+Mongoosen validoinnit eivät tarjoa täysin suoraa tapaa kentän arvon uniikkiuden tarkastamiseen. Uniikkius on kuitenkin mahdollista saada aikaan määrittelemällä tietokannan kokoelmaan kentän arvon [yksikäsitteisyyden takaava indeksi](https://mongoosejs.com/docs/schematypes.html). Määrittely tapahtuu seuraavasti:
 
-```
-npm install mongoose-unique-validator
-```
-
-ja laajennetaan koodia kirjaston dokumentaatiota noudattaen:
 
 ```js
-const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator') // highlight-line
-
 const userSchema = mongoose.Schema({
   // highlight-start
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true // username oltava yksikäsitteinen
   },
   // highlight-end
   name: String,
@@ -375,22 +367,31 @@ const userSchema = mongoose.Schema({
   ],
 })
 
-userSchema.plugin(uniqueValidator) // highlight-line
 
 // ...
 ```
 
-Huom: asentaessasi kirjastoa _mongoose-unique-validator_ saatat törmätä seuraavaan virheilmoitukseen:
+Yksikäsitteisyyden takaavan indeksin kanssa on kuitenkin oltava tarkkana. Jos tietokannassa on jo dokumentteja jotka rikkovat yksikäsitteisyysehdon, [ei indeksiä muodosteta](https://dev.to/akshatsinghania/mongoose-unique-not-working-16bf). Eli lisätessäsi yksikäsitteisyysindeksin, varmista että tietokanta on eheässä tilassa! Yllä oleva testi lisäsi tietokantaan kahteen kertaan käyttäjän käyttäjänimellä _root_, ja nämä on poistettava jotta indeksi muodostuu ja koodi toimii.
 
-![](../../images/4/uniq.png)
+Mongoosen validaatiot eivät huomaa indeksin rikkoutumista, ja niistä seuraa virheen _ValidationError_ sijaan  virhe, jonka tyyppi on _MongoServerError_. Joudummekin laajentamaan virheenkäsittelijää, jotta virhe saadaan asianmukaisesti hoidettua:
 
-Syynä tälle on se, että kirjasto ei ole kirjoitushetkellä (13.3.2023) vielä yhteensopiva Mongoosen version 7 kanssa. Jos törmäät virheeseen, voit ottaa käyttöösi Mongoosen vanhemman version suorittamalla komennon
+```js
+const errorHandler = (error, request, response, next) => {
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+// highlight-start
+  } else if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error')) {
+    return response.status(400).json({ error: 'expected `username` to be unique' })
+  }
+  // highlight-end
 
+  next(error)
+}
 ```
-npm install mongoose@6
-```
 
-Tämän jälkeen kirjaston _mongoose-unique-validator_ asentaminen onnistuu.
+Näiden muutosten jälkeen testit menevät läpi.
 
 Voisimme toteuttaa käyttäjien luomisen yhteyteen myös muita tarkistuksia, esim. onko käyttäjätunnus tarpeeksi pitkä, koostuuko se sallituista merkeistä ja onko salasana tarpeeksi hyvä. Jätämme ne kuitenkin vapaaehtoiseksi harjoitustehtäväksi.
 
@@ -466,7 +467,7 @@ Muistiinpanon luoneen käyttäjän id tulee näkyviin muistiinpanon yhteyteen:
 
 ### populate
 
-Haluaisimme API:n toimivan siten, että haettaessa esim. käyttäjien tiedot polulle <i>/api/users</i> tehtävällä HTTP GET -pyynnöllä tulisi käyttäjien tekemien muistiinpanojen id:iden lisäksi näyttää niiden sisältö. Relaatiotietokannoilla toiminnallisuus toteutettaisiin <i>liitoskyselyn</i> avulla.
+Haluaisimme API:n toimivan siten, että haettaessa esim. käyttäjien tiedot polulle <i>/api/users</i> tehtävällä HTTP GET ‑pyynnöllä tulisi käyttäjien tekemien muistiinpanojen id:iden lisäksi näyttää niiden sisältö. Relaatiotietokannoilla toiminnallisuus toteutettaisiin <i>liitoskyselyn</i> avulla.
 
 Kuten aiemmin mainittiin, eivät dokumenttitietokannat tue (kunnolla) eri kokoelmien välisiä liitoskyselyitä. Mongoose-kirjasto osaa kuitenkin tehdä liitoksen puolestamme. Mongoose toteuttaa liitoksen tekemällä useampia tietokantakyselyitä, joten siinä mielessä kyseessä on täysin erilainen tapa kuin relaatiotietokantojen liitoskyselyt, jotka ovat <i>transaktionaalisia</i>, eli liitoskyselyä tehdessä tietokannan tila ei muutu. Mongoosella tehtävä liitos taas on sellainen, että mikään ei takaa sitä, että liitettävien kokoelmien tila on konsistentti, toisin sanoen jos tehdään users- ja notes-kokoelmat liittävä kysely, kokoelmien tila saattaa muuttua kesken Mongoosen liitosoperaation.
 
@@ -487,7 +488,7 @@ Lopputulos on jo melkein haluamamme kaltainen:
 
 ![Selain renderöi osoitteessa localhost:3001/api/users taulukollisen JSON:eja joilla kentät username, name, id ja notes. Kenttä notes on nyt olio jolla on kentät content, important, id ja user](../../images/4/13new.png)
 
-Populaten yhteydessä on myös mahdollista rajata mitä kenttiä sisällytettävistä dokumenteista otetaan mukaan. Haluamme id:n lisäksi nyt ainoastaan kentätä <i>content</i> ja <i>important</i>. Rajaus tapahtuu Mongon [syntaksilla](https://docs.mongodb.com/manual/tutorial/project-fields-from-query-results/#return-the-specified-fields-and-the-id-field-only):
+Populaten yhteydessä on myös mahdollista rajata mitä kenttiä sisällytettävistä dokumenteista otetaan mukaan. Haluamme id:n lisäksi nyt ainoastaan kentät <i>content</i> ja <i>important</i>. Rajaus tapahtuu Mongon [syntaksilla](https://docs.mongodb.com/manual/tutorial/project-fields-from-query-results/#return-the-specified-fields-and-the-id-field-only):
 
 ```js
 usersRouter.get('/', async (request, response) => {

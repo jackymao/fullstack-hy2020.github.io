@@ -12,8 +12,8 @@ lang: zh
 
 ### Flux-architecture
 
-<!-- Already years ago Facebook developed the [Flux](https://facebook.github.io/flux/docs/in-depth-overview/)-architecture to make state management of React apps easier. In Flux, the state is separated from the React components and into its own <i>stores</i>.-->
-已经有多年，Facebook开发了[Flux](https://facebook.github.io/flux/docs/in-depth-overview/)架构，以便更容易地管理React应用的状态。在Flux中，状态与React组件分离，进入其自己的<i>存储</i>中。
+<!-- Facebook developed the [Flux](https://facebookarchive.github.io/flux/docs/in-depth-overview//)- architecture to make state management easier. In Flux, the state is separated completely from the React-components into its own <i>stores</i>.-->
+ Facebook开发了[Flux](https://facebookarchive.github.io/flux/docs/in-depth-overview//)-架构，使状态管理更容易。在Flux中，状态被完全从React组件中分离出来，进入它自己的<i>存储</i>。
 <!-- State in the store is not changed directly, but with different <i>actions</i>.-->
 商店的状态不能直接改变，而是要通过不同的<i>行动</i>。
 
@@ -1328,7 +1328,7 @@ rm -rf .git
 
 ```bash
 npm install
-npm start
+npm run dev
 ```
 
 <!-- After completing these exercises, your application should look like this:-->

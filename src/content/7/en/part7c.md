@@ -13,7 +13,7 @@ In part 2, we examined two different ways of adding styles to our application: t
 
 One approach to defining styles for an application is to use a ready-made "UI framework".
 
-One of the first widely popular UI frameworks was the [Bootstrap](https://getbootstrap.com/) toolkit created by Twitter which may still be the most popular framework. Recently, there has been an explosion in the number of new UI frameworks that have entered the arena. The selection is so vast that there is little hope of creating an exhaustive list of options.
+One of the first widely popular UI frameworks was the [Bootstrap](https://getbootstrap.com/) toolkit created by Twitter which may still be the most popular. Recently, there has been an explosion in the number of new UI frameworks that have entered the arena. The selection is so vast that there is little hope of creating an exhaustive list of options.
 
 Many UI frameworks provide developers of web applications with ready-made themes and "components" like buttons, menus, and tables. We write components in quotes because, in this context, we are not talking about React components. Usually, UI frameworks are used by including the CSS stylesheets and JavaScript code of the framework in the application.
 
@@ -31,14 +31,14 @@ Let's install the package with the command:
 npm install react-bootstrap
 ```
 
-Then let's add a [link for loading the CSS stylesheet](https://react-bootstrap.github.io/getting-started/introduction#stylesheets) for Bootstrap inside of the <i>head</i> tag in the <i>public/index.html</i> file of the application:
+Then let's add a [link for loading the CSS stylesheet](https://react-bootstrap.github.io/docs/getting-started/introduction#stylesheets) for Bootstrap inside of the <i>head</i> tag in the <i>public/index.html</i> file of the application:
 
 ```js
 <head>
   <link
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
     crossorigin="anonymous"
   />
   // ...
@@ -69,7 +69,7 @@ We notice that this already affected the appearance of the application. The cont
 
 #### Tables
 
-Next, let's make some changes to the <i>Notes</i> component so that it renders the list of notes as a [table](https://getbootstrap.com/docs/4.1/content/tables/). React Bootstrap provides a built-in [Table](https://react-bootstrap.github.io/components/table/) component for this purpose, so there is no need to define CSS classes separately.
+Next, let's make some changes to the <i>Notes</i> component so that it renders the list of notes as a [table](https://getbootstrap.com/docs/4.1/content/tables/). React Bootstrap provides a built-in [Table](https://react-bootstrap.github.io/docs/components/table/) component for this purpose, so there is no need to define CSS classes separately.
 
 ```js
 const Notes = ({ notes }) => (
@@ -109,7 +109,7 @@ import { Table } from 'react-bootstrap'
 
 Let's improve the form in the <i>Login</i> view with the help of Bootstrap [forms](https://getbootstrap.com/docs/4.1/components/forms/).
 
-React Bootstrap provides built-in [components](https://react-bootstrap.github.io/forms/overview/) for creating forms (although the documentation for them is slightly lacking):
+React Bootstrap provides built-in [components](https://react-bootstrap.github.io/docs/forms/overview/) for creating forms (although the documentation for them is slightly lacking):
 
 ```js
 let Login = (props) => {
@@ -124,14 +124,16 @@ let Login = (props) => {
             type="text"
             name="username"
           />
+        </Form.Group>
+        <Form.Group>
           <Form.Label>password:</Form.Label>
           <Form.Control
             type="password"
           />
-          <Button variant="primary" type="submit">
-            login
-          </Button>
         </Form.Group>
+        <Button variant="primary" type="submit">
+          login
+        </Button>
       </Form>
     </div>
   )
@@ -178,7 +180,7 @@ const App = () => {
 }
 ```
 
-We will render the message as a Bootstrap [Alert](https://getbootstrap.com/docs/4.1/components/alerts/) component. Once again, the React Bootstrap library provides us with a matching [React component](https://react-bootstrap.github.io/components/alerts/):
+We will render the message as a Bootstrap [Alert](https://getbootstrap.com/docs/4.1/components/alerts/) component. Once again, the React Bootstrap library provides us with a matching [React component](https://react-bootstrap.github.io/docs/components/alerts/):
 
 ```js
 <div className="container">
@@ -195,7 +197,7 @@ We will render the message as a Bootstrap [Alert](https://getbootstrap.com/docs/
 
 #### Navigation structure
 
-Lastly, let's alter the application's navigation menu to use Bootstrap's [Navbar](https://getbootstrap.com/docs/4.1/components/navbar/) component. The React Bootstrap library provides us with [matching built-in components](https://react-bootstrap.github.io/components/navbar/#navbars-mobile-friendly). Through trial and error, we end up with a working solution despite the cryptic documentation:
+Lastly, let's alter the application's navigation menu to use Bootstrap's [Navbar](https://getbootstrap.com/docs/4.1/components/navbar/) component. The React Bootstrap library provides us with [matching built-in components](https://react-bootstrap.github.io/docs/components/navbar/#responsive-behaviors). Through trial and error, we end up with a working solution despite the cryptic documentation:
 
 ```js
 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -409,7 +411,7 @@ we do get working navigation, but it could look better
 
 ![browser notes app materialUI blue navbar](../../images/7/66ea.png)
 
-We can find a better way from the [documentation](https://mui.com/material-ui/guides/composition/#routing-libraries). We can use [component props](https://mui.com/material-ui/guides/composition/#component-prop) to define how the root element of a MaterialUI component is rendered.
+We can find a better way in the [documentation](https://mui.com/material-ui/integrations/routing/#button). We can use [component props](https://mui.com/material-ui/guides/composition/#component-prop) to define how the root element of a MaterialUI component is rendered.
 
 By defining
 
@@ -419,7 +421,7 @@ By defining
 </Button>
 ```
 
-the _Button_ component is rendered so that its root component is react-router-dom's _Link_ which receives its path as the prop field _to_.
+the _Button_ component is rendered so that its root component is react-router-dom's _Link_, which receives its path as the prop field _to_.
 
 The code for the navigation bar is the following:
 
@@ -487,7 +489,7 @@ There is also the question of whether or not UI framework libraries should be us
 
 ### Other UI frameworks
 
-Here are some other UI frameworks for your consideration. If you do not see your favorite UI framework in the list, please make a pull request to the course material.
+Here are some other UI frameworks for your consideration. If you do not see your favorite UI framework in the list, please make a pull request to the course material for adding it.
 
 - <https://bulma.io/>
 - <https://ant.design/>
@@ -505,8 +507,11 @@ Here are some other UI frameworks for your consideration. If you do not see your
 - <https://www.radix-ui.com/>
 - <https://react-spectrum.adobe.com/react-aria/index.html>
 - <https://master.co/>
-- <https://www.radix-ui.com/>
 - <https://nextui.org/>
+- <https://daisyui.com/>
+- <https://ui.shadcn.com/>
+- <https://www.tremor.so/>
+- <https://headlessui.com/>
 
 ### Styled components
 

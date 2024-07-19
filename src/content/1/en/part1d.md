@@ -106,8 +106,7 @@ The following object is set as the new state of the application:
 
 The new value of the <i>left</i> property is now the same as the value of <i>left + 1</i> from the previous state, and the value of the <i>right</i> property is the same as the value of the <i>right</i> property from the previous state.
 
-We can define the new state object a bit more neatly by using the [object spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
-syntax that was added to the language specification in the summer of 2018:
+We can define the new state object a bit more neatly by using the [object spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) syntax that was added to the language specification in the summer of 2018:
 
 ```js
 const handleLeftClick = () => {
@@ -225,10 +224,9 @@ const handleLeftClick = () => {
 }
 ```
 
-However, __don't__ do this. As mentioned previously, the state of React components like _allClicks_ must not be mutated directly. Even if mutating state appears to work in some cases, it can lead to problems that are very hard to debug.
+However, __don't__ do this. As mentioned previously, the state of React components, like _allClicks_, must not be mutated directly. Even if mutating state appears to work in some cases, it can lead to problems that are very hard to debug.
 
-Let's take a closer look at how the clicking
-is rendered to the page:
+Let's take a closer look at how the clicking is rendered to the page:
 
 ```js
 const App = () => {
@@ -246,7 +244,7 @@ const App = () => {
 }
 ```
 
-We call the [join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join) method on the _allClicks_ array that joins all the items into a single string, separated by the string passed as the function parameter, which in our case is an empty space.
+We call the [join](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join) method on the _allClicks_ array, that joins all the items into a single string, separated by the string passed as the function parameter, which in our case is an empty space.
 
 ### Update of the state is asynchronous
 
@@ -475,10 +473,10 @@ Keep both your code and the web page open together **at the same time, all the t
 
 If and when your code fails to compile and your browser lights up like a Christmas tree:
 
-![screenshot of code](../../images/1/6x.png)
+![screenshot of error pointing at the code line where it has been generated](../../images/1/6x.png)
 
 don't write more code but rather find and fix the problem **immediately**. There has yet to be a moment in the history of coding where code that fails to compile would miraculously start working after writing large amounts of additional code. I highly doubt that such an event will transpire during this course either.
-  
+
 Old-school, print-based debugging is always a good idea. If the component
 
 ```js
@@ -563,7 +561,7 @@ The first <i>State</i> contains the value of the <i>left</i> state, the next con
 
 ### Rules of Hooks
 
-There are a few limitations and rules we have to follow to ensure that our application uses hooks-based state functions correctly.
+There are a few limitations and [rules](https://react.dev/warnings/invalid-hook-call-warning#breaking-rules-of-hooks) that we have to follow to ensure that our application uses hooks-based state functions correctly.
 
 The _useState_ function (as well as the _useEffect_ function introduced later on in the course) <i>must not be called</i> from inside of a loop, a conditional expression, or any place that is not a function defining a component. This must be done to ensure that the hooks are always called in the same order, and if this isn't the case the application will behave erratically.
 
@@ -1128,20 +1126,67 @@ Programming is hard, that is why I will use all the possible means to make it ea
 - If my code does not work, I will not write more code. Instead I start deleting the code until it works or just return to a state when everything was still working
 - When I ask for help in the course Discord or Telegram channel or elsewhere I formulate my questions properly, see [here](http://fullstackopen.com/en/part0/general_info#how-to-get-help-in-discord-telegram) how to ask for help
 
+### Utilization of Large language models
+
+Large language models such as [ChatGPT](https://chat.openai.com/auth/login), [Claude](https://claude.ai/) and [GitHub Copilot](https://github.com/features/copilot) have proven to be very useful in software development.
+
+Personally, I mainly use Copilot, which integrates seamlessly with VS Code thanks to the [plugin](https://visualstudio.microsoft.com/github-copilot/).
+
+Copilot is useful in a wide variety of scenarios. Copilot can be asked to generate code for an open file by describing the desired functionality in text:
+
+![copilot input on vscode](../../images/1/gpt1.png)
+
+If the code looks good, Copilot adds it to the file:
+
+![code added by copilot](../../images/1/gpt2.png)
+
+In the case of our example, Copilot only created a button, the event handler _handleResetClick_ is undefined.
+
+An event handler may also be generated. By writing the first line of the function, Copilot offers the functionality to be generated:
+
+![copilot´s code suggestion](../../images/1/gpt3.png)
+
+In Copilot's chat window, it is possible to ask for an explanation of the function of the painted code area:
+
+![copilot explaining how the selected code works in the chat window](../../images/1/gpt4.png)
+
+Copilot is also useful in error situations, by copying the error message into Copilot's chat, you will get an explanation of the problem and a suggested fix:
+
+![copilot explaining the error and suggesting a fix](../../images/1/gpt5.png)
+
+Copilot's chat also enables the creation of larger set of functionality
+
+![copilot creating a login component on request](../../images/1/gpt6.png)
+
+The degree of usefulness of the hints provided by Copilot and other language models varies. Perhaps the biggest problem with language models is [hallucination](https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)), they sometimes generate completely convincing-looking answers, which, however, are completely wrong. When programming, of course, the hallucinated code is often caught quickly if the code does not work. More problematic situations are those where the code generated by the language model seems to work, but it contains more difficult to detect bugs or e.g. security vulnerabilities.
+
+Another problem in applying language models to software development is that it is difficult for language models to "understand" larger projects, and e.g. to generate functionality that would require changes to several files. Language models are also currently unable to generalize code, i.e. if the code has, for example, existing functions or components that the language model could use with minor changes for the requested functionality, the language model will not bend to this. The result of this can be that the code base deteriorates, as the language models generate a lot of repetition in the code, see more e.g. [here](https://visualstudiomagazine.com/articles/2024/01/25/copilot-research.aspx).
+
+When using language models, the responsibility always stays with the programmer.
+
+The rapid development of language models puts the student of programming in a challenging position: is it worth and is it even necessary to learn programming in a detailed level, when you can get almost everything ready-made from language models?
+
+At this point, it is worth remembering the old wisdom of  [Brian Kerningham](https://en.wikipedia.org/wiki/Brian_Kernighan), the developer of the programming language C:
+
+![Everyone knows that debugging is twice as hard as writing a program in the first place. So if you're as clever as you can be when you write it, how will you ever debug it? ― Brian Kernighan](../../images/1/kerningham.png)
+
+In other words, since debugging is twice as difficult as programming, it is not worth programming such code that you can only barely understand. How can debugging be even possible in a situation where programming is outsourced to a language model and the software developer does not understand the debugged code at all?
+
+So far, the development of language models and artificial intelligence is still at the stage where they are not self-sufficient, and the most difficult problems are left for humans to solve. Because of this, even novice software developers must learn to program really well just in case. It may be that, despite the development of language models, even more in-depth knowledge is needed. Artificial intelligence does the easy things, but a human is needed to sort out the most complicated messes caused by AI. GitHub Copilot is a very well-named product, it's Copilot, a second pilot who helps the main pilot in an aircraft. The programmer is still the main pilot, the captain, and bears the ultimate responsibility.
+
+It may be in your own interest that you turn off Copilot by default when you do this course and rely on it only in a real emergency.
+
 </div>
 
 <div class="tasks">
 
 <h3>Exercises 1.6.-1.14.</h3>
 
-Submit your solutions to the exercises by first pushing your code to GitHub and then marking the completed exercises into
-the "my submissions" tab of the [submission application](https://studies.cs.helsinki.fi/stats/courses/fullstackopen).
+Submit your solutions to the exercises by first pushing your code to GitHub and then marking the completed exercises into the "my submissions" tab of the [submission application](https://studies.cs.helsinki.fi/stats/courses/fullstackopen).
 
 Remember, submit **all** the exercises of one part **in a single submission**. Once you have submitted your solutions for one part, **you cannot submit more exercises to that part anymore**.
 
 <i>Some of the exercises work on the same application. In these cases, it is sufficient to submit just the final version of the application. If you wish, you can make a commit after every finished exercise, but it is not mandatory.</i>
-
-**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your projects to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.
 
 In some situations you may also have to run the command below from the root of the project:
 
@@ -1155,7 +1200,7 @@ If and <i>when</i> you encounter an error message
 
 keep in mind the things told [here](/en/part1/introduction_to_react#do-not-render-objects).
 
-<h4> 1.6: unicafe step1</h4>
+<h4> 1.6: unicafe step 1</h4>
 
 Like most companies, the student restaurant of the University of Helsinki [Unicafe](https://www.unicafe.fi) collects feedback from its customers. Your task is to implement a web application for collecting customer feedback. There are only three options for feedback: <i>good</i>, <i>neutral</i>, and <i>bad</i>.
 
@@ -1165,7 +1210,7 @@ The application must display the total number of collected feedback for each cat
 
 Note that your application needs to work only during a single browser session. Once you refresh the page, the collected feedback is allowed to disappear.
 
-It is advisable to use the same structure that is used in the material and previous exercise. File <i>index.js</i> is as follows:
+It is advisable to use the same structure that is used in the material and previous exercise. File <i>main.jsx</i> is as follows:
 
 ```js
 import React from 'react'
@@ -1176,7 +1221,7 @@ import App from './App'
 ReactDOM.createRoot(document.getElementById('root')).render(<App />)
 ```
 
-You can use the code below as a starting point for the <i>App.js</i> file:
+You can use the code below as a starting point for the <i>App.jsx</i> file:
 
 ```js
 import { useState } from 'react'
@@ -1197,13 +1242,13 @@ const App = () => {
 export default App
 ```
 
-<h4>1.7: unicafe step2</h4>
+<h4>1.7: unicafe step 2</h4>
 
 Expand your application so that it shows more statistics about the gathered feedback: the total number of collected feedback, the average score (good: 1, neutral: 0, bad: -1) and the percentage of positive feedback.
 
 ![average and percentage positive screenshot feedback](../../images/1/14e.png)
 
-<h4>1.8: unicafe step3</h4>
+<h4>1.8: unicafe step 3</h4>
 
 Refactor your application so that displaying the statistics is extracted into its own <i>Statistics</i> component. The state of the application should remain in the <i>App</i> root component.
 
@@ -1231,17 +1276,18 @@ const App = () => {
 }
 ```
 
-<h4>1.9: unicafe step4</h4>
+<h4>1.9: unicafe step 4</h4>
 
 Change your application to display statistics only once feedback has been gathered.
 
 ![no feedback given text screenshot](../../images/1/15e.png)
 
-<h4>1.10: unicafe step5</h4>
+<h4>1.10: unicafe step 5</h4>
 
 Let's continue refactoring the application. Extract the following two components:
 
-- <i>Button</i> for defining the buttons used for submitting feedback
+- <i>Button</i> handles the functionality of each feedback submission button.
+
 - <i>StatisticLine</i> for displaying a single statistic, e.g. the average score.
 
 To be clear: the <i>StatisticLine</i> component always displays a single statistic, meaning that the application uses multiple components for rendering all of the statistics:
@@ -1263,7 +1309,7 @@ const Statistics = (props) => {
 
 The application's state should still be kept in the root <i>App</i> component.
 
-<h4>1.11*: unicafe step6</h4>
+<h4>1.11*: unicafe step 6</h4>
 
 Display the statistics in an HTML [table](https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Basics), so that your application looks roughly like this:
 
@@ -1275,11 +1321,11 @@ Remember to keep your console open at all times. If you see this warning in your
 
 Then perform the necessary actions to make the warning disappear. Try pasting the error message into a search engine if you get stuck.
 
-<i>Typical source of an error _Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist._ is Chrome extension. Try going to _chrome://extensions/_ and try disabling them one by one and refreshing React app page; the error should eventually disappear.</i>
+<i>Typical source of an error _Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist._ is from a Chrome extension. Try going to _chrome://extensions/_ and try disabling them one by one and refreshing React app page; the error should eventually disappear.</i>
 
 **Make sure that from now on you don't see any warnings in your console!**
 
-<h4>1.12*: anecdotes step1</h4>
+<h4>1.12*: anecdotes step 1</h4>
 
 The world of software engineering is filled with [anecdotes](http://www.comp.nus.edu.sg/~damithch/pages/SE-quotes.htm) that distill timeless truths from our field into short one-liners.
 
@@ -1292,7 +1338,7 @@ const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
-    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
     'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
@@ -1312,7 +1358,7 @@ const App = () => {
 export default App
 ```
 
-Content of the file <i>index.js</i> is the same as in previous exercises.
+Content of the file <i>main.jsx</i> is the same as in previous exercises.
 
 Find out how to generate random numbers in JavaScript, eg. via a search engine or on [Mozilla Developer Network](https://developer.mozilla.org). Remember that you can test generating random numbers e.g. straight in the console of your browser.
 
@@ -1320,9 +1366,7 @@ Your finished application could look something like this:
 
 ![random anecdote with next button](../../images/1/18a.png)
 
-**WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your projects to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.
-
-<h4>1.13*: anecdotes step2</h4>
+<h4>1.13*: anecdotes step 2</h4>
 
 Expand your application so that you can vote for the displayed anecdote.
 
@@ -1352,7 +1396,7 @@ copy[2] += 1
 
 Using an array might be the simpler choice in this case. Searching the Internet will provide you with lots of hints on how to [create a zero-filled array of the desired length](https://stackoverflow.com/questions/20222501/how-to-create-a-zero-filled-javascript-array-of-arbitrary-length/22209781).
 
-<h4>1.14*: anecdotes step3</h4>
+<h4>1.14*: anecdotes step 3</h4>
 
 Now implement the final version of the application that displays the anecdote with the largest number of votes:
 

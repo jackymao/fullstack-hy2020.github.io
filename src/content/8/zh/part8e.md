@@ -479,7 +479,7 @@ start()
 因为GraphQL服务器必须在Express应用程序开始侦听指定端口之前启动，所以整个初始化必须放在<i>异步函数</i>中，这允许等待GraphQL服务器启动：
 
 <!-- The backend code can be found on [GitHub](https://github.com/fullstack-hy2020/graphql-phonebook-backend/tree/part8-6), branch <i>part8-6</i>.-->
-后端代码可以在[GitHub](https://github.com/fullstack-hy2020/graphql-phonebook-backend/tree/part8-6)上找到，分支为<i>part8-6</i>。
+ 后端代码可以在[GitHub](https://github.com/fullstack-hy2020/graphql-phonebook-backend/tree/part8-6)找到，分支<i>part8-6</i>。
 
 ### Subscriptions on the server
 
@@ -703,10 +703,7 @@ pubsub.publish('PERSON_ADDED', { personAdded: person })
 ![apollo studio showing cog red arrow highlighting](../../images/8/35.png)
 
 <!-- The backend code can be found on [GitHub](https://github.com/fullstack-hy2020/graphql-phonebook-backend/tree/part8-7), branch <i>part8-7</i>.-->
-后端代码可以在 [GitHub](https://github.com/fullstack-hy2020/graphql-phonebook-backend/tree/part8-7) 上找到，分支为<i>part8-7</i>。
-
-<!-- Implementing subscriptions involves a lot of configurations. You will be able to cope with the few exercises of this course without worrying much about the details. If you planning to use subsctiptions in an production use application, you should definitely read carefully Apollo's [documentation on subscriptions](https://www.apollographql.com/docs/apollo-server/data/subscriptions).-->
-实施订阅涉及许多配置。您可以轻松应对本课程的几个练习，而无需太多担心细节。如果您计划在生产使用应用程序中使用subsctiptions，则应该仔细阅读Apollo的[订阅文档](https://www.apollographql.com/docs/apollo-server/data/subscriptions)。
+ 后端代码可以在[GitHub](https://github.com/fullstack-hy2020/graphql-phonebook-backend/tree/part8-7)找到，分支<i>part8-7</i>。
 
 ### Subscriptions on the client
 
@@ -969,8 +966,8 @@ const PersonForm = ({ setError }) => {
 
 ### n+1 problem
 
-<!-- First of all, you''ll need to enable a debugging option via *mongoose* in your backend project directory, by adding a line of code as shown below:-->
-首先，您需要通过*mongoose*在后端项目目录中启用调试选项，方法是添加如下所示的一行代码：
+<!-- First of all, you'll need to enable a debugging option via _mongoose_ in your backend project directory, by adding a line of code as shown below:-->
+ 首先，你需要在你的后端项目目录中通过_mongoose_启用一个调试选项，添加一行代码，如下所示。
 
 ```js
 mongoose.connect(MONGODB_URI)
@@ -1206,55 +1203,9 @@ GraphQL Foundation 的 [DataLoader](https://github.com/graphql/dataloader) 库�
 ### Epilogue
 
 <!-- The application we created in this part is not optimally structured: we did some cleanups but much would still need to be done. Examples for better structuring of GraphQL applications can be found on the internet. For example, for the server-->
-side, this repo provides a good starting point
-
-我们在这部分创建的应用程序没有得到最佳结构：我们做了一些清理，但仍然需要做很多工作。可以在互联网上找到更好的GraphQL应用程序结构的示例。例如，对于服务器端，这个存储库提供了一个很好的起点。
-<!-- [here](https://blog.apollographql.com/modularizing-your-graphql-schema-code-d7f71d5ed5f2) and the client [here](https://medium.com/@peterpme/thoughts-on-structuring-your-apollo-queries-mutations-939ba4746cd8).-->
-# 模块化你的GraphQL模式代码
-
-最近，我们一直在考虑如何最好地组织我们的GraphQL模式代码，以便更容易地管理和测试它们。我们已经尝试了几种不同的方法，但我们最终发现了一种可以满足我们的需求的方法，即模块化我们的GraphQL模式代码。
-
-在模块化我们的模式代码之前，我们将所有的模式代码都放在一个文件中，这导致了文件变得越来越大，并且很难管理和测试。因此，我们决定将文件分解为更小的模块，以便更容易管理和测试。
-
-我们的模块化方法是将每个类型的模式放入单独的文件中，并且每个文件只包含一个类型的模式。这样，我们就可以更容易地管理模式，并且可以更容易地测试每个模式。
-
-此外，我们还可以使用Apollo客户端来管理我们的GraphQL查询和变更，以便更容易地管理和测试它们。
-
-# 模块化你的GraphQL模式代码
-
-最近，我们一直在考虑如何最好地组织我们的GraphQL模式代码，以便更容易地管理和测试它们。我们已经尝试了几种不同的方法，但我们最终发现了一种可以满足我们的需求的方法，即模块化我们的GraphQL模式代码。
-
-在模块化我们的模式代码之前，我们将所有的模式代码都放在一个文件中，这导致了文件变得越来越大，并且很难管理和测试。因此，我们决定将文件分解为更小的模块，以便更容易管理和测试。
-
-我们的模块化方法是将每个类型的模式放入单独的文件中，并且每个文件只包含一个类型的模式。这样，我们就可以更容易地管理模式，并且可以更容易地测试每个模式。
-
-此外，我们还可以使用Apollo客户端来管理我们的GraphQL查询和变更，以便更容易地管理和测试它们。
-
-# 模块化你的GraphQL模式代码
-
-最近，我们一直在考虑如何最好地组织我们的GraphQL模式代码，以便更容易地管理和测试它们。我们已经尝试了几种不同的方法，但我们最终发现了一种可以满足我们的需求的方法，即模块化我们的GraphQL模式代码。
-
-在模块化我们的模式代码之前，我们将所有的模式代码都放在一个文件中，这导致了文件变得越来越大，并且很难管理和测试。因此，我们决定将文件分解为更小的模块，以便更容易管理和测试。
-
-我们的模块化方法是将每个类型的模式放入单独的文件中，并且每个文件只包含一个类型的模式。这样，我们就可以更容易地管理模式，并且可以更容易地测试每个模式。
-
-此外，我们还可以使用Apollo客户端来管理我们的GraphQL查询和变更，以便更容易地管理和测试它们。
-
-# 模块化你的GraphQL模式代码
-
-最近，我们一直在考虑如何最好地组织我们的GraphQL模式代码，以便更容易地管理和测试它们。我们已经尝试了几种不同的方法，但我们最终发现了一种可以满足我们的需求的方法，即模块化我们的GraphQL模式代码。
-
-在模块化我们的模式代码之前，我们将所有的模式代码都放在一个文件中，这导致了文件变得越来越大，并且很难管理和测试。因此，我们决定将文件分解为更小的模块，以便更容易管理和测试。
-
-我们的模块化方法是将每个类型的模式放入单独的文件中，并且每个文件只包含一个类型的模式。这样，我们就可以更容易地管理模式，并且可以更容易地测试每个模式。
-
-此外，我们还可以使用Apollo客户端来管理我们的GraphQL查询和变更，以便更容易地管理和测试它们。
-
-# 模块化你的GraphQL模式代码
-
-最近，我们一直在考虑如何最好地组织我们的GraphQL模式代码，以便更容易地管理和测试它们。我们已经尝试了几种不同的方法，但我们最终发现了一种可以满足我们的需求的方法，即模块化我们的GraphQL模式代码。
-
-在模块化我们的模式代码之前，我们将所有的模式代码都放在一个文件中，这导致了文件变得越来越大，并且很难管理和测试。因此，我们决定将文件分
+ 我们在这部分创建的应用的结构并不理想：我们做了一些清理工作，但仍需要做很多事情。在互联网上可以找到更好的GraphQL应用结构的例子。例如，对于服务器
+<!-- [here](https://www.apollographql.com/blog/modularizing-your-graphql-schema-code) and the client [here](https://medium.com/@peterpme/thoughts-on-structuring-your-apollo-queries-mutations-939ba4746cd8).-->
+ [这里](https://www.apollographql.com/blog/modularizing-your-graphql-schema-code)和客户端[这里](https://medium.com/@peterpme/thoughts-onstructuring-your-apollo-queries-mutations-939ba4746cd8) 。
 
 <!-- GraphQL is already a pretty old technology, having been used by Facebook since 2012, so we can see it as "battle-tested" already. Since Facebook published GraphQL in 2015, it has slowly gotten more and more attention, and might in the near future threaten the dominance of REST. The death of REST has also already been [predicted](https://www.stridenyc.com/podcasts/52-is-2018-the-year-graphql-kills-rest). Even though that will not happen quite yet, GraphQL is absolutely worth [learning](https://blog.graphqleditor.com/javascript-predictions-for-2019-by-npm/).-->
 GraphQL 已经是一项相当老的技术了，自2012年以来被Facebook使用，因此我们可以将其视为“经过战斗测试”的技术。自2015年Facebook发布GraphQL以来，它逐渐受到了越来越多的关注，并可能在不久的将来威胁REST的统治地位。REST的死亡也已经[预测](https://www.stridenyc.com/podcasts/52-is-2018-the-year-graphql-kills-rest)。尽管这还不会很快发生，但GraphQL绝对[值得学习](https://blog.graphqleditor.com/javascript-predictions-for-2019-by-npm/)。

@@ -43,7 +43,7 @@ const noteSchema = new mongoose.Schema({
 
 Kentän <i>content</i> pituuden vaaditaan nyt olevan vähintään viisi merkkiä ja kentän arvo ei saa olla tyhjä. Kentälle <i>important</i> ei ole asetettu mitään ehtoa, joten se on määritelty edelleen yksinkertaisemmassa muodossa.
 
-Esimerkissä käytetyt validaattorit <i>minlength</i> ja <i>required</i> ovat Mongooseen [sisäänrakennettuja](https://mongoosejs.com/docs/validation.html#built-in-validators) validointisääntöjä. Mongoosen [custom validator](https://mongoosejs.com/docs/validation.html#custom-validators) -ominaisuus mahdollistaa mielivaltaisten validaattorien toteuttamisen, jos valmiiden joukosta ei löydy tarkoitukseen sopivaa.
+Esimerkissä käytetyt validaattorit <i>minlength</i> ja <i>required</i> ovat Mongooseen [sisäänrakennettuja](https://mongoosejs.com/docs/validation.html#built-in-validators) validointisääntöjä. Mongoosen [custom validator](https://mongoosejs.com/docs/validation.html#custom-validators) ‑ominaisuus mahdollistaa mielivaltaisten validaattorien toteuttamisen, jos valmiiden joukosta ei löydy tarkoitukseen sopivaa.
 
 Jos tietokantaan yritetään tallettaa validointisäännön rikkova olio, heittää tallennusoperaatio poikkeuksen. Muutetaan uuden muistiinpanon luomisesta huolehtivaa käsittelijää siten, että se välittää mahdollisen poikkeuksen virheenkäsittelijämiddlewaren huolehdittavaksi:  
 
@@ -84,7 +84,7 @@ Validoinnin epäonnistuessa palautetaan validaattorin oletusarvoinen virheviesti
 
 ![Luotaessa muistiinpano jonka kenttä content on liian lyhyt, seurauksena on virheilmoituksen sisältävä JSON](../../images/3/50.png)
 
-Huomaamme kuitenkin että sovelluksessa on pieni ongelma, validaatiota ei suoriteta muistiinpanojen päivityksen yhteydessä. [Dokumentaatio](https://github.com/blakehaswell/mongoose-unique-validator#find--updates) kertoo mistä on kyse, validaatiota ei suoriteta oletusarvoisesti metodin <i>findOneAndUpdate</i> suorituksen yhteydessä.
+Huomaamme kuitenkin että sovelluksessa on pieni ongelma, validaatiota ei suoriteta muistiinpanojen päivityksen yhteydessä. [Dokumentaatio](https://mongoosejs.com/docs/validation.html#update-validators) kertoo mistä on kyse, validaatiota ei suoriteta oletusarvoisesti metodin <i>findOneAndUpdate</i> suorituksen yhteydessä.
 
 Korjaus on onneksi helppo. Muotoillaan routea muutenkin hieman siistimmäksi:
 
@@ -113,7 +113,7 @@ Huomaa, että vaikka määrittelimme sovelluskehitystä varten ympäristömuuttu
 Fly.io:ssa komennolla _fly secrets set_:
 
 ```
-fly secrets set MONGODB_URI='mongodb+srv://fullstack:<password>@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority'
+fly secrets set MONGODB_URI='mongodb+srv://fullstack:thepasswordishere@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority'
 ```
 
 Kun sovellus viedään tuotantoon, on hyvin tavanomaista että kaikki ei toimi odotusten mukaan. Esim. ensimmäinen tuotantoonvientiyritykseni päätyi seuraavaan:
@@ -180,11 +180,11 @@ Toteuta sovelluksellesi validaatio, joka huolehtii, että backendiin voi tallett
 
 Toteuta validoinnin toinen osa [Custom validationina](https://mongoosejs.com/docs/validation.html#custom-validators).
 
-Jos HTTP POST -pyyntö yrittää lisätä virheellistä numeroa, tulee vastata sopivalla statuskoodilla ja lisätä vastaukseen asianmukainen virheilmoitus.
+Jos HTTP POST ‑pyyntö yrittää lisätä virheellistä numeroa, tulee vastata sopivalla statuskoodilla ja lisätä vastaukseen asianmukainen virheilmoitus.
 
 #### 3.21 tietokantaa käyttävä versio Internetiin
 
-Generoi päivitetystä sovelluksesta "full stack" -versio, eli tee frontendista uusi production build ja kopioi se backendin repositorioon. Varmista, että kaikki toimii paikallisesti käyttämällä koko sovellusta backendin osoitteesta <http://localhost:3001>.
+Generoi päivitetystä sovelluksesta "full stack" ‑versio, eli tee frontendista uusi production build ja kopioi se backendin repositorioon. Varmista, että kaikki toimii paikallisesti käyttämällä koko sovellusta backendin osoitteesta <http://localhost:3001>.
 
 Pushaa uusi versio Fly.io:n tai Renderiin ja varmista, että kaikki toimii myös siellä.
 
@@ -205,7 +205,7 @@ JavaScript-maailmassa tämän hetken johtava työkalu staattiseen analyysiin eli
 Asennetaan ESLint backendiin kehitysaikaiseksi riippuvuudeksi:
 
 ```bash
-npm install eslint --save-dev
+npm install eslint @eslint/js --save-dev
 ```
 
 Tämän jälkeen voidaan muodostaa alustava ESLint-konfiguraatio:
@@ -216,53 +216,101 @@ npx eslint --init
 
 Vastaillaan kysymyksiin:
 
-![Vastataan kysymyksiin koodin luonteen mukaan, erityisesti että kyse ei ole TypeSriptistä, käytetään ' merkkijonoissa, ei käytetä ; rivien lopussa](../../images/3/52new.png)
+![Vastataan kysymyksiin koodin luonteen mukaan, erityisesti että kyse ei ole TypeSriptistä, käytetään ' merkkijonoissa, ei käytetä ; rivien lopussa](../../images/3/lint1.png)
 
-Konfiguraatiot tallentuvat tiedostoon _.eslintrc.js_:
-
-```js
-module.exports = {
-    'env': {
-        'commonjs': true,
-        'es2021': true,
-        'node': true // highlight-line
-    },
-    'extends': 'eslint:recommended',
-    'parserOptions': {
-        'ecmaVersion': 'latest'
-    },
-    'rules': {
-        'indent': [
-            'error',
-            4
-        ],
-        'linebreak-style': [
-            'error',
-            'unix'
-        ],
-        'quotes': [
-            'error',
-            'single'
-        ],
-        'semi': [
-            'error',
-            'never'
-        ]
-    }
-}
-
-```
-Tarkista, että tiedostossa on rivi 'node': true kuvanmukaisesti ja lisää se tarvittaessa.
-  
-Muutetaan heti konfiguraatioista sisennystä määrittelevä sääntö siten, että sisennystaso on kaksi välilyöntiä:
-
+Konfiguraatiot tallentuvat tiedostoon _eslint.config.mjs_:
 
 ```js
-"indent": [
-    "error",
-    2
-],
+import globals from 'globals'
+
+export default [
+  { files: ["**/*.js"], languageOptions: {sourceType: "commonjs"} },
+  { languageOptions: { globals: globals.browser } },
+]
 ```
+
+Formatoidaan tiedostoa hieman:
+
+```js
+// ...
+export default [
+  {
+    files: ["**/*.js"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        ...globals.node,
+      },
+      ecmaVersion: "latest",
+    },
+  },
+]
+```
+
+_files_ määrittelee, että ESLint tarkkailee projektin JavaScript-tiedostoja. _languageOptions_ alla _sourceType_ kertoo, että projektissa on käytössä commonjs-moduulijärjestelmä, ja  _globals.node_ taas määrittelee että projektissa käytetään NodeJS-ympäristön globaaleja muuttujia kuten _process_. Jos kyseessä olisi selaimessa suoritettava koodi, tulisi määritellä  _globals.browser_ sallimaan selainkohtaiset globaalit muuttujat, kuten _window_ ja _document_.
+
+Lopuksi _ecmaVersion_-ominaisuuden arvoksi asetetaan viimeisin JavaScriptin versio.
+
+Haluamme käyttää [ESLintin suosittelemia](https://eslint.org/docs/latest/use/configure/configuration-files#using-predefined-configurations) asetuksia omien asetustemme ohella. Asentamamme _@eslint/js_ tarjoaa meille ennalta määritetyt asetukset ESLintille. Otetaan nämä käyttöön:
+
+```js
+// ...
+import js from '@eslint/js'
+// ...
+
+export default [
+  js.configs.recommended,
+  {
+    // ...
+  }
+]
+```
+
+Rivi _js.configs.recommended_ kannattaa laittaa konfiguraation alkuun ennen mahdollisia itse tehtäviä lisäkonfiguraatioita.
+
+
+Asennetaan seuraavaksi liitännäinen [@stylistic/eslint-plugin-js](https://eslint.style/packages/js) jonka avulla saamme käyttöömme joukon valmiiksi määriteltyjä ESlint-säntöjä:
+
+```bash
+npm install --save-dev @stylistic/eslint-plugin-js
+```
+
+Otetaan plugin käyttöön ja määritellään projektiin neljä sääntöä:
+
+```js
+// ...
+import stylisticJs from '@stylistic/eslint-plugin-js'
+
+export default [
+  {
+    // ...
+    plugins: {
+      '@stylistic/js': stylisticJs
+    },
+    rules: {
+      '@stylistic/js/indent': [
+        'error',
+        2
+      ],
+      '@stylistic/js/linebreak-style': [
+        'error',
+        'unix'
+      ],
+      '@stylistic/js/quotes': [
+        'error',
+        'single'
+      ],
+      '@stylistic/js/semi': [
+        'error',
+        'never'
+      ],
+    },
+  },
+]
+```
+
+[Pluginit](https://eslint.org/docs/latest/use/configure/plugins) tarjoavat tavan laajentaa ESLintin toiminnallisuutta lisäämällä määrittelyjä jotka eivät ole mukana ESLint-ydinkirjastossa. Otimme nyt käyttöön pluginin  [@stylistic/eslint-plugin-js](https://eslint.style/packages/js), joka tuo käyttöömme joukon JavaScriptin tyylisääntöjä joista otimme käyttöön sisennystä, rivinvaihtoa, lainausmerkkejä ja puolipisteitä koskevat säännöt.
+
 
 Esim tiedoston _index.js_ tarkastus tapahtuu komennolla:
 
@@ -287,15 +335,22 @@ Kannattaa ehkä tehdä linttaustakin varten _npm-skripti_:
 
 Nyt komento _npm run lint_ suorittaa tarkastukset koko projektille.
 
-Myös hakemistossa <em>build</em> oleva frontendin tuotantoversio tulee näin tarkastettua. Sitä emme kuitenkaan halua, eli tehdään projektin juureen tiedosto [.eslintignore](https://eslint.org/docs/user-guide/configuring/ignoring-code#the-eslintignore-file) ja sille seuraava sisältö:
+Myös hakemistossa <em>dist</em> oleva frontendin tuotantoversio tulee näin tarkastettua. Sitä emme kuitenkaan halua. Määritelläänkin konfiguraatioon hakemiston sisältö [ignoroitavaksi](https://eslint.org/docs/latest/use/configure/ignore):
 
-```bash
-build
+
+```js
+// ...
+export default [
+  // ...
+  { 
+    ignores: ["dist/**"],
+  },
+  //...
+]
 ```
 
-Näin koko hakemiston <em>build</em> sisältö jätetään huomioimatta linttauksessa.
 
-Lintillä on jonkin verran huomautettavaa koodistamme:
+Kun nyt suoritamme linttauksen, löytyy koodistamme jonkin verran huomautettavaa:
 
 ![Lint kertoo kolmesta virheestä, kaikki muuttujia joille ei ole käyttöä](../../images/3/53ea.png)
 
@@ -311,45 +366,51 @@ Näin ongelmat on helppo korjata koodiin heti.
   
 Komento _npm run lint -- --fix_ voi olla avuksi, jos koodissa on esim. useampia syntaksivirheitä.
 
-ESLintille on määritelty suuri määrä [sääntöjä](https://eslint.org/docs/rules/), joita on helppo ottaa käyttöön muokkaamalla tiedostoa <i>.eslintrc.js</i>.
+ESLintille on määritelty suuri määrä [sääntöjä](https://eslint.org/docs/rules/), joita on helppo ottaa käyttöön muokkaamalla tiedostoa _eslint.config.mjs_.
 
-Otetaan käyttöön sääntö [eqeqeq](https://eslint.org/docs/rules/eqeqeq) joka varoittaa, jos koodissa yhtäsuuruutta verrataan muuten kuin käyttämällä kolmea = -merkkiä. Sääntö lisätään konfiguraatiotiedostoon kentän <i>rules</i> alle.
+Otetaan käyttöön sääntö [eqeqeq](https://eslint.org/docs/rules/eqeqeq) joka varoittaa, jos koodissa yhtäsuuruutta verrataan muuten kuin käyttämällä kolmea = ‑merkkiä. Sääntö lisätään konfiguraatiotiedostoon kentän <i>rules</i> alle.
 
 ```js
-{
+export default [
   // ...
-  'rules': {
+  rules: {
     // ...
    'eqeqeq': 'error',
   },
-}
+]
 ```
+
 
 Tehdään samalla muutama muukin muutos tarkastettaviin sääntöihin.
 
 Estetään rivien lopussa olevat [turhat välilyönnit](https://eslint.org/docs/rules/no-trailing-spaces), vaaditaan että [aaltosulkeiden edessä/jälkeen on aina välilyönti](https://eslint.org/docs/rules/object-curly-spacing) ja vaaditaan myös konsistenttia välilyöntien käyttöä [nuolifunktioiden parametrien suhteen](https://eslint.org/docs/rules/arrow-spacing):
 
 ```js
-{
+export default [
   // ...
-'rules': {
+  rules: {
     // ...
     'eqeqeq': 'error',
     'no-trailing-spaces': 'error',
     'object-curly-spacing': [
-        'error', 'always'
+      'error', 'always'
     ],
     'arrow-spacing': [
-        'error', { 'before': true, 'after': true }
-    ]
+      'error', { 'before': true, 'after': true },
+    ],
   },
-}
+]
 ```
 
-Oletusarvoinen konfiguraatiomme ottaa käyttöön joukon valmiiksi määriteltyjä sääntöjä (<i>eslint:recommended</i>):
+Oletusarvoinen konfiguraatiomme ottaa käyttöön joukon valmiiksi määriteltyjä sääntöjä:
 
-```bash
-'extends': 'eslint:recommended',
+```js
+// ...
+
+export default [
+  js.configs.recommended,
+  // ...
+]
 ```
 
 Mukana on myös _console.log_-komennoista varoittava sääntö.
@@ -357,26 +418,83 @@ Mukana on myös _console.log_-komennoista varoittava sääntö.
 Yksittäinen sääntö on helppo kytkeä [pois päältä](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) määrittelemällä sen "arvoksi" konfiguraatiossa 0. Tehdään toistaiseksi näin säännölle <i>no-console</i>:
 
 ```js
-{
-  // ...
-  'rules': {
+[
+  {
+    // ...
+    rules: {
       // ...
       'eqeqeq': 'error',
       'no-trailing-spaces': 'error',
       'object-curly-spacing': [
-          'error', 'always'
+        'error', 'always'
       ],
       'arrow-spacing': [
-          'error', { 'before': true, 'after': true }
+        'error', { 'before': true, 'after': true },
       ],
-      'no-console': 0, // highlight-line
+      'no-console': 'off',
     },
-}
+  },
+]
 ```
 
-**HUOM:** Kun teet muutoksia tiedostoon <i>.eslintrc.js</i>, kannattaa muutosten jälkeen suorittaa linttaus komentoriviltä ja varmistaa, että konfiguraatio ei ole viallinen:
+Kokonaisuudessaan konfiguraatiotiedosto näyttää seuraavalta:
 
-![Suoritetaan npm run lint...](../../images/3/55.png)
+```js
+import globals from "globals";
+import stylisticJs from '@stylistic/eslint-plugin-js'
+import js from '@eslint/js'
+
+export default [
+  js.configs.recommended,
+  {
+    files: ["**/*.js"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        ...globals.node,
+      },
+      ecmaVersion: "latest",
+    },
+    plugins: {
+      '@stylistic/js': stylisticJs
+    },
+    rules: {
+      '@stylistic/js/indent': [
+        'error',
+        2
+      ],
+      '@stylistic/js/linebreak-style': [
+        'error',
+        'unix'
+      ],
+      '@stylistic/js/quotes': [
+        'error',
+        'single'
+      ],
+      '@stylistic/js/semi': [
+        'error',
+        'never'
+      ],
+      'eqeqeq': 'error',
+      'no-trailing-spaces': 'error',
+      'object-curly-spacing': [
+        'error', 'always'
+      ],
+      'arrow-spacing': [
+        'error', { 'before': true, 'after': true },
+      ],
+      'no-console': 'off',
+    },
+  },
+  { 
+    ignores: ["dist/**", "build/**"],
+  },
+]
+```
+
+**HUOM:** Kun teet muutoksia konfiguraatiotiedostoon, kannattaa muutosten jälkeen suorittaa linttaus komentoriviltä ja varmistaa, että konfiguraatio ei ole viallinen:
+
+![Suoritetaan npm run lint...](../../images/3/lint2.png)
 
 Jos konfiguraatiossa on jotain vikaa, voi editorin lint-plugin näyttää mitä sattuu.
 

@@ -35,7 +35,7 @@ const App = () => {
       </form>
       {notes.map(note =>
         <li key={note.id} onClick={() => toggleImportance(note)}>
-          {note.content} 
+          {note.content}
           <strong> {note.important ? 'important' : ''}</strong>
         </li>
       )}
@@ -48,20 +48,26 @@ export default App
 
 Alkuvaiheen koodi on GitHubissa repositorion [https://github.com/fullstack-hy2020/query-notes](https://github.com/fullstack-hy2020/query-notes/tree/part6-0) branchissa <i>part6-0</i>.
 
-### Palvelimella olevan datan hallinta React Query -kirjaston avulla
-
-Hyödynnämme nyt [React Query](https://react-query-v3.tanstack.com/) -kirjastoa palvelimelta haettavan datan säilyttämiseen ja hallinnointiin. Asennetaan kirjasto komennolla
-
-```bash
-npm install react-query
+**Huom:** Oletuksena repon kloonaus antaa sinulle ainoastaan main-branchin. Kloonaa siis yllä mainittu repo käyttämällä seuraavaa komentoa, jotta saat part6-0 branchin sisällön.
+```
+git clone --branch part6-0 https://github.com/fullstack-hy2020/query-notes.git
 ```
 
-Tiedostoon <i>index.js</i> tarvitaan muutama lisäys, jotta kirjaston funktiot saadaan välitettyä koko sovelluksen käyttöön:
+### Palvelimella olevan datan hallinta React Query ‑kirjaston avulla
+
+Hyödynnämme nyt [React Query](https://tanstack.com/query/latest) ‑kirjastoa palvelimelta haettavan datan säilyttämiseen ja hallinnointiin. Kirjaston uusimmasta versiosta käytetään myös nimitystä TanStack Query mutta pitäydymme vanhassa tutussa nimessä.
+
+Asennetaan kirjasto komennolla
+
+```bash
+npm install @tanstack/react-query
+```
+
+Tiedostoon <i>main.jsx</i> tarvitaan muutama lisäys, jotta kirjaston funktiot saadaan välitettyä koko sovelluksen käyttöön:
 
 ```js
-import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { QueryClient, QueryClientProvider } from 'react-query' // highlight-line
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query' // highlight-line
 
 import App from './App'
 
@@ -77,19 +83,19 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 Voimme nyt hakea muistiinpanot komponentissa <i>App</i>. Koodi laajenee seuraavasti:
 
 ```js
-import { useQuery } from 'react-query'  // highlight-line
+import { useQuery } from '@tanstack/react-query'  // highlight-line
 import axios from 'axios'  // highlight-line
 
 const App = () => {
   // ...
 
    // highlight-start
-  const result = useQuery(
-    'notes',
-    () => axios.get('http://localhost:3001/notes').then(res => res.data)
-  )
+  const result = useQuery({
+    queryKey: ['notes'],
+    queryFn: () => axios.get('http://localhost:3001/notes').then(res => res.data)
+  })
 
-  console.log(result)
+  console.log(JSON.parse(JSON.stringify(result)))
   // highlight-end
 
   // highlight-start
@@ -106,9 +112,9 @@ const App = () => {
 }
 ```
 
-Datan hakeminen palvelimelta tapahtuu edelleen tuttuun tapaan Axiosin <i>get</i>-metodilla. Axiosin metodikutsu on kuitenkin nyt kääritty [useQuery](https://react-query-v3.tanstack.com/reference/useQuery)-funktiolla muodostetuksi [kyselyksi](https://react-query-v3.tanstack.com/guides/queries). Funktiokutsun ensimmäisenä parametrina on merkkijono <i>notes</i> joka toimii [avaimena](https://react-query-v3.tanstack.com/guides/query-keys) määriteltyyn kyselyyn, eli muistiinpanojen listaan.
+Datan hakeminen palvelimelta tapahtuu edelleen tuttuun tapaan Axiosin <i>get</i>-metodilla. Axiosin metodikutsu on kuitenkin nyt kääritty [useQuery](https://tanstack.com/query/latest/docs/react/reference/useQuery)-funktiolla muodostetuksi [kyselyksi](https://tanstack.com/query/latest/docs/react/guides/queries). Funktiokutsun ensimmäisenä parametrina on merkkijono <i>notes</i> joka toimii [avaimena](https://tanstack.com/query/latest/docs/react/guides/query-keys) määriteltyyn kyselyyn, eli muistiinpanojen listaan.
 
-Funktion <i>useQuery</i> paluuarvo on olio, joka kertoo kyselyn tilan. Konsoliin tehty tulostus havainnollistaa tilannetta: 
+Funktion <i>useQuery</i> paluuarvo on olio, joka kertoo kyselyn tilan. Konsoliin tehty tulostus havainnollistaa tilannetta:
 
 ![](../../images/6/60new.png)
 
@@ -120,7 +126,7 @@ Eli ensimmäistä kertaa komponenttia renderöitäessä kysely on vielä tilassa
 
 HTTP-pyyntö kuitenkin valmistuu niin nopeasti, että tekstiä eivät edes tarkkasilmäisimmät ehdi näkemään. Kun pyyntö valmistuu, renderöidään komponentti uudelleen. Kysely on toisella renderöinnillä tilassa <i>success</i>, ja kyselyolion kenttä <i>data</i> sisältää pyynnön palauttaman datan, eli muistiinpanojen listan, joka renderöidään ruudulle.
 
-Sovellus siis hakee datan palvelimelta ja renderöi sen ruudulle käyttämättä ollenkaan luvuissa 2-5 käytettyjä Reactin hookeja <i>useState</i> ja <i>useEffect</i>. Palvelimella oleva data on nyt kokonaisuudessaan React Query -kirjaston hallinnoinnin alaisuudessa, ja sovellus ei tarvitse ollenkaan Reactin <i>useState</i>-hookilla määriteltyä tilaa!
+Sovellus siis hakee datan palvelimelta ja renderöi sen ruudulle käyttämättä ollenkaan luvuissa 2-5 käytettyjä Reactin hookeja <i>useState</i> ja <i>useEffect</i>. Palvelimella oleva data on nyt kokonaisuudessaan React Query ‑kirjaston hallinnoinnin alaisuudessa, ja sovellus ei tarvitse ollenkaan Reactin <i>useState</i>-hookilla määriteltyä tilaa!
 
 Siirretään varsinaisen HTTP-pyynnön tekevä funktio omaan tiedostoonsa <i>requests.js</i>:
 
@@ -134,13 +140,16 @@ export const getNotes = () =>
 Komponentti <i>App</i> yksinkertaistuu nyt hiukan
 
 ```js
-import { useQuery } from 'react-query' 
+import { useQuery } from 'react-query'
 import { getNotes } from './requests' // highlight-line
 
 const App = () => {
   // ...
 
-  const result = useQuery('notes', getNotes)  // highlight-line
+  const result = useQuery({
+    queryKey: ['notes'],
+    queryFn: getNotes // highlight-line
+  })
 
   // ...
 }
@@ -150,7 +159,7 @@ Sovelluksen tämän hetken koodi on [GitHubissa](https://github.com/fullstack-hy
 
 ### Datan vieminen palvelimelle React Queryn avulla
 
-Data haetaan jo onnistuneesti palvelimelta. Huolehditan seuraavaksi siitä, että lisätty ja muutettu data tallennetaan palvelimelle. Aloitetaan uusien muistiinpanojen lisäämisestä.
+Data haetaan jo onnistuneesti palvelimelta. Huolehditaan seuraavaksi siitä, että lisätty ja muutettu data tallennetaan palvelimelle. Aloitetaan uusien muistiinpanojen lisäämisestä.
 
 Tehdään tiedostoon <i>requests.js</i> funktio <i>createNote</i> uusien muistiinpanojen talletusta varten:
 
@@ -173,7 +182,7 @@ import { useQuery, useMutation } from 'react-query' // highlight-line
 import { getNotes, createNote } from './requests' // highlight-line
 
 const App = () => {
-  const newNoteMutation = useMutation(createNote) // highlight-line
+  const newNoteMutation = useMutation({ mutationFn: createNote }) // highlight-line
 
   const addNote = async (event) => {
     event.preventDefault()
@@ -182,18 +191,18 @@ const App = () => {
     newNoteMutation.mutate({ content, important: true }) // highlight-line
   }
 
-  // 
+  //
 
 }
 ```
 
-Uuden muistiinpanon luomista varten määritellään [mutaatio](https://react-query-v3.tanstack.com/guides/mutations) funktion [useMutation](https://react-query-v3.tanstack.com/reference/useMutation) avulla:
+Uuden muistiinpanon luomista varten määritellään [mutaatio](https://tanstack.com/query/latest/docs/react/guides/mutations) funktion [useMutation](https://tanstack.com/query/latest/docs/react/reference/useMutatio) avulla:
 
 ```js
-const newNoteMutation = useMutation(createNote)
+const newNoteMutation = useMutation({ mutationFn: createNote })
 ```
 
-Parametrina on tiedostoon <i>requests.js</i> lisäämämme funktio, joka lähettää Axiosin avulla uuden muistiinpanon palvelille.
+Parametrina on tiedostoon <i>requests.js</i> lisäämämme funktio, joka lähettää Axiosin avulla uuden muistiinpanon palvelimelle.
 
 Tapahtumakäsittelijä <i>addNote</i> suorittaa mutaation kutsumalla mutaatio-olion funktiota <i>mutate</i> ja antamalla uuden muistiinpanon parametrina:
 
@@ -201,10 +210,10 @@ Tapahtumakäsittelijä <i>addNote</i> suorittaa mutaation kutsumalla mutaatio-ol
 newNoteMutation.mutate({ content, important: true })
 ```
 
-Ratkaisumme on hyvä. Paitsi se ei toimi. Uusi muistiinpano kyllä tallettuu palvelimelle, mutta se ei päivity näytölle. 
+Ratkaisumme on hyvä. Paitsi se ei toimi. Uusi muistiinpano kyllä tallettuu palvelimelle, mutta se ei päivity näytölle.
 
 Jotta saamme renderöityä myös uuden muistiinpanon, meidän on kerrottava React Querylle, että kyselyn, jonka avaimena on merkkijono <i>notes</i> vanha tulos tulee mitätöidä eli
-[invalidoida](https://react-query-v3.tanstack.com/guides/invalidations-from-mutations). 
+[invalidoida](https://tanstack.com/query/latest/docs/react/guides/invalidations-from-mutations).
 
 Invalidointi on onneksi helppoa, se voidaan tehdä kytkemällä mutaatioon sopiva <i>onSuccess</i>-takaisinkutsufunktio:
 
@@ -215,9 +224,10 @@ import { getNotes, createNote } from './requests'
 const App = () => {
   const queryClient = useQueryClient() // highlight-line
 
-  const newNoteMutation = useMutation(createNote, {
+  const newNoteMutation = useMutation({
+    mutationFn: createNote,
     onSuccess: () => {  // highlight-line
-      queryClient.invalidateQueries('notes')  // highlight-line
+      queryClient.invalidateQueries({ queryKey: ['notes'] }) // highlight-line
     },
   })
 
@@ -228,7 +238,7 @@ const App = () => {
 Kun mutaatio on nyt suoritettu onnistuneesti, suoritetaan funktiokutsu
 
 ```js
-queryClient.invalidateQueries('notes')
+queryClient.invalidateQueries({ queryKey: ['notes'] })
 ```
 
 Tämä taas saa aikaan sen, että React Query päivittää automaattisesti kyselyn, jonka avain on  <i>notes</i> eli hakee muistiinpanot palvelimelta. Tämän seurauksena sovellus renderöi ajantasaisen palvelimella olevan tilan, eli myös lisätty muistiinpano renderöityy.
@@ -243,7 +253,7 @@ export const updateNote = updatedNote =>
 Myös muistiinpanon päivittäminen tapahtuu mutaation avulla. Komponentti <i>App</i> laajenee seuraavasti:
 
 ```js
-import { useQuery, useMutation, useQueryClient } from 'react-query' 
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { getNotes, createNote, updateNote } from './requests' // highlight-line
 
 const App = () => {
@@ -251,7 +261,7 @@ const App = () => {
 
   const updateNoteMutation = useMutation(updateNote, {
     onSuccess: () => {
-      queryClient.invalidateQueries('notes')
+      queryClient.invalidateQueries({ queryKey: ['notes'] })
     },
   })
 
@@ -283,15 +293,15 @@ Tästä on toki seurauksena se, että sovellus tekee muistiinpanon muutoksen aih
 
 ![](../../images/6/61new.png)
 
-Jos sovelluksen hakema datamäärä ei ole suuri, ei asialla ole juurikaan merkitystä. Selainpuolen toiminnallisuuden kannaltahan ylimääräisen HTTP GET -pyynnön tekeminen ei juurikaan haittaa, mutta joissain tilanteissa se saattaa rasittaa palvelinta.
+Jos sovelluksen hakema datamäärä ei ole suuri, ei asialla ole juurikaan merkitystä. Selainpuolen toiminnallisuuden kannaltahan ylimääräisen HTTP GET ‑pyynnön tekeminen ei juurikaan haittaa, mutta joissain tilanteissa se saattaa rasittaa palvelinta.
 
-Tarvittaessa on myös mahdollista optimoida suorituskykyä [päivittämällä itse](https://react-query-v3.tanstack.com/guides/updates-from-mutation-responses) React Queryn ylläpitämää kyselyn tilaa.
+Tarvittaessa on myös mahdollista optimoida suorituskykyä [päivittämällä itse](https://tanstack.com/query/latest/docs/react/guides/updates-from-mutation-responses) React Queryn ylläpitämää kyselyn tilaa.
 
 Muutos uuden muistiinpanon lisäävän mutaation osalta on seuraavassa:
 
 ```js
 const App = () => {
-  const queryClient =  useQueryClient() 
+  const queryClient =  useQueryClient()
 
   const newNoteMutation = useMutation(createNote, {
     onSuccess: (newNote) => {
@@ -316,14 +326,16 @@ Jos seuraamme tarkasti selaimen network-välilehteä, huomaamme että React Quer
 
 ![](../../images/6/62new.png)
 
-Mistä on kyse? Hieman [dokumentaatiota](https://react-query-v3.tanstack.com/reference/useQuery)
+Mistä on kyse? Hieman [dokumentaatiota](https://tanstack.com/query/latest/docs/react/reference/useQuery)
 tutkimalla huomataan, että React Queryn kyselyjen oletusarvoinen toiminnallisuus on se, että kyselyt (joiden tila on <i>stale</i>) päivitetään kun <i>window focus</i> eli sovelluksen käyttöliittymän aktiivinen elementti vaihtuu. Voimme halutessamme kytkeä toiminnallisuuden pois luomalla kyselyn seuraavasti:
 
 ```js
 const App = () => {
   // ...
-  const result = useQuery('notes', getNotes, {
-    refetchOnWindowFocus: false  // highlight-line
+  const result = useQuery({
+    queryKey: ['notes'],
+    queryFn: getNotes,
+    refetchOnWindowFocus: false // highlight-line
   })
 
   // ...
@@ -334,12 +346,12 @@ Konsoliin tehtävillä tulostuksilla voit tarkkailla sitä miten usein React Que
 
 Sovelluksen lopullinen koodi on [GitHubissa](https://github.com/fullstack-hy2020/query-notes/tree/part6-3) branchissa <i>part6-3</i>.
 
-React Query on monipuolinen kirjasto joka jo nyt nähdyn perusteella yksinkertaistaa sovellusta. Tekeekö React Query monimutkaisemmat tilanhallintaratkaisut kuten esim. Reduxin tarpeettomaksi? Ei. React Query voi joissain tapauksissa korvata osin sovelluksen tilan, mutta kuten [dokumentaatio](https://react-query-v3.tanstack.com/guides/does-this-replace-client-state) toteaa
+React Query on monipuolinen kirjasto joka jo nyt nähdyn perusteella yksinkertaistaa sovellusta. Tekeekö React Query monimutkaisemmat tilanhallintaratkaisut kuten esim. Reduxin tarpeettomaksi? Ei. React Query voi joissain tapauksissa korvata osin sovelluksen tilan, mutta kuten [dokumentaatio](https://tanstack.com/query/latest/docs/react/guides/does-this-replace-client-state) toteaa
 
 - React Query is a <i>server-state library</i>, responsible for managing asynchronous operations between your server and client
 - Redux, etc. are <i>client-state libraries</i> that can be used to store asynchronous data, albeit inefficiently when compared to a tool like React Query
 
-React Query on siis kirjasto, joka ylläpitää frontendissä <i>palvelimen tilaa</i>, eli toimii ikäänkuin välimuistina sille, mitä palvelimelle on talletettu. React Query yksinkertaistaa palvelimella olevan datan käsittelyä, ja voi joissain tapauksissa eliminoida tarpeen sille, että palvelimella oleva data haettaisiin frontendin tilaan. Useimmat React-sovellukset tarvitsevat palvelimella olevan datan tilapäisen tallettamisen lisäksi myös jonkun ratkaisun sille, miten frontendin muu tila (esim. lomakkeiden tai notifikaatioiden tila) käsitellään. 
+React Query on siis kirjasto, joka ylläpitää frontendissä <i>palvelimen tilaa</i>, eli toimii ikäänkuin välimuistina sille, mitä palvelimelle on talletettu. React Query yksinkertaistaa palvelimella olevan datan käsittelyä, ja voi joissain tapauksissa eliminoida tarpeen sille, että palvelimella oleva data haettaisiin frontendin tilaan. Useimmat React-sovellukset tarvitsevat palvelimella olevan datan tilapäisen tallettamisen lisäksi myös jonkun ratkaisun sille, miten frontendin muu tila (esim. lomakkeiden tai notifikaatioiden tila) käsitellään.
 
 </div>
 
@@ -347,25 +359,26 @@ React Query on siis kirjasto, joka ylläpitää frontendissä <i>palvelimen tila
 
 ### Tehtävät 6.20.-6.22.
 
-Tehdään nyt anekdoottisovelluksesta uusi, React Query -kirjastoa hyödyntävä versio. Ota lähtökohdaksesi
+Tehdään nyt anekdoottisovelluksesta uusi, React Query ‑kirjastoa hyödyntävä versio. Ota lähtökohdaksesi
 [täällä](https://github.com/fullstack-hy2020/query-anecdotes) oleva projekti. Projektissa on valmiina asennettuna JSON Server, jonka toimintaa on hieman modifioitu. Käynnistä palvelin komennolla <i>npm run server</i>.
 
 #### Tehtävä 6.20
 
-Toteuta anekdoottien hakeminen palvelimelta React Queryn avulla. 
+Toteuta anekdoottien hakeminen palvelimelta React Queryn avulla.
 
 Sovelluksen tulee toimia siten, että jos palvelimen kanssa kommunikoinnissa ilmenee ongelmia, tulee näkyviin ainoastaan virhesivu:
 
 ![](../../images/6/65new.png)
 
-Löydät ohjeen virhetilanteen havaitsemiseen [täältä](https://react-query-v3.tanstack.com/guides/queries). 
+Löydät ohjeen virhetilanteen havaitsemiseen [täältä](https://tanstack.com/query/latest/docs/react/guides/queries).
 
 Voit simuloida palvelimen kanssa tapahtuvaa ongelmaa esim. sammuttamalla JSON Serverin. Huomaa, että kysely on ensin jonkin aikaa tilassa <i>isLoading</i> sillä epäonnistuessaan React Query yrittää pyyntöä muutaman kerran ennen kuin se toteaa, että pyyntö ei onnistu. Voit halutessasi määritellä, että uudelleenyrityksiä ei tehdä:
 
 ```js
 const result = useQuery(
-  'anecdotes', getAnecdotes, 
   {
+    queryKey: ['anecdotes'],
+    queryFn: getAnecdotes,
     retry: false
   }
 )
@@ -375,8 +388,9 @@ tai, että pyyntöä yritetään uudelleen esim. vain kerran:
 
 ```js
 const result = useQuery(
-  'anecdotes', getAnecdotes, 
   {
+    queryKey: ['anecdotes'],
+    queryFn: getAnecdotes,
     retry: 1
   }
 )
@@ -402,7 +416,7 @@ Tarkastellaan yksinkertaista laskurisovellusta. Sovellus näyttää laskurin arv
 
 ![](../../images/6/63new.png)
 
-Toteutetaan laskurin tilan hallinta Reactin sisäänrakennetun [useReducer](https://beta.reactjs.org/reference/react/useReducer)-hookin tarjoamalla Reduxin kaltaisella tilanhallintamekanismilla:
+Toteutetaan laskurin tilan hallinta Reactin sisäänrakennetun [useReducer](https://react.dev/reference/react/useReducer)-hookin tarjoamalla Reduxin kaltaisella tilanhallintamekanismilla:
 
 
 ```js
@@ -526,13 +540,13 @@ const App = () => {
 }
 ```
 
-Ratkaisu toimii, mutta ei ole optimaalinen. Jos komponenttirakenne monimutkaistuu, tulee esim dispatcheria välittää propsien avulla monen komponentin kautta sitä tarvitseville komponenteille siitäkin huolimatta, että komponenttipuussa välissä olevat komponentit eivät dispatcheria tarvitsisikaan. Tästä ilmiöstä käytetään nimitystä <i>prop drilling</i>. 
+Ratkaisu toimii, mutta ei ole optimaalinen. Jos komponenttirakenne monimutkaistuu, tulee esim dispatcheria välittää propsien avulla monen komponentin kautta sitä tarvitseville komponenteille siitäkin huolimatta, että komponenttipuussa välissä olevat komponentit eivät dispatcheria tarvitsisikaan. Tästä ilmiöstä käytetään nimitystä <i>prop drilling</i>.
 
-Reactin sisäänrakennettu [Context API](https://beta.reactjs.org/learn/passing-data-deeply-with-context) tuo tilanteeseen ratkaisun. Reactin konteksti on eräänlainen sovelluksen globaali tila, johon on mahdollista antaa suora pääsy mille tahansa komponentille.
+Reactin sisäänrakennettu [Context API](https://react.dev/learn/passing-data-deeply-with-context) tuo tilanteeseen ratkaisun. Reactin konteksti on eräänlainen sovelluksen globaali tila, johon on mahdollista antaa suora pääsy mille tahansa komponentille.
 
 Luodaan sovellukseen nyt konteksti, joka tallettaa laskurin tilanhallinnan.
 
-Konteksti luodaan Reactin hookilla [createContext](https://beta.reactjs.org/reference/react/createContext). Luodaan konteksti tiedostoon <i>CounterContext.js</i>:
+Konteksti luodaan Reactin hookilla [createContext](https://react.dev/reference/react/createContext). Luodaan konteksti tiedostoon <i>CounterContext.jsx</i>:
 
 ```js
 import { createContext } from 'react'
@@ -567,7 +581,7 @@ Kontekstin tarjoaminen siis tapahtuu käärimällä lapsikomponentit komponentin
 
 Kontekstin arvoksi annetaan nyt taulukko, joka sisältää laskimen arvon, sekä arvon muuttamiseen käytettävän <i>dispatch</i>-funktion.
 
-Muut komponentit saavat nyt kontekstin käyttöön hookin [useContext](https://beta.reactjs.org/reference/react/useContext) avulla:
+Muut komponentit saavat nyt kontekstin käyttöön hookin [useContext](https://react.dev/reference/react/useContext) avulla:
 
 ```js
 import { useContext } from 'react' // highlight-line
@@ -596,7 +610,7 @@ Sovelluksen tämänhetkinen koodi on GitHubissa repositorion [https://github.com
 
 ### Laskurikontekstin määrittely omassa tiedostossa
 
-Sovelluksessamme on vielä sellainen ikävä piirre, että laskurin tilanhallinnan toiminnallisuus on määritelty osin komponentissa <i>App</i>. Siirretään nyt kaikki laskuriin liittyvä tiedostoon <i>CounterContext.js</i>:
+Sovelluksessamme on vielä sellainen ikävä piirre, että laskurin tilanhallinnan toiminnallisuus on määritelty osin komponentissa <i>App</i>. Siirretään nyt kaikki laskuriin liittyvä tiedostoon <i>CounterContext.jsx</i>:
 
 ```js
 import { createContext, useReducer } from 'react'
@@ -620,7 +634,7 @@ export const CounterContextProvider = (props) => {
   const [counter, counterDispatch] = useReducer(counterReducer, 0)
 
   return (
-    <CounterContext.Provider value={[counter, counterDispatch] }>
+    <CounterContext.Provider value={[counter, counterDispatch]}>
       {props.children}
     </CounterContext.Provider>
   )
@@ -631,7 +645,7 @@ export default CounterContext
 
 Tiedosto exporttaa nyt kontekstia vastaavan olion <i>CounterContext</i> lisäksi komponentin <i>CounterContextProvider</i> joka on käytännössä kontekstin tarjoaja (context provider), jonka arvona on laskuri ja sen tilanhallintaan käytettävä dispatcheri.
 
-Otetaan kontekstin tarjoaja käyttöön tiedostossa <i>index.js</i>
+Otetaan kontekstin tarjoaja käyttöön tiedostossa <i>main.jsx</i>
 
 ```js
 import ReactDOM from 'react-dom/client'
@@ -752,7 +766,7 @@ Ratkaisu on varsin tyylikäs. Koko sovelluksen tila eli laskurin arvo ja sen hal
 
 Sovelluksen lopullinen koodi on GitHubissa repositorion [https://github.com/fullstack-hy2020/hook-counter](https://github.com/fullstack-hy2020/hook-counter/tree/part6-3) branchissa <i>part6-3</i>.
 
-Teknisenä yksityiskohtana todettakoon, että apufunktiot <i>useCounterValue</i> ja <i>useCounterDispatch</i> on määritelty ns. [custom hookeina](https://reactjs.org/docs/hooks-custom.html), sillä funktion <i>useContext</i> kutsuminen [ei ole mahdollista](https://reactjs.org/docs/hooks-rules.html) muualta kuin React-komponenteista tai custom hookeista käsin. Custom hookit taas ovat JavaScript-funktioita joiden nimen pitää alkaa merkkijonolla _use_. Palaamme custom hookeihin hieman tarkemmin kurssin [osassa 7](/osa7/custom_hookit).
+Teknisenä yksityiskohtana todettakoon, että apufunktiot <i>useCounterValue</i> ja <i>useCounterDispatch</i> on määritelty ns. [custom hookeina](https://react.dev/learn/reusing-logic-with-custom-hooks), sillä funktion <i>useContext</i> kutsuminen [ei ole mahdollista](https://legacy.reactjs.org/docs/hooks-rules.html) muualta kuin React-komponenteista tai custom hookeista käsin. Custom hookit taas ovat JavaScript-funktioita joiden nimen pitää alkaa merkkijonolla _use_. Palaamme custom hookeihin hieman tarkemmin kurssin [osassa 7](/osa7/custom_hookit).
 
 </div>
 
@@ -765,7 +779,7 @@ Teknisenä yksityiskohtana todettakoon, että apufunktiot <i>useCounterValue</i>
 
 Sovelluksessa on valmiina komponentti <i>Notification</i> käyttäjälle tehtävien notifikaatioiden näyttämistä varten.
 
-Toteuta sovelluksen notifikaation tilan hallinta useReduce-hookin ja contextin avulla. Notifikaatio kertoo kun uusi anekdootti luodaan tai anekdoottia äänestetään:
+Toteuta sovelluksen notifikaation tilan hallinta useReducer-hookin ja contextin avulla. Notifikaatio kertoo kun uusi anekdootti luodaan tai anekdoottia äänestetään:
 
 ![](../../images/6/66new.png)
 
@@ -777,8 +791,7 @@ Kuten tehtävässä 6.20 todettiin, palvelin vaatii, että lisättävän anekdoo
 
 ![](../../images/6/67new.png)
 
-Virhetilanne kannattaa käsitellä sille rekisteröidyssä takaisinkutsufunktiossa, ks 
-[täältä](https://react-query-v3.tanstack.com/reference/useMutation) miten rekisteröit funktion.
+Virhetilanne kannattaa käsitellä sille rekisteröidyssä takaisinkutsufunktiossa, ks [täältä](https://tanstack.com/query/latest/docs/react/reference/useMutation) miten rekisteröit funktion.
 
 Tämä oli osan viimeinen tehtävä ja on aika pushata koodi GitHubiin sekä merkata tehdyt tehtävät [palautussovellukseen](https://studies.cs.helsinki.fi/stats/courses/fullstackopen).
 
@@ -798,14 +811,14 @@ Aloittelijaa ja kokenuttakin web-kehittäjää tilanne saattaa hämmentää. Mit
 
 Yksinkertaisessa sovelluksessa <i>useState</i> on varmasti hyvä lähtökohta. Jos sovellus kommunikoi palvelimen kanssa, voi kommunikoinnin hoitaa lukujen 1-5 tapaan itse sovelluksen tilaa hyödyntäen. Viime aikoina on kuitenkin yleistynyt se, että kommunikointi ja siihen liittyvä tilanhallinta siirretään ainakin osin React Queryn (tai jonkun muun samantapaisen kirjaston) hallinnoitavaksi. Jos useState ja sen myötä aiheutuva prop drilling arveluttaa, voi kontekstin käyttö olla hyvä vaihtoehto. On myös tilanteita, joissa osa tilasta voi olla järkevää hoitaa useStaten ja osa kontekstien avulla.
 
-Kaikkien kattavimman ja järeimmän tilanhallintaratkaisun tarjoaa Redux, joka on eräs tapa toteuttaa ns. [Flux](https://facebook.github.io/flux/)-arkkitehtuuri. Redux on hieman vanhempi kuin tässä aliosassa esitetyt ratkaisut. Reduxin jähmeys onkin ollut motivaationa monille uusille tilanhallintaratkaisuille kuten tässä osassa esittelemällemme Reactin <i>useReducer</i>:ille. Osa Reduxin jäykkyyteen kohdistuvasta kritiikistä tosin on jo vanhentunut [Redux Toolkit](https://redux-toolkit.js.org/):in ansiosta. 
+Kaikkien kattavimman ja järeimmän tilanhallintaratkaisun tarjoaa Redux, joka on eräs tapa toteuttaa ns. [Flux](https://facebook.github.io/flux/)-arkkitehtuuri. Redux on hieman vanhempi kuin tässä aliosassa esitetyt ratkaisut. Reduxin jähmeys onkin ollut motivaationa monille uusille tilanhallintaratkaisuille kuten tässä osassa esittelemällemme Reactin <i>useReducer</i>:ille. Osa Reduxin jäykkyyteen kohdistuvasta kritiikistä tosin on jo vanhentunut [Redux Toolkit](https://redux-toolkit.js.org/):in ansiosta.
 
 Vuosien saatossa on myös kehitelty muita Reduxia vastaavia tilantahallintakirjastoja, kuten esim. uudempi tulokas [Recoil](https://recoiljs.org/) ja hieman iäkkäämpi [MobX](https://mobx.js.org/). [Npm trendsien](https://npmtrends.com/mobx-vs-recoil-vs-redux) perusteella Redux kuitenkin dominoi edelleen selvästi, ja näyttää itse asiassa vaan kasvattavan etumatkaansa:
 
 ![](../../images/6/64new.png)
 
-Myöskään Reduxia ei ole pakko käyttää sovelluksessa kokonaisvaltaisesti. Saattaa olla mielekästä hoitaa esim. sovellusten lomakkeiden datan tallentaminen Reduxin ulkopuolella, erityisesti niissä tilanteissa, missä lomakkeen tila ei vaikuta muuhun sovellukseen. Myös Reduxin ja React Queryn yhteiskäyttö samassa sovellukssa on täysin mahdollista. 
+Myöskään Reduxia ei ole pakko käyttää sovelluksessa kokonaisvaltaisesti. Saattaa olla mielekästä hoitaa esim. sovellusten lomakkeiden datan tallentaminen Reduxin ulkopuolella, erityisesti niissä tilanteissa, missä lomakkeen tila ei vaikuta muuhun sovellukseen. Myös Reduxin ja React Queryn yhteiskäyttö samassa sovelluksessa on täysin mahdollista.
 
-Kysymys siitä mitä tilanhallintarkatkaisua tulisi käyttää ei ole ollenkaan suoraviivainen. Yhtä oikeaa vastausta on mahdotonta antaa, ja on myös todennäköistä, että valittu tilanhallintaratkaisu saattaa sovelluksen kasvaessa osoittautua siinä määrin epäoptimaaliseksi, että tilanhallinnan ratkaisuja täytyy vaihtaa vaikka sovellus olisi jo ehditty viedä tuotantokäyttöön.
+Kysymys siitä mitä tilanhallintaratkaisua tulisi käyttää ei ole ollenkaan suoraviivainen. Yhtä oikeaa vastausta on mahdotonta antaa, ja on myös todennäköistä, että valittu tilanhallintaratkaisu saattaa sovelluksen kasvaessa osoittautua siinä määrin epäoptimaaliseksi, että tilanhallinnan ratkaisuja täytyy vaihtaa vaikka sovellus olisi jo ehditty viedä tuotantokäyttöön.
 
 </div>

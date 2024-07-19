@@ -7,13 +7,13 @@ lang: zh
 
 <div class="content">
 
-<!-- Next, let's connect the frontend we made in [part 2](/en/part2) to our own backend.-->
-接下来，让我们把我们在[第二章节](/en/part2)制作的前端连接到我们自己的后端。
+<!-- Next let's connect the frontend we made in [part 2](/en/part2) to our own backend.-->
+ 接下来让我们把我们在[第二章节](/zh/part2)中制作的前端连接到我们自己的后端。
 
-<!-- In the previous part, the frontend could ask for the list of notes from the json-server we had as a backend, from the address <http://localhost:3001/notes>.-->
-在前一部分，前端可以从我们作为后端的json-server的地址<http://localhost:3001/notes>请求笔记列表。
-<!-- Our backend has a slightly different URL structure now, as the notes can be found at <http://localhost:3001/api/notes>. Let's change the attribute __baseUrl__ in the <i>src/services/notes.js</i> like so:-->
-我们的后端现在有一个略有不同的URL结构，因为笔记可以在<http://localhost:3001/api/notes>中找到。让我们更改<i>src/services/notes.js</i>中的属性__baseUrl__，如下：
+<!-- In the previous part, the frontend could ask for the list of notes from the json-server we had as a backend, from the address http://localhost:3001/notes.-->
+ 在上一部分中，前端可以从我们作为后端的json-server中询问笔记列表，地址是http://localhost:3001/notes 。
+<!-- Our backend has a slightly different url structure now, as the notes can be found at http://localhost:3001/api/notes. Let's change the attribute __baseUrl__ in the <i>src/services/notes.js</i> like so:-->
+ 我们的后端现在有一个稍微不同的url结构，因为笔记可以在http://localhost:3001/api/notes 。让我们改变<i>src/services/notes.js</i>中的属性__baseUrl__，像这样。
 
 ```js
 import axios from 'axios'
@@ -30,7 +30,7 @@ export default { getAll, create, update }
 ```
 
 <!-- Now frontend's GET request to <http://localhost:3001/api/notes> does not work for some reason:-->
-现在前端的对<http://localhost:3001/api/notes>的GET请求由于某种原因不起作用了：
+ 现在到 <http://localhost:3001/api/notes> 前端的GET请求由于某些原因不能工作。
 
 ![Get request showing error in dev tools](../../images/3/3ae.png)
 
@@ -89,8 +89,8 @@ const cors = require('cors')
 app.use(cors())
 ```
 
-<!-- And the frontend works! However, the functionality for changing the importance of notes has not yet been implemented on the backend.-->
-而前端工作得很好！然而，更改笔记重要性的功能尚未在后端实现。
+<!-- And the frontend works! However, the functionality for changing the importance of notes has not yet been implemented to the backend.-->
+ 前端就可以工作了!然而，改变笔记重要性的功能还没有在后端实现。
 
 <!-- You can read more about CORS from [Mozilla's page](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).-->
 你可以在[Mozilla 的页面](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)上了解更多关于 CORS 的信息。
@@ -175,6 +175,12 @@ app.listen(PORT, () => {
 ```bash
 fly auth login
 ```
+<!-- Create Heroku account in https://devcenter.heroku.com/-->
+在 https://devcenter.heroku.com/ ，创建Heroku账户
+<!-- Install Heroku package using the command: npm install -g heroku-->
+ 使用命令安装Heroku包：npm install -g heroku
+<!-- Create a Heroku application with the command <i>heroku create</i>, commit your code to the repository and move it to Heroku with command <i>git push heroku main</i>.-->
+ 用命令<i>heroku create</i>创建一个Heroku应用，将你的代码提交到版本库，并用命令<i>git push heroku main</i>将其移到Heroku。
 
 <!-- *Note* if the command _fly_ does not work on your machine, you can try the longer version _flyctl_. Eg. on MacOS, both forms of the command work.-->
 如果你的机器上的 _fly_ 命令不起作用，你可以尝试更长的版本 _flyctl_。例如，在MacOS上，两种形式的命令都能正常工作。
@@ -191,8 +197,8 @@ fly launch
 <!-- Give the app a name or let Fly.io auto-generate one. Pick a region where the app will be run. Do not create a Postgres database for the app and do not create an Upstash Redis database, since these are not needed.-->
 给应用程序取一个名字，或者让Fly.io自动生成一个。选择一个运行应用程序的区域。不要为应用程序创建Postgres数据库，也不要创建Upstash Redis数据库，因为这些都不需要。
 
-<!-- The last question is "Would you like to deploy now?". We should answer "no" since we are not quite ready yet.-->
-最后一个问题是“你现在想部署吗？”。我们应该回答“不”，因为我们还没有准备好。
+<!-- The frontend also works with the backend on Heroku. You can check this by changing the backend's address on the frontend to be the backend's address in Heroku instead of <i>http://localhost:3001</i>.-->
+ 前端也可以和Heroku的后端一起工作。你可以通过把前端的后端地址改为Heroku中的后端地址，而不是<i>http://localhost:3001</i>来检查。
 
 <!-- Fly.io creates a file <i>fly.toml</i> in the root of your app where the app is configured. To get the app up and running we <i>might</i> need to do a small addition to the part [env] of the configuration:-->
 飞行。io 在您的应用程序的根目录中创建一个文件<i>fly.toml</i>，其中配置了应用程序。 为了让应用程序正常运行，我们<i>可能</i>需要在配置的[env]部分做一些小的添加：
@@ -339,8 +345,8 @@ app.listen(PORT, () => {
 <!-- A production build of applications created with <i>create-react-app</i> can be created with the command [npm run build](https://github.com/facebookincubator/create-react-app#npm-run-build-or-yarn-build).-->
 使用<i>create-react-app</i>创建的应用程序的生产构建可以使用命令[npm run build](https://github.com/facebookincubator/create-react-app#npm-run-build-or-yarn-build)创建。
 
-<!-- Let's run this command from the <i>root of the notes frontend project</i> that we developend in [Part 2](/en/part2).-->
-让我们从我们在[第二章节](/en/part2)开发的<i>notes frontend项目的根目录</i>运行这个命令。
+<!-- **NOTE:** at the time of writing (20th January 2022) create-react-app had a bug that causes the following error _TypeError: MiniCssExtractPlugin is not a constructor_-->
+ **注意：**在撰写本文时（2022年1月20日）create-react-app有一个错误，导致以下错误 _TypeError: MiniCssExtractPlugin不是一个构造函数_ 。
 
 <!-- This creates a directory called <i>build</i> (which contains the only HTML file of our application, <i>index.html</i> ) which contains the directory <i>static</i>. [Minified](<https://en.wikipedia.org/wiki/Minification_(programming)>) version of our application's JavaScript code will be generated in the <i>static</i> directory. Even though the application code is in multiple files, all of the JavaScript will be minified into one file. All of the code from all of the application's dependencies will also be minified into this single file.-->
 这将创建一个叫做<i>build</i>的目录（其中包含我们应用程序的唯一的HTML文件<i>index.html</i>），其中包含目录<i>static</i>。我们应用程序的JavaScript代码的[最小化](<https://en.wikipedia.org/wiki/Minification_(programming)>)版本将被生成在<i>static</i>目录中。尽管应用程序代码分布在多个文件中，但所有的JavaScript代码都将被最小化到一个文件中。所有来自应用程序依赖的代码也将被最小化到这个单一文件中。
@@ -358,9 +364,7 @@ app.listen(PORT, () => {
 一种部署前端的选项是将生产构建（<i>构建</i>目录）复制到后端仓库的根目录，并配置后端将前端的<i>主页</i>（文件<i>build/index.html</i>）显示为其主页。
 
 <!-- We begin by copying the production build of the frontend to the root of the backend. With a Mac or Linux computer, the copying can be done from the frontend directory with the command-->
-`cp -r build/ ../backend/`
-
-Mac 或 Linux 电脑，可以使用 `cp -r build/ ../backend/` 命令从前端目录复制生产构建到后端的根目录。
+ 我们首先把前端的生产构建复制到后端的根目录下。在Mac或Linux电脑上，复制可以在前端目录下用命令完成
 
 ```bash
 cp -r build ../backend
@@ -370,7 +374,7 @@ cp -r build ../backend
 如果您正在使用Windows计算机，您可以使用[copy](https://www.windows-commandline.com/windows-copy-command-syntax-examples/)或[xcopy](https://www.windows-commandline.com/xcopy-command-syntax-examples/)命令。否则，只需复制粘贴即可。
 
 <!-- The backend directory should now look as follows:-->
-后端目录现在应该看起来如下：
+ 后端目录现在应该是这样的。
 
 ![bash screenshot of ls showing build directory](../../images/3/27new.png)
 
@@ -575,7 +579,7 @@ npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
 ### Proxy
 
 <!-- Changes on the frontend have caused it to no longer work in development mode (when started with command _npm start_), as the connection to the backend does not work.-->
-前端的更改导致它不再在开发模式下工作（以_npm start_命令启动时），因为与后端的连接不工作。
+ 前端的变化导致它在开发模式下不再工作（当用_npm start_命令启动时），因为与后端的连接不起作用。
 
 ![Network dev tools showing a 404 on getting notes](../../images/3/32new.png)
 
@@ -587,7 +591,7 @@ const baseUrl = '/api/notes'
 ```
 
 <!-- Because in development mode the frontend is at the address <i>localhost:3000</i>, the requests to the backend go to the wrong address <i>localhost:3000/api/notes</i>. The backend is at <i>localhost:3001</i>.-->
-因为在开发模式下前端地址位于<i>localhost:3000</i>，对后端的请求会发送到错误的地址<i>localhost:3000/api/notes</i>，而后端地址则位于<i>localhost:3001</i>。
+ 因为在开发模式下，前端的地址是<i>localhost:3000</i>，对后端的请求会进入错误的地址<i>localhost:3000/api/notes</i>。后端是在<i>localhost:3001</i>。
 
 <!-- If the project was created with create-react-app, this problem is easy to solve. It is enough to add the following declaration to the <i>package.json</i> file of the frontend repository.-->
 如果项目是使用create-react-app创建的，解决这个问题就很容易。只需在前端仓库的<i>package.json</i>文件中添加以下声明即可。
@@ -619,8 +623,8 @@ const baseUrl = '/api/notes'
 <!-- In some situations, it may be sensible to deploy the frontend code as its own application. With apps created with create-react-app it is [straightforward](https://github.com/mars/create-react-app-buildpack).-->
 在某些情况下，将前端代码部署为自己的应用程序可能是明智的。使用create-react-app创建的应用程序[很容易](https://github.com/mars/create-react-app-buildpack)。
 
-<!-- The current backend code can be found on [Github](https://github.com/fullstack-hy2020/part3-notes-backend/tree/part3-3), in the branch <i>part3-3</i>. The changes in frontend code are in <i>part3-1</i> branch of the [frontend repository](https://github.com/fullstack-hy2020/part2-notes/tree/part3-1).-->
-当前的后端代码可以在[Github](https://github.com/fullstack-hy2020/part3-notes-backend/tree/part3-3)的<i>part3-3</i>分支上找到。前端代码的变化在[前端仓库](https://github.com/fullstack-hy2020/part2-notes/tree/part3-1)的<i>part3-1</i>分支上。
+<!-- Current code of the backend can be found on [Github](https://github.com/fullstack-hy2020/part3-notes-backend/tree/part3-3), in the branch <i>part3-3</i>. The changes in frontend code are in <i>part3-1</i> branch of the [frontend repository](https://github.com/fullstack-hy2020/part2-notes/tree/part3-1).-->
+ 后端的当前代码可以在[Github](https://github.com/fullstack-hy2020/part3-notes-backend/tree/part3-3)的分支<i>part3-3</i>中找到。前端代码的变化在[frontend repository](https://github.com/fullstack-hy2020/part2-notes/tree/part3-1)的<i>part3-1</i>分支中。
 
 </div>
 
@@ -637,7 +641,7 @@ const baseUrl = '/api/notes'
 使后端与上一部分练习中的电话簿前端配合工作。暂时不要实现更改电话号码的功能，这将在练习3.17中实现。
 
 <!-- You will probably have to do some small changes to the frontend, at least to the URLs for the backend. Remember to keep the developer console open in your browser. If some HTTP requests fail, you should check from the <i>Network</i>-tab what is going on. Keep an eye on the backend's console as well. If you did not do the previous exercise, it is worth it to print the request data or <i>request.body</i> to the console in the event handler responsible for POST requests.-->
-你可能需要对前端做一些小的改动，至少要改变后端的URL。记得在浏览器中保持开发者控制台的开启状态。如果有HTTP请求失败，你应该从<i>网络</i>标签查看发生了什么。同时也要关注后端的控制台。如果你没有做前面的练习，在负责POST请求的事件处理器中打印请求数据或<i>request.body</i>到控制台是值得的。
+ 你可能需要对前端做一些小的改动，至少要对后端的URL做一些改动。记得在你的浏览器中保持开放的开发者控制台。如果一些HTTP请求失败了，你应该从<i>Network</i>-tab中检查发生了什么。也要注意后端的控制台。如果你没有做前面的练习，在负责POST请求的事件处理程序中把请求数据或<i>request.body</i>打印到控制台是值得的。
 
 #### 3.10 phonebook backend step10
 

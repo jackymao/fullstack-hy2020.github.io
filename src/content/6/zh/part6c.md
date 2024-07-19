@@ -7,8 +7,8 @@ lang: zh
 
 <div class="content">
 
-<!-- Let's expand the application so that the notes are stored in the backend. We'll use [json-server](/en/part2/getting_data_from_server), familiar from part 2.-->
-让我们扩展应用，使笔记存储在后端。 我们将使用[json-server](/en/part2/getting_data_from_server)，从第2章节熟悉。
+<!-- Let's expand the application, such that the notes are stored to the backend. We'll use [json-server](/en/part2/getting_data_from_server), familiar from part 2.-->
+ 让我们扩展应用，使笔记被存储到后端。我们将使用[json-server](/en/part2/getting_data_from_server)，这在第二章节中已经很熟悉。
 
 <!-- The initial state of the database is stored in the file <i>db.json</i>, which is placed in the root of the project:-->
 数据库的初始状态存储在文件<i>db.json</i>中，该文件放置在项目根目录中：
@@ -233,8 +233,8 @@ noteService.getAll().then(notes =>
 )
 ```
 
-<!-- > **NB:** Why didn''t we use await in place of promises and event handlers (registered to _then_-methods)?-->
-> **注意：**我们为什么不用`await`代替`promise`和注册到`then`方法的事件处理程序？
+<!-- > **NB:** why didn't we use await in place of promises and event handlers (registered to _then_-methods)?-->
+ > **NB:**我们为什么不用await来代替 promise 和事件处理程序（注册到_then_-methods）？
 <!-- >-->
 You are my sunshine
 
@@ -382,8 +382,8 @@ const NewNote = (props) => {
 export default NewNote
 ```
 
-<!-- Because the backend generates ids for the notes, we''ll change the action creator <em>createNote</em> in the file <i>noteReducer.js</i> accordingly:-->
-因为后端为笔记生成id，我们将根据<em>createNote</em>在<i>noteReducer.js</i>文件中进行相应的更改：
+<!-- Because the backend generates ids for the notes, we'll change the action creator <em>createNote</em> accordingly:-->
+因为后端为笔记生成了ID，我们将相应地改变动作创建者<em>createNote</em>。
 
 ```js
 const noteSlice = createSlice({

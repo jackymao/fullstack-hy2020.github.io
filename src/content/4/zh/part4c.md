@@ -27,8 +27,16 @@ lang: zh
 <!-- Like with all document databases, we can use object IDs in Mongo to reference documents in other collections. This is similar to using foreign keys in relational databases.-->
 就像所有文档数据库一样，我们可以在Mongo中使用对象ID来引用其他集合中的文档。这类似于在关系数据库中使用外键。
 
-<!-- Traditionally document databases like Mongo do not support <i>join queries</i> that are available in relational databases,  used for aggregating data from multiple tables. However, starting from version 3.2. Mongo has supported [lookup aggregation queries](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/). We will not be taking a look at this functionality in this course.-->
-传统的文档数据库，如Mongo，不支持在关系数据库中可用的<i>join查询</i>，用于聚合来自多个表的数据。然而，从3.2版本开始，Mongo支持[lookup聚合查询](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/)。我们不会在此课程中查看此功能。
+<!-- Like with all document databases, we can use object IDs in Mongo to reference documents in other collections. This is similar to using foreign keys in relational databases. -->
+ 与所有文档数据库一样，我们可以使用Mongo中的对象ID来引用其他集合中的文档。这类似于在关系数据库中使用外键。
+
+
+<!-- Traditionally document databases like Mongo do not support  <i>join queries</i> that are available in relational databases,  used for aggregating data from multiple tables. However starting from version 3.2. Mongo has supported [lookup aggregation queries](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/). We will not be taking a look at this functionality in this course.-->
+ 传统上，像Mongo这样的文档数据库不支持关系型数据库中的<i>join查询</i>，这些查询用于聚合多个表的数据。但是从3.2版本开始。Mongo已经支持[查找聚合查询](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/)。我们将不会在本课程中查看此功能。
+
+
+<!-- If we need a functionality similar to join queries, we will implement it in our application code by making multiple queries. In certain situations Mongoose can take care of joining and aggregating data, which gives the appearance of a join query. However, even in these situations Mongoose makes multiple queries to the database in the background.-->
+ 如果我们需要类似于连接查询的功能，我们将在我们的应用代码中通过进行多次查询来实现它。在某些情况下，Mongoose可以负责连接和聚合数据，这给人以连接查询的感觉。然而，即使在这些情况下，Mongoose也会在后端对数据库进行多次查询。
 
 <!-- If we need functionality similar to join queries, we will implement it in our application code by making multiple queries. In certain situations, Mongoose can take care of joining and aggregating data, which gives the appearance of a join query. However, even in these situations, Mongoose makes multiple queries to the database in the background.-->
 如果我们需要类似于联接查询的功能，我们将通过多次查询在应用程序代码中实现它。 在某些情况下，Mongoose可以处理联接和聚合数据，这给人一种联接查询的外观。 但是，即使在这些情况下，Mongoose也会在后台对数据库进行多次查询。
@@ -80,8 +88,9 @@ lang: zh
 ]
 ```
 
-<!-- Document databases do not demand the foreign key to be stored in the note resources, it could <i>also</i> be stored in the users collection, or even both:-->
-文档数据库不需要外键存储在节点资源中，它也可以存储在用户集合中，甚至两者都可以：
+
+<!-- Document databases do not demand the foreign key to be stored in the note resources, it could <i>also</i> be stored in the users collection, or even both: -->
+文档数据库不要求外键存储在注释资源中，它<i>也</i>可以存储在用户集合中，甚至两者兼而有之：
 
 ```js
 [
@@ -140,8 +149,12 @@ lang: zh
 <!-- The structure and schema of the database are not as self-evident as it was with relational databases. The chosen schema must support the use cases of the application the best. This is not a simple design decision to make, as all use cases of the applications are not known when the design decision is made.-->
 数据库的结构和模式不像关系数据库那样自明显。所选择的模式必须最好地支持应用程序的用例。这不是一个简单的设计决定，因为在做出设计决定时，应用程序的所有用例都不是已知的。
 
-<!-- Paradoxically, schema-less databases like Mongo require developers to make far more radical design decisions about data organization at the beginning of the project than relational databases with schemas. On average, relational databases offer a more or less suitable way of organizing data for many applications.-->
-反常的是，像Mongo这样的无模式数据库要求开发人员在项目开始时就对数据组织做出更加激进的设计决策，而关系数据库的模式则为许多应用提供了更多或更少合适的数据组织方式。
+
+<!-- The structure and schema of the database is not as self-evident as it was with relational databases. The chosen schema must be one which supports the use cases of the application the best. This is not a simple design decision to make, as all use cases of the applications are not known when the design decision is made.-->
+ 数据库的结构和模式并不像关系型数据库那样不言自明。所选架构必须最好地支持应用程序的用例。这不是一个简单的设计决策，因为在做出设计决策时，应用程序的所有用例都是未知的。
+
+<!-- Paradoxically, schema-less databases like Mongo require developers to make far more radical design decisions about data organization at the beginning of the project than relational databases with schemas. On average, relational databases offer a more-or-less suitable way of organizing data for many applications.-->
+ 矛盾的是，像Mongo这样的无模式数据库要求开发人员在项目开始时对数据组织做出比有模式的关系数据库更激进的设计决策。平均而言，关系数据库为许多应用程序提供了一种或多或少合适的数据组织方式。
 
 ### Mongoose schema for users
 
@@ -217,7 +230,7 @@ const noteSchema = new mongoose.Schema({
 ### Creating users
 
 <!-- Let's implement a route for creating new users. Users have a unique <i>username</i>, a <i>name</i> and something called a <i>passwordHash</i>. The password hash is the output of a [one-way hash function](https://en.wikipedia.org/wiki/Cryptographic_hash_function) applied to the user's password. It is never wise to store unencrypted plain text passwords in the database!-->
-让我们来实现一条用于创建新用户的路由。用户有一个唯一的<i>用户名</i>，一个<i>姓名</i>和一个叫做<i>passwordHash</i>的东西。passwordHash是应用于用户密码的[单向哈希函数](https://en.wikipedia.org/wiki/Cryptographic_hash_function)的输出。永远不要在数据库中存储未加密的纯文本密码！
+ 让我们实现一个创建新用户的路由。用户有一个唯一的<i>用户名</i>、<i>名字</i>和一个叫做<i>密码哈希</i>的东西。密码散列是应用于用户密码的[单向散列函数](https://en.wikipedia.org/wiki/Cryptographic_hash_function)的输出。在数据库中存储未加密的纯文本密码是不明智的!
 
 <!-- Let's install the [bcrypt](https://github.com/kelektiv/node.bcrypt.js) package for generating the password hashes:-->
 让我们安装[bcrypt](https://github.com/kelektiv/node.bcrypt.js) 包来生成密码哈希：
@@ -318,10 +331,10 @@ describe('when there is initially one user in db', () => {
       .expect('Content-Type', /application\/json/)
 
     const usersAtEnd = await helper.usersInDb()
-    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
 
     const usernames = usersAtEnd.map(u => u.username)
-    expect(usernames).toContain(newUser.username)
+    assert(usernames.includes(newUser.username))
   })
 })
 ```
@@ -369,10 +382,10 @@ describe('when there is initially one user in db', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('expected `username` to be unique')
-
     const usersAtEnd = await helper.usersInDb()
-    expect(usersAtEnd).toEqual(usersAtStart)
+    assert(result.body.error.includes('expected `username` to be unique'))
+
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 })
 ```
@@ -380,32 +393,18 @@ describe('when there is initially one user in db', () => {
 <!-- The test case obviously will not pass at this point. We are essentially practicing [test-driven development (TDD)](https://en.wikipedia.org/wiki/Test-driven_development), where tests for new functionality are written before the functionality is implemented.-->
 测试用例显然在此刻不会通过。我们实质上是在练习[测试驱动开发(TDD)](https://en.wikipedia.org/wiki/Test-driven_development)，在实现新功能之前先写测试。
 
-<!-- Mongoose does not have a built-in validator for checking the uniqueness of a field. Fortunately there is a ready-made solution for this, the [mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator) library. Let us install the library:-->
-Mongoose没有内建的验证器来检查栏位的唯一性。幸运的是，有一个现成的解决方案，即[mongoose-unique-validator](https://www.npmjs.com/package/mongoose-unique-validator)库。让我们安装该库：
-
-```bash
-npm install mongoose-unique-validator
-```
-
-<!-- and extend the code by following the library documentation:-->
-**英文**
-
-This library provides an easy way to access data from a database.
-
-**中文**
-
-这个库提供了一种简单的方式来访问数据库中的数据。
+<!-- Mongoose validations do not provide a direct way to check the uniqueness of a field value. However, it is possible to achieve uniqueness by defining [uniqueness index](https://mongoosejs.com/docs/schematypes.html) for a field. The definition is done as follows: -->
+Mongoose 验证没有提供直接的方法来检查字段值的唯一性。但是，可以通过为字段定义 [唯一性索引](https://mongoosejs.com/docs/schematypes.html) 来实现唯一性。定义如下：
 
 ```js
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator') // highlight-line
 
 const userSchema = mongoose.Schema({
   // highlight-start
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true // this ensures the uniqueness of username
   },
   // highlight-end
   name: String,
@@ -418,16 +417,39 @@ const userSchema = mongoose.Schema({
   ],
 })
 
-userSchema.plugin(uniqueValidator) // highlight-line
-
 // ...
 ```
+
+<!-- However, care must be taken with the uniqueness index. If there are already documents in the database that violate the uniqueness condition, [no index will be created](https://dev.to/akshatsinghania/mongoose-unique-not-working-16bf). So when adding a uniqueness index, make sure that the database is in a healthy state! The test above added the user with username _root_ to the database twice, and these must be removed for the index to be formed and the code to work. -->
+但是，必须小心使用唯一性索引。如果数据库中已经存在违反唯一性条件的文档，[将不会创建索引](https://dev.to/akshatsinghania/mongoose-unique-not-working-16bf)。因此，在添加唯一性索引时，请确保数据库处于健康状态！上述测试将用户名为 _root_ 的用户两次添加到数据库中，必须删除这些用户才能形成索引并使代码工作。
+
+<!-- Mongoose validations do not detect the index violation, and instead of _ValidationError_ they return an error of type _MongoServerError_. We therefore need to extend the error handler for that case: -->
+Mongoose 验证不会检测到索引违规，并且会返回类型为 _MongoServerError_ 的错误，而不是 _ValidationError_。因此，我们需要为此情况扩展错误处理程序：
+
+```js
+const errorHandler = (error, request, response, next) => {
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+// highlight-start
+  } else if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error')) {
+    return response.status(400).json({ error: 'expected `username` to be unique' })
+  }
+  // highlight-end
+
+  next(error)
+}
+```
+
+<!-- After these changes, the tests will pass. -->
+进行这些更改后，测试将通过。
 
 <!-- We could also implement other validations into the user creation. We could check that the username is long enough, that the username only consists of permitted characters, or that the password is strong enough. Implementing these functionalities is left as an optional exercise.-->
 我们也可以在用户创建过程中实施其他有效的验证。我们可以检查用户名是否足够长，用户名是否只由允许的字符组成，或者密码是否足够强大。实施这些功能是一个可选的练习。
 
 <!-- Before we move onward, let's add an initial implementation of a route handler that returns all of the users in the database:-->
-在我们继续前进之前，让我们增加一个初始的路由处理程序，它会返回资料库中的所有使用者：
+ 在继续之前，让我们添加一个路由处理程序的初始实现，以返回数据库中所有的用户。
 
 ```js
 usersRouter.get('/', async (request, response) => {
@@ -490,8 +512,8 @@ notesRouter.post('/', async (request, response) => {
   const savedNote = await note.save()
   user.notes = user.notes.concat(savedNote._id) //highlight-line
   await user.save()  //highlight-line
-
-  response.json(savedNote)
+  
+  response.status(201).json(savedNote)
 })
 ```
 <!-- The note scheme will also need to change as follows in our models/note.js file:-->
@@ -559,8 +581,9 @@ usersRouter.get('/', async (request, response) => {
 })
 ```
 
-<!-- The [populate](http://mongoosejs.com/docs/populate.html) method is chained after the <i>find</i> method making the initial query. The parameter given to the populate method defines that the <i>ids</i> referencing <i>note</i> objects in the <i>notes</i> field of the <i>user</i> document will be replaced by the referenced <i>note</i> documents.-->
-[populate](http://mongoosejs.com/docs/populate.html) 方法链接在<i>find</i>方法之后，进行初始查询。给populate方法的参数定义了在<i>user</i>文档的<i>notes</i>字段中引用<i>note</i>对象的<i>ids</i>将被引用的<i>note</i>文档替换。
+
+<!-- The [populate](http://mongoosejs.com/docs/populate.html) method is chained after the <i>find</i> method making the initial query. The parameter given to the populate method defines that the <i>ids</i> referencing <i>note</i> objects in the <i>notes</i> field of the <i>user</i> document will be replaced by the referenced <i>note</i> documents. -->
+ [populate](http://mongoosejs.com/docs/populate.html) 方法在初始查询后链接到 <i>find</i> 方法。提供给 populate 方法的参数定义了在<i>user</i>文档的<i>notes</i>字段中引用<i>note</i>对象的<i>ids(id的复数)</i>将被替换为被引用的<i>note</i>文档。
 
 <!-- The result is almost exactly what we wanted:-->
 结果几乎完全符合我们的预期：
@@ -588,7 +611,7 @@ usersRouter.get('/', async (request, response) => {
 ![combined data showing no repetition](../../images/4/14new.png)
 
 <!-- Let's also add a suitable population of user information to notes:-->
-# 让我们也添加一组合适的用户信息到笔记中：
+ 让我们在 <i>controllers/notes.js</i> 文件中为笔记添加一个合适的用户详细信息填充：
 
 ```js
 notesRouter.get('/', async (request, response) => {
@@ -604,11 +627,12 @@ notesRouter.get('/', async (request, response) => {
 
 ![notes JSON now has user info embedded too](../../images/4/15new.png)
 
-<!-- It's important to understand that the database does not know that the ids stored in the <i>user</i> field of notes reference documents in the user collection.-->
-它很重要要明白，数据库不知道笔记字段中存储的ID引用用户集合中的文档。
+
+<!-- It's important to understand that the database does not actually know that the ids stored in the <i>user</i> field of notes reference documents in the user collection.-->
+ 重要的是要明白，数据库并不知道存储在笔记集合的 <i>user</i> 字段中的 id 引用用户集合中的文档。
 
 <!-- The functionality of the <i>populate</i> method of Mongoose is based on the fact that we have defined "types" to the references in the Mongoose schema with the <i>ref</i> option:-->
-<i>Mongoose</i> 的 <i>populate</i> 方法的功能基于我们在 Mongoose 架构中使用 <i>ref</i> 选项为引用定义了“类型”：
+ Mongoose 的 <i>populate</i> 方法的功能基于这样一个事实：我们已经使用 <i>ref</i> 选项为 Mongoose 模式中的引用定义了“类型”：
 
 ```js
 const noteSchema = new mongoose.Schema({
@@ -627,5 +651,7 @@ const noteSchema = new mongoose.Schema({
 
 <!-- You can find the code for our current application in its entirety in the <i>part4-8</i> branch of [this GitHub repository](https://github.com/fullstack-hy2020/part3-notes-backend/tree/part4-8).-->
 你可以在[这个GitHub存储库](https://github.com/fullstack-hy2020/part3-notes-backend/tree/part4-8)的<i>part4-8</i>分支中找到我们当前应用程序的完整代码。
+
+注意：在此阶段，首先，一些测试将失败。我们将把修复测试留作非强制性练习。其次，在已部署的笔记应用程序中，创建笔记功能将停止工作，因为用户尚未链接到前端。
 
 </div>

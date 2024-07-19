@@ -112,7 +112,7 @@ We can use the _heroku config_ command to get the <i>connect string</i>, which i
 ```bash
 heroku config -a <app-name>
 === cryptic-everglades-76708 Config Vars
-DATABASE_URL: postgres://<username>:<password>@<host-of-postgres-addon>:5432/<db-name>
+DATABASE_URL: postgres://<username>:thepasswordishere@<host-of-postgres-addon>:5432/<db-name>
 ```
 
 The database can be accessed by running _psql_ command on the Heroku server as follows (note that the command parameters depend on the connection url of the Heroku database):
@@ -194,10 +194,10 @@ Let's look at the situation from the console. First, the _\d_ command, which tel
 
 ```sql
 postgres=# \d
-                 List of relations
- Schema | Name | Type | Owner
---------+--------------+----------+----------------
- public | notes | table | username
+            List of relations
+ Schema |     Name     |   Type   |  Owner
+--------+--------------+----------+----------
+ public | notes        | table    | username
  public | notes_id_seq | sequence | username
 (2 rows)
 ```
@@ -208,13 +208,13 @@ With the command _\d notes_, we can see how the <i>notes</i> table is defined:
 
 ```sql
 postgres=# \d notes;
-                                     Table "public.notes"
-  Column | Type | Collation | Nullable | Default
+                                 Table "public.notes"                                          
+ Column    |          Type          | Collation | Nullable |             Default               
 -----------+------------------------+-----------+----------+-----------------------------------
- id | integer | not null | nextval('notes_id_seq'::regclass)
- content | text | | not null |
- important | boolean | | | |
- date | time without time zone | | | |
+ id        | integer                |           | not null | nextval('notes_id_seq'::regclass) 
+ content   | text                   |           | not null |                                   
+ important | boolean                |           |          |                                   
+ date      | time without time zone |           |          |                                   
 Indexes:
     "notes_pkey" PRIMARY KEY, btree (id)
 ```
@@ -232,10 +232,10 @@ And let's see what the created content looks like:
 
 ```sql
 postgres=# select * from notes;
- id | content | important | date
+ id |               content               | important | date
 ----+-------------------------------------+-----------+------
-  1 | relational databases rule the world | t |
-  2 | MongoDB is webscale | f |
+  1 | relational databases rule the world | t         |      
+  2 | MongoDB is webscale                 | f         |      
 (2 rows)
 ```
 
@@ -317,7 +317,7 @@ If Heroku is used, the connect string can be seen by using the command _heroku c
 
 ```bash
 $ cat .env
-DATABASE_URL=postgres://<username>:<password>@ec2-54-83-137-206.compute-1.amazonaws.com:5432/<databasename>
+DATABASE_URL=postgres://<username>:thepasswordishere@ec2-54-83-137-206.compute-1.amazonaws.com:5432/<databasename>
 ```
 
 When using Fly.io, the local connection to the database should first be enabled by [tunneling](https://fly.io/docs/reference/postgres/#connecting-to-postgres-from-outside-fly) 
@@ -339,7 +339,7 @@ The Fly.io connect-string is of the form
 
 ```bash
 $ cat .env
-DATABASE_URL=postgres://postgres:<password>@127.0.0.1:5432/postgres
+DATABASE_URL=postgres://postgres:thepasswordishere@127.0.0.1:5432/postgres
 ```
 
 Password was shown when the database was created, so hopefully you have not lost it!
@@ -521,7 +521,7 @@ The name of the corresponding column in the database would be <i>creation_year</
 
 We have also defined <i>modelName: 'note'</i>, the default "model name" would be capitalized <i>Note</i>. However we want to have a lowercase initial, it will make a few things a bit more convenient going forward.
 
-The database operation is easy to do using the [query interface](https://sequelize.org/master/manual/model-querying-basics.html) provided by models, the method [findAll](https://sequelize.org/master/class/lib/model.js~Model.html#static-method-findAll) works exactly as it is assumed by it's name to work:
+The database operation is easy to do using the [query interface](https://sequelize.org/master/manual/model-querying-basics.html) provided by models, the method [findAll](https://sequelize.org/api/v6/class/src/model.js~model#static-method-findAll) works exactly as it is assumed by it's name to work:
 
 ```js
 app.get('/api/notes', async (req, res) => {
@@ -594,15 +594,17 @@ app.post('/api/notes', async (req, res) => {
 
 <div class="tasks">
 
-### Tasks 13.1.-13.3.
+### Exercises 13.1.-13.3.
 
 In the tasks of this section, we will build a blog application backend similar to the tasks in [section 4](/en/part4), which should be compatible with the frontend in [section 5](/en/part5) except for error handling. We will also add various features to the backend that the frontend in section 5 will not know how to use.
 
-#### Task 13.1.
+#### Exercise 13.1.
 
-Create a GitHub repository for the application and create a new Heroku or Fly.io application for it, as well as a Postgres database. Make sure you are able to establish a connection to the application database.
+Create a GitHub repository for the application and create a new Fly.io or Heroku application for it, as well as a Postgres database. As mentioned [here](/en/part13/using_relational_databases_with_sequelize#application-database) you might set up your database also somewhere else, and in that case the Fly.io of Heroku app is not needed.
 
-#### Task 13.2.
+Make sure you are able to establish a connection to the application database.
+
+#### Exercise 13.2.
 
 On the command-line, create a <i>blogs</i> table for the application with the following columns:
 - id (unique, incrementing id)
@@ -613,11 +615,11 @@ On the command-line, create a <i>blogs</i> table for the application with the fo
 
 Add at least two blogs to the database.
 
-Save the SQL-commands you used at the root of the application repository in the file called <i>commands.sql</i>
+Save the SQL-commands you used at the root of the application repository in a file called <i>commands.sql</i>
 
 #### Exercise 13.3.
 
-Create functionality in your application, which prints the blogs in the database on the command-line, e.g. as follows:
+Create a functionality in your application which prints the blogs in the database on the command-line, e.g. as follows:
 
 ```bash
 $ node cli.js
@@ -844,9 +846,9 @@ The print looks like the following:
 
 <div class="tasks">
 
-### Task 13.4.
+### Exercise 13.4.
 
-#### Task 13.4.
+#### Exercise 13.4.
 
 Transform your application into a web application that supports the following operations
 

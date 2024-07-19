@@ -807,8 +807,8 @@ function h(){if(!d){var e=u(p);d=!0;for(var t=c.length;t;){for(s=c,c=[];++f<t;)s
 <!-- Our goal is to configure the application with webpack in such a way that, when used locally, the application uses the json-server available in port 3001 as its backend.-->
 我们的目标是使用webpack配置应用程序，使得本地使用时，应用程序使用端口3001上可用的json-server作为其后端。
 
-<!-- The bundled file will then be configured to use the backend available at the <https://notes2023.fly.dev/api/notes> URL.-->
-绑定的文件将被配置为使用可在<https://notes2023.fly.dev/api/notes> URL处获取的后端。
+<!-- The bundled file will then be configured to use the backend available at the <https://obscure-harbor-49797.herokuapp.com/api/notes> url.-->
+ 然后，捆绑的文件将被配置为使用<https://obscure-harbor-49797.herokuapp.com/api/notes>网址上的后端。
 
 <!-- We will install <i>axios</i>, start the json-server, and then make the necessary changes to the application. For the sake of changing things up, we will fetch the notes from the backend with our [custom hook](/en/part7/custom_hooks) called _useNotes_:-->
 我们将安装<i>axios</i>，启动 json-server，然后对应用程序进行必要的更改。为了改变情况，我们将使用我们的[自定义钩子](/en/part7/custom_hooks)称为_useNotes_从后端获取笔记：
@@ -855,7 +855,7 @@ export default App
 ```
 
 <!-- The address of the backend server is currently hardcoded in the application code. How can we change the address in a controlled fashion to point to the production backend server when the code is bundled for production?-->
-目前应用程序代码中将后端服务器的地址硬编码了。当编组代码用于生产时，我们如何以受控的方式更改地址以指向生产后端服务器？
+ 后端服务器的地址目前在应用代码中是硬编码的。当代码被捆绑到生产中时，我们如何以一种可控的方式改变地址以指向生产用的后端服务器？
 
 <!-- Webpack's configuration function has two parameters, <i>env</i> and <i>argv</i>. We can use the latter to find out the <i>mode</i> defined in the npm script:-->
 Webpack 的配置功能有两个参数，<i>env</i> 和 <i>argv</i>。我们可以使用后者来查找 npm 脚本中定义的<i>mode</i>：
@@ -958,8 +958,8 @@ npx static-server
 
 ### Polyfill
 
-<!-- Our application is finished and works with all relatively recent versions of modern browsers, except for Internet Explorer. The reason for this is that, because of _axios_, our code uses [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), and no existing version of IE supports them:-->
-我们的应用程序已经完成，可以在所有相对较新的现代浏览器上运行，但不包括Internet Explorer。原因是，由于_axios_，我们的代码使用[承诺](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)，而没有现有版本的IE支持它们：
+<!-- Our application is finished and works with all relatively recent versions of modern browsers, with the exception of Internet Explorer. The reason for this is that, because of _axios_, our code uses [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise), and no existing version of IE supports them:-->
+ 我们的应用已经完成，可以在所有相对较新版本的现代浏览器中使用，但Internet Explorer除外。原因是，由于_axios_，我们的代码使用了[ promise ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)，而现有版本的IE都不支持。
 
 ![browser compatibility chart highlighting how bad internet explorer is](../../images/7/29.png)
 
@@ -968,8 +968,8 @@ npx static-server
 
 ![browser compatibility chart showing IE does not support find method](../../images/7/30.png)
 
-<!-- In these situations, it is not enough to transpile the code, as transpilation simply transforms the code from a newer version of JavaScript to an older one with wider browser support. IE understands Promises syntactically but it simply has not implemented their functionality. The _find_ property of arrays in IE is simply <i>undefined</i>.-->
-在这些情况下，仅仅进行转译代码是不够的，因为转译只是将新版本的JavaScript代码转换成具有更广泛浏览器支持的旧版本。IE语法上理解Promises，但它没有实现它们的功能。IE中数组的_find_属性只是<i>未定义</i>。
+<!-- In these situations it is not enough to transpile the code, as transpilation simply transforms the code from a newer version of JavaScript to an older one with wider browser support. IE understands Promises syntactically but it simply has not implemented their functionality. The _find_ property of arrays in IE is simply <i>undefined</i>.-->
+ 在这些情况下，仅仅转译代码是不够的，因为转译只是把代码从较新的JavaScript版本转到较旧的浏览器支持的版本上。IE在语法上理解 promise ，但它根本没有实现其功能。在IE中，数组的_find_属性是简单的<i>undefined</i>。
 
 <!-- If we want the application to be IE-compatible, we need to add a [polyfill](https://remysharp.com/2010/10/08/what-is-a-polyfill), which is code that adds the missing functionality to older browsers.-->
 如果我们想让应用程序兼容IE，我们需要添加一个[polyfill](https://remysharp.com/2010/10/08/what-is-a-polyfill)，它是为旧浏览器添加缺失功能的代码。

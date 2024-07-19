@@ -99,11 +99,11 @@ module.exports = {
 O arquivo <i>.env</i> tem <i>variáveis separadas</i> para os endereços do banco de dados dos ambientes de desenvolvimento e testes:
 
 ```bash
-MONGODB_URI=mongodb+srv://fullstack:<password>@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://fullstack:thepasswordishere@cluster0.o1opl.mongodb.net/noteApp?retryWrites=true&w=majority
 PORT=3001
 
 // highlight-start
-TEST_MONGODB_URI=mongodb+srv://fullstack:<password>@cluster0.o1opl.mongodb.net/testNoteApp?retryWrites=true&w=majority
+TEST_MONGODB_URI=mongodb+srv://fullstack:thepasswordishere@cluster0.o1opl.mongodb.net/testNoteApp?retryWrites=true&w=majority
 // highlight-end
 ```
 
@@ -123,7 +123,7 @@ Vamos instalar o pacote como uma dependência de desenvolvimento:
 npm install --save-dev supertest
 ```
 
-Let's write our first test in the <i>tests/note_api.test.js</i> file:
+Vamos escrever nosso primeiro teste no arquivo <i>tests/note_api.test.js</i>:
 
 ```js
 const mongoose = require('mongoose')
@@ -580,7 +580,7 @@ const initialNotes = [
 const nonExistingId = async () => {
   const note = new Note({ content: 'willremovethissoon' })
   await note.save()
-  await note.remove()
+  await note.deleteOne()
 
   return note._id.toString()
 }
@@ -795,7 +795,7 @@ notesRouter.get('/:id', async (request, response, next) => {
 
 notesRouter.delete('/:id', async (request, response, next) => {
   try {
-    await Note.findByIdAndRemove(request.params.id)
+    await Note.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } catch(exception) {
     next(exception)
@@ -852,7 +852,7 @@ A 'mágica' aqui é eliminar completamente os blocos try-catch. Por exemplo, a r
 ```js
 notesRouter.delete('/:id', async (request, response, next) => {
   try {
-    await Note.findByIdAndRemove(request.params.id)
+    await Note.findByIdAndDelete(request.params.id)
     response.status(204).end()
   } catch (exception) {
     next(exception)
@@ -864,7 +864,7 @@ fica assim:
 
 ```js
 notesRouter.delete('/:id', async (request, response) => {
-  await Note.findByIdAndRemove(request.params.id)
+  await Note.findByIdAndDelete(request.params.id)
   response.status(204).end()
 })
 ```

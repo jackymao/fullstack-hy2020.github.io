@@ -38,6 +38,22 @@ const partNameTranslations = {
     'Containers',
     'Using relational databases',
   ],
+  es: [
+    'Fundamentos de las aplicaciones web',
+    'Introducción a React',
+    'Comunicándose con el servidor',
+    'Programando un servidor con NodeJS y Express',
+    'Probando servidores Express, administración de usuarios',
+    'Probando aplicaciones React',
+    'Gestión avanzada del estado',
+    'React router, custom hooks, estilando la aplicación con CSS y webpack',
+    'GraphQL',
+    'TypeScript',
+    'React Native',
+    'CI/CD (Disponible en inglés)',
+    'Contenedores',
+    'Utilizando bases de datos relacionales',
+  ],
   zh: [
     'Web 应用的基础设施',
     'React 入门',
@@ -88,13 +104,18 @@ const partNameTranslations = {
   ],
 };
 
+const partName = {
+  en: 'Part',
+  es: 'Parte',
+  fi: 'Osa',
+  fr: 'Partie',
+  ptbr: 'Parte',
+  zh: '部分',
+};
+
 export const PartBanner = ({ lang }) => {
   // TODO change on release
   const parts = Object.keys(navigation[lang]);
-
-  function partName(lang) {
-    return lang === 'fi' ? 'Osa' : lang === 'ptbr' ? 'Parte' : 'Part';
-  }
 
   return (
     <Banner
@@ -119,7 +140,7 @@ export const PartBanner = ({ lang }) => {
                 alt: partNames[part],
               }}
               hoverImageSrc={require(`../../images/thumbnails/part-${part}_ovr.svg`)}
-              name={`${partName(lang)} ${part}`}
+              name={`${partName[lang]} ${part}`}
               summary={summary}
               path={getPartTranslationPath(lang, part)}
             />

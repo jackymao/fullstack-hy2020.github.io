@@ -7,8 +7,6 @@ lang: fi
 
 <div class="content">
 
-### Kirjautumislomakkeen näyttäminen vain tarvittaessa
-
 Muutetaan sovellusta siten, että kirjautumislomaketta ei oletusarvoisesti näytetä:
 
 ![Oletusarvoisesti sovellus näytää ainoastaan muistiinpanojen listan sekä napin "log in"](../../images/5/10e.png)
@@ -214,7 +212,7 @@ const Togglable = (props) => {
 export default Togglable
 ```
 
-Mielenkiintoista ja meille uutta on [props.children](https://reactjs.org/docs/glossary.html#propschildren), jonka avulla koodi viittaa komponentin lapsiin eli avaavan ja sulkevan tagin sisällä määriteltyihin React-elementteihin.
+Mielenkiintoista ja meille uutta on [props.children](https://react.dev/learn/passing-props-to-a-component#passing-jsx-as-children), jonka avulla koodi viittaa komponentin lapsiin eli avaavan ja sulkevan tagin sisällä määriteltyihin React-elementteihin.
 
 Tällä kertaa lapset ainoastaan renderöidään komponentin oman renderöivän koodin seassa:
 
@@ -273,13 +271,13 @@ ja määritellään lomakkeen näyttävä koodi komponentin <i>Togglable</i> sis
 </Togglable>
 ```
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes/tree/part5-4), branchissa <i>part5-4</i>.
+Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part5-4), branchissa <i>part5-4</i>.
 
 ### Lomakkeiden tila
 
 Koko sovelluksen tila on nyt sijoitettu komponenttiin _App_. 
 
-Reactin dokumentaatio antaa seuraavan [ohjeen](https://reactjs.org/docs/lifting-state-up.html) tilan sijoittamisesta:
+Reactin dokumentaatio antaa seuraavan [ohjeen](https://react.dev/learn/sharing-state-between-components) tilan sijoittamisesta:
 
 > <i>Often, several components need to reflect the same changing data. We recommend lifting the shared state up to their closest common ancestor.</i>
 
@@ -358,13 +356,13 @@ const App = () => {
 
 Vastaava muutos voitaisiin tehdä myös kirjautumislomakkeelle, mutta jätämme sen vapaaehtoiseksi harjoitustehtäväksi.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes/tree/part5-5), branchissa <i>part5-5</i>.
+Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part5-5), branchissa <i>part5-5</i>.
 
 ### ref eli viite komponenttiin
 
-Ratkaisu on melko hyvä, mutta haluamme kuitenkin parantaa sitä. Kun uusi muistiinpano luodaan, olisi loogista jos luomislomake menisi piiloon. Nyt lomake pysyy näkyvillä. Lomakkeen piilottamiseen sisältyy kuitenkin pieni ongelma, sillä näkyvyyttä kontrolloidaan <i>Togglable</i>-komponentin tilassa olevalla muuttujalla <i>visible</i>. Miten pääsemme tilaan käsiksi komponentin ulkopuolelta?
+Ratkaisu on melko hyvä, mutta haluamme kuitenkin parantaa sitä. Kun uusi muistiinpano luodaan, olisi loogista jos luomislomake menisi piiloon. Nyt lomake pysyy näkyvillä. Lomakkeen piilottamiseen sisältyy kuitenkin pieni ongelma, sillä näkyvyyttä kontrolloidaan <i>Togglable</i>-komponentin tilassa olevalla muuttujalla <i>visible</i>. Eräs ratkaisu tähän olisi siirtää Togglable-komponentin tilan kontrollointi komponentin ulkopuolelle. Emme kuitenkaan nyt tee sitä, sillä haluamme että komponentti on itse vastuussa tilastaan. Meidän on siis etsittävä jokin muu ratkaisu, ja löydettävä mekanismi komponentin tilan muuttamiseen ulkopuolelta käsin.
 
-On useita erilaisia tapoja toteuttaa pääsy komponentin funktioihin sen ulkopuolelta. Käytetään nyt Reactin [ref](https://reactjs.org/docs/refs-and-the-dom.html)-mekanismia, joka tarjoaa eräänlaisen viitteen komponenttiin.
+On useita erilaisia tapoja toteuttaa pääsy komponentin funktioihin sen ulkopuolelta. Käytetään nyt Reactin [ref](https://react.dev/learn/referencing-values-with-refs)-mekanismia, joka tarjoaa eräänlaisen viitteen komponenttiin.
 
 Tehdään komponenttiin <i>App</i> seuraavat muutokset:
 
@@ -385,7 +383,7 @@ const App = () => {
 }
 ```
 
-[useRef](https://reactjs.org/docs/hooks-reference.html#useref) hookilla luodaan ref <i>noteFormRef</i>, joka kiinnitetään muistiinpanojen luomislomakkeen sisältävälle <i>Togglable</i>-komponentille. Nyt siis muuttuja <i>noteFormRef</i> toimii viitteenä komponenttiin.
+[useRef](https://react.dev/reference/react/useRef) hookilla luodaan ref <i>noteFormRef</i>, joka kiinnitetään muistiinpanojen luomislomakkeen sisältävälle <i>Togglable</i>-komponentille. Nyt siis muuttuja <i>noteFormRef</i> toimii viitteenä komponenttiin.
 
 Komponenttia <i>Togglable</i> laajennetaan seuraavasti
 
@@ -426,9 +424,9 @@ const Togglable = forwardRef((props, ref) => { // highlight-line
 export default Togglable
 ```
 
-Komponentin luova funktio on kääritty funktiokutsun [forwardRef](https://reactjs.org/docs/react-api.html#reactforwardref) sisälle, jolloin komponentti pääsee käsiksi sille määriteltyyn refiin.
+Komponentin luova funktio on kääritty funktiokutsun [forwardRef](https://react.dev/reference/react/forwardRef) sisälle, jolloin komponentti pääsee käsiksi sille määriteltyyn refiin.
 
-Komponentti tarjoaa [useImperativeHandle ](https://reactjs.org/docs/hooks-reference.html#useimperativehandle)-hookin avulla sisäisesti määritellyn funktionsa <i>toggleVisibility</i> ulkopuolelta kutsuttavaksi.
+Komponentti tarjoaa [useImperativeHandle](https://react.dev/reference/react/useImperativeHandle)-hookin avulla sisäisesti määritellyn funktionsa <i>toggleVisibility</i> ulkopuolelta kutsuttavaksi.
 
 Voimme nyt piilottaa lomakkeen kutsumalla <i>noteFormRef.current.toggleVisibility()</i> samalla kun uuden muistiinpanon luominen tapahtuu:
 
@@ -447,13 +445,13 @@ const App = () => {
 }
 ```
 
-Käyttämämme [useImperativeHandle](https://reactjs.org/docs/hooks-reference.html#useimperativehandle) on siis React hook, jonka avulla komponentille voidaan määrittää funktioita, joita on mahdollista kutsua sen ulkopuolelta.
+Käyttämämme [useImperativeHandle](https://react.dev/reference/react/useImperativeHandle) on siis React hook, jonka avulla komponentille voidaan määrittää funktioita, joita on mahdollista kutsua sen ulkopuolelta.
 
 Käyttämämme kikka komponentin tilan muuttamiseksi toimii, mutta se vaikuttaa hieman ikävältä. Saman olisi saanut aavistuksen siistimmin toteutettua "vanhan Reactin" class-komponenteilla, joihin tutustumme osassa 7. Tämä on toistaiseksi ainoa tapaus, jossa Reactin hook-syntaksiin nojaava ratkaisu on aavistuksen likaisemman oloinen kuin class-komponenttien tarjoama ratkaisu.
 
-Refeille on myös [muita käyttötarkoituksia](https://reactjs.org/docs/refs-and-the-dom.html) kuin React-komponentteihin käsiksi pääseminen.
+Refeille on myös [muita käyttötarkoituksia](https://react.dev/learn/manipulating-the-dom-with-refs) kuin React-komponentteihin käsiksi pääseminen.
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes/tree/part5-6), branchissa <i>part5-6</i>.
+Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part5-6), branchissa <i>part5-6</i>.
 
 ### Huomio komponenteista
 
@@ -489,19 +487,19 @@ syntyy <i>kolme erillistä komponenttiolioa</i>, joilla on kaikilla oma tilansa:
 
 <i>ref</i>-attribuutin avulla on talletettu viite jokaiseen komponentin muuttujaan <i>togglable1</i>, <i>togglable2</i> ja <i>togglable3</i>.
 
-### Full stack -sovelluskehittäjän päivitetty vala
+### Full stack ‑sovelluskehittäjän päivitetty vala
 
 Liikkuvien osien määrä nousee. Samalla kasvaa myös todennäköisyys sille, että päädymme tilanteeseen, missä etsimme vikaa täysin väärästä paikasta. Systemaattisuutta on siis lisättävä vielä pykälän verran. 
 
-Full stack -ohjelmointi on <i>todella</i> hankalaa, ja sen takia lupaan hyödyntää kaikkia ohjelmointia helpottavia keinoja:
+Full stack ‑ohjelmointi on <i>todella</i> hankalaa, ja sen takia lupaan hyödyntää kaikkia ohjelmointia helpottavia keinoja:
 
 - pidän selaimen konsolin koko ajan auki
 - tarkkailen säännöllisesti selaimen network-välilehdeltä, että frontendin ja backendin välinen kommunikaatio tapahtuu oletusteni mukaan
 - tarkkailen säännöllisesti palvelimella olevan datan tilaa, ja varmistan että frontendin lähettämä data siirtyy sinne kuten oletin
 - pidän silmällä tietokannan tilaa: varmistan että backend tallentaa datan sinne oikeaan muotoon
 - etenen pienin askelin
-- <i>kun epäinen että bugi on frontendissa, varmistan että backend toimii varmasti</i>
-- <i>kun epäinen että bugi on backendissa, varmistan että frontend toimii varmasti</i>
+- <i>kun epäilen että bugi on frontendissa, varmistan että backend toimii varmasti</i>
+- <i>kun epäilen että bugi on backendissa, varmistan että frontend toimii varmasti</i>
 - käytän koodissa ja testeissä runsaasti _console.log_-komentoja varmistamaan sen, että varmasti ymmärrän jokaisen kirjoittamani rivin, sekä etsiessäni koodista tai testeistä mahdollisia ongelman aiheuttajia
 - jos koodini ei toimi, en kirjoita enää yhtään lisää koodia, vaan alan poistamaan toiminnan rikkoneita rivejä tai palaan suosiolla tilanteeseen, missä koodi vielä toimi
 - jos testit eivät mene läpi, varmistan että testien testaama toiminnallisuus varmasti toimii sovelluksessa
@@ -569,19 +567,9 @@ const Blog = ({ blog }) => {
 )}
 ```
 
-**Huom 1:** Voit tehdä blogin nimestä klikattavan korostetun koodirivin tapaan.
+**Huom:** Vaikka tämän tehtävän toiminnallisuus on melkein samanlainen kuin komponentin <i>Togglable</i> tarjoama toiminnallisuus, ei Togglable kuitenkaan sovi tarkoitukseen sellaisenaan. Helpoin ratkaisu lienee lisätä blogille tila, joka kontrolloi sitä missä muodossa blogi näytetään.
 
-**Huom 2:** Vaikka tämän tehtävän toiminnallisuus on melkein samanlainen kuin komponentin <i>Togglable</i> tarjoama toiminnallisuus, ei Togglable kuitenkaan sovi tarkoitukseen sellaisenaan. Helpoin ratkaisu lienee lisätä blogille tila, joka kontrolloi sitä missä muodossa blogi näytetään.
-
-#### 5.8*: blogilistan frontend, step8
-
-Huomaamme, että jotain on pielessä. Kun sovellukseen lisätään uusi blogi, ei blogin lisääjän nimeä näytetä blogin tarkempien tietojen joukossa:
-
-![](../../images/5/59new.png)
-
-Kun selain uudelleenladataan, lisääjän tieto tulee näkyviin. Tämä ei ole hyväksyttävää, selvitä missä vika on ja tee tarvittava korjaus.
-
-#### 5.9: blogilistan frontend, step9
+#### 5.8: blogilistan frontend, step8
 
 Toteuta like-painikkeen toiminnallisuus. Like lisätään backendiin blogin yksilöivään urliin tapahtuvalla _PUT_-pyynnöllä.
 
@@ -614,7 +602,15 @@ tulee palvelimelle tehdä PUT-pyyntö osoitteeseen <i>/api/blogs/5a43fde2cbd20b1
 }
 ```
 
-**Varoitus vielä kerran:** Jos huomaat kirjoittavasi sekaisin async/awaitia ja _then_-kutsuja, on 99.9-prosenttisen varmaa, että teet jotain väärin. Käytä siis jompaa kumpaa tapaa, älä missään tapauksessa "varalta" molempia.
+#### 5.9*: blogilistan frontend, step9
+
+Huomaamme, että jotain on pielessä. Kun blogia liketetään, ei blogin lisääjän nimeä näytetä enää blogin tarkempien tietojen joukossa:
+
+![](../../images/5/59put.png)
+
+Kun selain uudelleenladataan, lisääjän tieto tulee näkyviin. Tämä ei ole hyväksyttävää, selvitä missä vika on ja tee tarvittava korjaus.
+
+On toki mahdollista, että olet jo tehnyt kaiken oikein, ja ongelmaa ei koodissasi ilmene. Tässä tapauksessa voit siirtyä eteenpäin.
 
 #### 5.10: blogilistan frontend, step10
 
@@ -706,73 +702,59 @@ Jos propsin tyyppi on väärä, eli jos esimerkiksi yritetään määritellä pr
 
 Konfiguroimme osassa 3 koodin tyylistä huolehtivan [ESLintin](/osa3/validointi_ja_es_lint) backendiin. Otetaan nyt ESLint käyttöön myös frontendissa.
 
-Create-react-app on asentanut projektille ESLintin valmiiksi, joten ei tarvita muuta kuin sopiva konfiguraatio tiedostoon <i>.eslintrc.js</i>.
+Vite on asentanut projektille ESLintin valmiiksi, joten ei tarvitse muuta kuin muokata tiedostossa <i>.eslintrc.cjs</i> oleva konfiguraatio halutun kaltaiseksi.
 
-**HUOM:** Älä suorita komentoa _eslint --init_. Se asentaa ESLintistä uuden version, joka on epäsopiva create-react-app:in konfiguraatioiden kanssa!
 
-Aloitamme seuraavaksi testaamisen, ja jotta pääsemme eroon testeissä olevista turhista huomautuksista asennetaan plugin [eslint-jest-plugin](https://www.npmjs.com/package/eslint-plugin-jest):
-
-```js
-npm install --save-dev eslint-plugin-jest
-```
-
-Luodaan tiedosto <i>.eslintrc.js</i> ja kopioidaan sinne seuraava sisältö:
+Muutetaan tiedoston <i>.eslintrc.cjs</i> sisältöä seuraavasti:
 
 ```js
 module.exports = {
-  "env": {
-      "browser": true,
-      "es6": true,
-      "jest/globals": true 
+  root: true,
+  env: {
+    browser: true,
+    es2020: true,
   },
-  "extends": [ 
-      "eslint:recommended",
-      "plugin:react/recommended"
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:react-hooks/recommended',
   ],
-  "parserOptions": {
-      "ecmaFeatures": {
-          "jsx": true
-      },
-      "ecmaVersion": 2018,
-      "sourceType": "module"
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  settings: { react: { version: '18.2' } },
+  plugins: ['react-refresh'],
+  rules: {
+    "indent": [
+        "error",
+        2  
+    ],
+    "linebreak-style": [
+        "error",
+        "unix"
+    ],
+    "quotes": [
+        "error",
+        "single"
+    ],
+    "semi": [
+        "error",
+        "never"
+    ],
+    "eqeqeq": "error",
+    "no-trailing-spaces": "error",
+    "object-curly-spacing": [
+        "error", "always"
+    ],
+    "arrow-spacing": [
+        "error", { "before": true, "after": true }
+    ],
+    "no-console": 0,
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": 0,
+    "no-unused-vars": 0
   },
-  "plugins": [
-      "react", "jest"
-  ],
-  "rules": {
-      "indent": [
-          "error",
-          2  
-      ],
-      "linebreak-style": [
-          "error",
-          "unix"
-      ],
-      "quotes": [
-          "error",
-          "single"
-      ],
-      "semi": [
-          "error",
-          "never"
-      ],
-      "eqeqeq": "error",
-      "no-trailing-spaces": "error",
-      "object-curly-spacing": [
-          "error", "always"
-      ],
-      "arrow-spacing": [
-          "error", { "before": true, "after": true }
-      ],
-      "no-console": 0,
-      "react/prop-types": 0,
-      "react/react-in-jsx-scope": "off"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
 }
 ```
 
@@ -780,28 +762,20 @@ Tehdään projektin juureen tiedosto [.eslintignore](https://eslint.org/docs/use
 
 ```bash
 node_modules
-build
-.eslintrc.js
+dist
+.eslintrc.cjs
+vite.config.js
 ```
 
 Näin ainoastaan sovelluksessa oleva itse kirjoitettu koodi huomioidaan linttauksessa. 
 
-Tehdään lintausta varten npm-skripti:
+Tuttuun tapaan voit suorittaa linttauksen joko komentoriviltä komennolla 
 
-```js
-{
-  // ...
-  {
-    "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "eslint": "eslint ." // highlight-line
-  },
-  // ...
-}
+```bash 
+npm run lint
 ```
+
+tai editorin Eslint-pluginia hyväksikäyttäen.
 
 Komponentti _Togglable_ aiheuttaa ikävän näköisen varoituksen <i>Component definition is missing display name</i>: 
 
@@ -826,9 +800,7 @@ Togglable.displayName = 'Togglable' // highlight-line
 export default Togglable
 ```
 
-Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes/tree/part5-7), branchissa <i>part5-7</i>.
-
-Kannattaa huomata, että create-react-appilla on myös [oletusarvoinen ESLint-konfiguraatio](https://www.npmjs.com/package/eslint-config-react-app), jonka korvasimme nyt kokonaan omalla konfiguraatiolla. [Dokumentaatio](https://create-react-app.dev/docs/setting-up-your-editor/#extending-or-replacing-the-default-eslint-config) toteaa, että oletusarvoisen konfiguraation korvaaminen on ok, mutta suosittelee mielummin <i>laajentamaan</i> oletusarvoista konfiguraatiota: <i>We highly recommend extending the base config, as removing it could introduce hard-to-find issues</i>.
+Sovelluksen tämänhetkinen koodi on kokonaisuudessaan [GitHubissa](https://github.com/fullstack-hy2020/part2-notes-frontend/tree/part5-7), branchissa <i>part5-7</i>.
 
 </div>
 
@@ -840,8 +812,6 @@ Kannattaa huomata, että create-react-appilla on myös [oletusarvoinen ESLint-ko
 
 Määrittele joillekin sovelluksesi komponenteille PropTypet, ja ota projektiin käyttöön ESLint. Määrittele haluamasi kaltainen konfiguraatio. Korjaa kaikki lint-virheet.
 
-Create-react-app on asentanut projektille ESLintin valmiiksi, joten ei tarvita muuta kun sopiva konfiguraatio tiedostoon <i>.eslintrc.js</i>.
-
-**HUOM:** Älä suorita komentoa _eslint --init_. Se asentaa ESLintistä uuden version, joka on epäsopiva create-react-app:in konfiguraatioiden kanssa!
+Vite on asentanut projektille ESLintin valmiiksi, joten ei tarvita muuta kun sopiva konfiguraatio tiedostoon <i>.eslintrc.cjs</i>.
 
 </div>

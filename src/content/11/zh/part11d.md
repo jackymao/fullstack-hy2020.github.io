@@ -332,7 +332,7 @@ jobs:
   a_test_job:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: github context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}

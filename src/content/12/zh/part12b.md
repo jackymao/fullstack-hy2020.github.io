@@ -382,8 +382,8 @@ The meaning of each line is explained as a comment. If you want to see the full 
 # 中文翻译
 每一行的意思都会在注释中解释。如果想查看完整的规范，可以参见[文档](https://docs.docker.com/compose/compose-file/compose-file-v3/)。
 
-<!-- Now we can use _docker compose up_ to build and run the application. If we want to rebuild the images we can use _docker compose up --build_.-->
-现在我们可以使用_docker compose up_来构建和运行应用程序。如果我们想重新构建镜像，可以使用_docker compose up --build_。
+<!-- You can also run the application in the background with _docker-compose up -d_ (_-d_ for detached) and close it with _docker-compose down_.-->
+ 你也可以用_docker-compose up -d_ (_-d_表示分离)在后端运行应用，用_docker-compose down_关闭它。
 
 <!-- You can also run the application in the background with _docker compose up -d_ (_-d_ for detached) and close it with _docker compose down_.-->
 你也可以用 _docker compose up -d_ (_-d_ 表示分离) 在后台运行应用程序，用 _docker compose down_ 关闭它。
@@ -452,9 +452,8 @@ services:
 <!-- You can use _-f_ flag to specify a <i>file</i> to run the Docker Compose command with e.g.-->
 你可以使用 _-f_ 标志来指定一个 <i>文件</i> 来运行 Docker Compose 命令，例如。
 
-```bash
-docker compose -f docker-compose.dev.yml up
-```
+<!-- Now start the MongoDB with _docker-compose -f docker-compose.dev.yml up -d_. With _-d_ it will run it in the background. You can view the output logs with _docker-compose -f docker-compose.dev.yml logs -f_. There the _-f_ will ensure we <i>follow</i> the logs.-->
+ 现在用_docker-compose -f docker-compose.dev.yml up -d_启动MongoDB。使用_-d_，它将在后端运行。你可以用_docker-compose -f docker-compose.dev.yml logs -f_查看输出日志。那里的_-f_将确保我们<i>遵循</i>日志。
 
 <!-- Now that we may have multiple it's useful.-->
 现在我们可能有多个它，这很有用。
@@ -693,7 +692,7 @@ $ docker volume inspect todo-backend_mongo_data
 Docker 命令 [exec](https://docs.docker.com/engine/reference/commandline/exec/) 是一个重要的命令。它可以用来在容器运行时立即跳入容器。
 
 <!-- Let's start a web server in the background and do a little bit of debugging to get it running and displaying the message "Hello, exec!" in our browser. Let's choose [Nginx](https://www.nginx.com/) which is, among other things, a server capable of serving static HTML files. It has a default index.html that we can replace.-->
-让我们在后台启动一个web服务器，做一点调试，让它能够运行并在我们的浏览器中显示出“Hello, exec！”的消息。让我们选择[Nginx](https://www.nginx.com/)，它是一个能够提供静态HTML文件的服务器，它有一个默认的index.html，我们可以替换它。
+ 让我们在后端启动一个Web服务器，做一点调试，让它运行并在浏览器中显示 "Hello, exec!"的信息。让我们选择[Nginx](https://www.nginx.com/)，除此之外，它是一个能够提供静态HTML文件的服务器。它有一个默认的index.html，我们可以替换它。
 
 ```bash
 $ docker container run -d nginx
@@ -939,13 +938,13 @@ Emitted 'error' event on RedisClient instance at:
 #### Exercise 12.10:
 
 <!-- The project already has [https://www.npmjs.com/package/redis](https://www.npmjs.com/package/redis) installed and two functions "promisified" - getAsync and setAsync.-->
-该项目已经安装了[https://www.npmjs.com/package/redis](https://www.npmjs.com/package/redis)，并且已经"promisified"了两个函数 - getAsync 和 setAsync。
+ 该项目已经安装了[https://www.npmjs.com/package/redis](https://www.npmjs.com/package/redis)和两个 " promise  "的函数--getAsync和setAsync。
 
 <!-- - setAsync function takes in key and value, using the key to store the value.-->
 - `setAsync` 函数接受 `key` 和 `value`，使用 `key` 来存储 `value`。
 
 <!-- - getAsync function takes in key and returns the value in a promise.-->
-- getAsync 函数接受键并以承诺的形式返回值。
+ - getAsync函数接收键并在一个 promise 中返回值。
 
 <!-- Implement a todo counter that saves the number of created todos to Redis:-->
 实现一个Todo计数器，将创建的Todo数量保存到Redis中：

@@ -1648,7 +1648,7 @@ npx sequelize-cli model:generate --name User --attributes name:string,username:s
 最终结局：[在第四章节末尾](/en/part4/token_authentication#problems-of-token-based-authentication)提到了一个令牌关键性问题：如果某用户被决定撤销访问系统的权限，该用户仍可以使用所拥有的令牌来使用系统。
 
 <!-- The usual solution to this is to store a record of each token issued to the client in the backend database, and to check with each request whether access is still valid. In this case, the validity of the token can be removed immediately if necessary. Such a solution is often referred to as a <i>server-side session</i>.-->
-通常的解决方案是在后端数据库中存储每个客户端发出的令牌的记录，并在每次请求时检查访问是否仍然有效。在这种情况下，如果有必要，可以立即删除令牌的有效性。这种解决方案通常被称为<i>服务器端会话</i>。
+ 对此，通常的解决方案是在后端数据库中存储发给客户的每个令牌的记录，并在每次请求时检查访问是否仍然有效。在这种情况下，必要时可以立即删除令牌的有效性。这样的解决方案通常被称为<i>服务器端会话</i>。
 
 <!-- Now expand the system so that the user who has lost access will not be able to perform any actions that require login.-->
 现在扩展系统，使失去访问权限的用户无法执行任何需要登录的操作。

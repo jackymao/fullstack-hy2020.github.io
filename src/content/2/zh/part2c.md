@@ -163,8 +163,8 @@ setTimeout(() => {
 <!-- Let's get back to the topic of fetching data from the server.-->
 让我们回到从服务器获取数据的话题。
 
-<!-- We could use the previously mentioned promise-based function [fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) to pull the data from the server. Fetch is a great tool. It is standardized and supported by all modern browsers (excluding IE).-->
-我们可以使用先前提到的基于promise的函数[fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch)从服务器拉取数据。Fetch是一个很棒的工具，它是标准化的，并且所有现代浏览器（不包括IE）都支持它。
+<!-- We could use the previously mentioned promise based function [fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch) to pull the data from the server. Fetch is a great tool. It is standardized and supported by all modern browsers (excluding IE).-->
+我们可以使用之前提到的基于 promise 的函数[fetch](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch)来从服务器获取数据。Fetch是一个伟大的工具。它是标准化的，被所有现代浏览器支持（不包括IE）。
 
 <!-- That being said, we will be using the [axios](https://github.com/axios/axios) library instead for communication between the browser and server. It functions like fetch but is somewhat more pleasant to use. Another good reason to use axios is our getting familiar with adding external libraries, so-called <i>npm packages</i>, to React projects.-->
 这么说来，我们将使用[axios](https://github.com/axios/axios)库来代替浏览器和服务器之间的通信。 它的功能类似于fetch，但使用起来更加愉快。 另一个使用axios的好原因是我们熟悉将外部库，即所谓的<i>npm 包</i>添加到React项目中。
@@ -338,32 +338,30 @@ console.log(promise2)
 
 ![promises printed to console](../../images/2/16new.png)
 
-<!-- Axios'' method _get_ returns a [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).-->
-Axios 的方法 _get_ 返回一个[promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)。
+<!-- Axios' method _get_ returns a [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises).-->
+ 'Axios' 方法 _get_ 返回一个[ promise ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)。
 
 <!-- The documentation on Mozilla's site states the following about promises:-->
-Mozilla 的网站上的文件说明如下有关于promise：
+ Mozilla网站上的文档对 promise 有如下说明。
 
 <!-- > <i>A Promise is an object representing the eventual completion or failure of an asynchronous operation.</i>-->
 > <i>promise是一个代表异步操作最终完成或失败的对象。</i>
 
 <!-- In other words, a promise is an object that represents an asynchronous operation. A promise can have three distinct states:-->
-所以，promise是一个代表异步操作的对象。promise可以有三种不同的状态：
+ 换句话说，一个 promise 是一个代表异步操作的对象。一个 promise 可以有三种不同的状态。
 
 <!-- 1. The promise is <i>pending</i>: It means that the final value (one of the following two) is not available yet.-->
-
-1. promise<i>处于 pending状态</i>：这意味着最终值（其中之一）尚未可用。
-   <!-- 2. The promise is <i>fulfilled</i>: It means that the operation has been completed and the final value is available, which generally is a successful operation. This state is sometimes also called <i>resolved</i>.-->
-2. promise 已<i>兑现fulfilled</i>：这意味着操作已经完成，最终值可用，通常表示操作成功。这种状态有时也被称为<i>解决</i>。
-   <!-- 3. The promise is <i>rejected</i>: It means that an error prevented the final value from being determined, which generally represents a failed operation.-->
-
-3. promise被<i>拒绝</i>：这意味着一个错误阻止了最终值被确定，这通常代表一个失败的操作。
+ 1.答应是<i>pending</i>：这意味着最终的值（以下两个中的一个）还不能用。
+<!-- 2. The promise is <i>fulfilled</i>: It means that the operation has been completed and the final value is available, which generally is a successful operation. This state is sometimes also called <i>resolved</i>.-->
+ 2. promise 是<i>fulfilled</i>：它意味着操作已经完成，最终值可用，一般来说是一个成功的操作。这种状态有时也被称为<i>resolved</i>。
+<!-- 3. The promise is <i>rejected</i>: It means that an error prevented the final value from being determined, which generally represents a failed operation.-->
+ 3. promise 被<i>拒绝</i>：这意味着一个错误阻止了最终值的确定，这一般代表一个失败的操作。
 
 <!-- The first promise in our example is <i>fulfilled</i>, representing a successful _axios.get('http://localhost:3001/notes')_ request. The second one, however, is <i>rejected</i>, and the console tells us the reason. It looks like we were trying to make an HTTP GET request to a non-existent address.-->
-第一个promise在我们的例子中是<i>兑现</i>的，代表一个成功的_axios.get('http://localhost:3001/notes')_请求。然而，第二个是<i>拒绝</i>的，控制台告诉我们原因。看起来我们试图向一个不存在的地址发出HTTP GET请求。
+ 我们例子中的第一个 promise 是<i>fulfilled</i>，代表一个成功的_axios.get('http://localhost:3001/notes')_请求。然而，第二个 promise 是<i>拒绝的</i>，并且控制台告诉我们原因。看起来我们试图向一个不存在的地址发出HTTP GET请求。
 
 <!-- If, and when, we want to access the result of the operation represented by the promise, we must register an event handler to the promise. This is achieved using the method <em>then</em>:-->
-如果我们想要访问promise所表示操作的结果，我们必须向promise注册一个事件处理程序。这是通过<em>then</em>方法实现的：
+ 如果，以及何时，我们想访问 promise 所代表的操作的结果，我们必须为 promise 注册一个事件处理程序。这可以通过<em>then</em>方法实现。
 
 ```js
 const promise = axios.get('http://localhost:3001/notes')
@@ -373,17 +371,13 @@ promise.then(response => {
 })
 ```
 
-<!-- The following is printed to the console:-->
-
-**如下内容输出到控制台：**
-
-![json object data printed to console](../../images/2/17new.png)
+![](../../images/2/17new.png)
 
 <!-- The JavaScript runtime environment calls the callback function registered by the <em>then</em> method providing it with a <em>response</em> object as a parameter. The <em>response</em> object contains all the essential data related to the response of an HTTP GET request, which would include the returned <i>data</i>, <i>status code</i>, and <i>headers</i>.-->
 JavaScript 运行时环境调用由 <em>then</em> 方法注册的回调函数，并将 <em>response</em> 对象作为参数提供给它。 <em>response</em> 对象包含与 HTTP GET 请求响应相关的所有基本数据，其中包括返回的 <i>数据</i>、<i>状态码</i> 和 <i>标头</i>。
 
 <!-- Storing the promise object in a variable is generally unnecessary, and it's instead common to chain the <em>then</em> method call to the axios method call, so that it follows it directly:-->
-将promise对象存储在变量中通常是不必要的，更常见的是将<em>then</em>方法调用链接到axios方法调用，以便它直接跟随它：
+ 将 promise 对象存储在一个变量中通常是不必要的，而通常是将<em>then</em>方法调用链到axios方法调用中，这样它就直接跟随它。
 
 ```js
 axios.get('http://localhost:3001/notes').then(response => {
@@ -435,13 +429,13 @@ axios.get('http://localhost:3001/notes').then(response => {
 
 ### Effect-hooks
 
-<!-- We have already used [state hooks](https://react.dev/learn/state-a-components-memory) that were introduced along with React version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0), which provide state to React components defined as functions - the so-called <i>functional components</i>. Version 16.8.0 also introduces [effect hooks](https://react.dev/reference/react#effect-hooks) as a new feature. As per the official docs:-->
-我们已经使用伴随 React 版本[16.8.0](https://www.npmjs.com/package/react/v/16.8.0)一起引入的[state hooks](https://react.dev/learn/state-a-components-memory)，它们为定义为函数的 React 组件提供状态 - 所谓的<i>函数组件</i>。版本 16.8.0 也引入了[effect hooks](https://react.dev/reference/react#effect-hooks)作为一项新功能。根据官方文档：
+<!-- We have already used [state hooks](https://reactjs.org/docs/hooks-state.html) that were introduced along with React version [16.8.0](https://www.npmjs.com/package/react/v/16.8.0), which provide state to React components defined as functions - the so-called <i>functional components</i>. Version 16.8.0 also introduces [effect hooks](https://reactjs.org/docs/hooks-effect.html) as a new feature. As per the official docs:-->
+ 我们已经使用了与React版本[16.8.0](https://www.npmjs.com/package/react/v/16.8.0)一起引入的[状态钩子](https://zh-hans.react.dev/reference/react/hooks#state-hooks)，它为定义为函数的React组件--所谓的<i>功能组件</i>提供状态。16.8.0版本还引入了[效果钩子](https://zh-hans.react.dev/reference/react/hooks#effect-hooks)这个新功能。按照官方文档的说法。
 
-<!-- > <i>The Effect Hook lets you perform side effects on function components.</i>-->
-> <i>Effect Hook 可以让你在函数组件上执行副作用。</i>
-<!-- > <i>Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.</i>-->
-> <i>在 React 组件中，数据获取、设置订阅和手动更改 DOM 都是副作用的示例。</i>
+<!-- > <i>Effects let a component connect to and synchronize with external systems.</i>-->
+ > <i>Effect 允许组件连接到外部系统并与之同步。</i>
+<!-- > <i>This includes dealing with network, browser DOM, animations, widgets written using a different UI library, and other non-React code.</i>-->
+ > <i>这包括处理网络、浏览器、DOM、动画、使用不同 UI 库编写的小部件以及其他非 React 代码。</i>
 
 <!-- As such, effect hooks are precisely the right tool to use when fetching data from a server.-->
 因此，当从服务器获取数据时，effect 钩子正是使用的正确工具。
@@ -526,7 +520,7 @@ response => {
 ```
 
 <!-- When data arrives from the server, the JavaScript runtime calls the function registered as the event handler, which prints <i>promise fulfilled</i> to the console and stores the notes received from the server into the state using the function <em>setNotes(response.data)</em>.-->
-当数据从服务器接收到时，JavaScript运行时会调用注册为事件处理程序的函数，该函数将 <i>promise fulfilled</i> 打印到控制台，并使用函数 <em>setNotes(response.data)</em>将从服务器接收到的笔记存储到状态中。
+当数据从服务器到达时，JavaScript运行时调用注册为事件处理程序的函数，该函数将<i> promise 兑现</i>打印到控制台，并使用函数<em>setNotes(response.data)</em>将从服务器收到的注释存储到状态中。
 
 <!-- As always, a call to a state-updating function triggers the re-rendering of the component. As a result, <i>render 3 notes</i> is printed to the console, and the notes fetched from the server are rendered to the screen.-->
 如往常一样，调用状态更新函数就会触发组件的重新渲染。结果，控制台会打印出 <i>渲染3个笔记</i>，并将从服务器获取的笔记渲染到屏幕上。
@@ -562,8 +556,8 @@ const hook = () => {
 useEffect(hook, [])
 ```
 
-<!-- Now we can see more clearly that the function [useEffect](https://react.dev/reference/react/useEffect) takes <i>two parameters</i>. The first is a function, the <i>effect</i> itself. According to the documentation:-->
-现在我们可以更清楚地看到，函数[useEffect](https://react.dev/reference/react/useEffect)接受<i>两个参数</i>。第一个是一个函数，<i>effect </i>本身。根据文档：
+<!-- Now we can see more clearly that the function [useEffect](https://react.dev/reference/react/useEffect) actually takes <i>two parameters</i>. The first is a function, the <i>effect</i> itself. According to the documentation:-->
+ 现在我们可以更清楚地看到，函数[useEffect](https://zh-hans.react.dev/reference/react/useEffect)实际上需要<i>两个参数</i>。第一个是一个函数，即<i>effect</i>本身。根据文档的内容。
 
 <!-- > <i>By default, effects run after every completed render, but you can choose to fire it only when certain values have changed.</i>-->
 <i>默认情况下，每次渲染完成后都会运行effect ，但您可以选择仅在某些值发生变化时触发它。</i>
@@ -572,7 +566,7 @@ useEffect(hook, [])
 所以默认情况下，效果<i>总是</i>在组件渲染后运行。但是在我们的情况下，我们只希望在第一次渲染时执行效果。
 
 <!-- The second parameter of <em>useEffect</em> is used to [specify how often the effect is run](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect). If the second parameter is an empty array <em>[]</em>, then the effect is only run along with the first render of the component.-->
-<em>useEffect</em>的第二个参数用于[指定效果运行的频率](https://reactjs.org/docs/hooks-reference.html#conditionally-firing-an-effect)。如果第二个参数是一个空数组<em>[]</em>，那么该效果只会随着组件的第一次渲染而运行。
+ <em>useEffect</em>的第二个参数用于[指定效果的运行频率](https://zh-hans.react.dev/reference/react/useEffect#parameters)。如果第二个参数是一个空的数组<em>[]</em>，那么效果就只在组件的第一次渲染时运行。
 
 <!-- There are many possible use cases for an effect hook other than fetching data from the server. However, this use is sufficient for us, for now.-->
 有许多可能的使用案例可以使用 Effect Hook，而不仅仅是从服务器获取数据。不过，现在对我们来说，这种用法已经足够了。
@@ -597,8 +591,8 @@ useEffect(() => {
 }, [])
 ```
 
-<!-- A reference to an event handler function is assigned to the variable <em>eventHandler</em>. The promise returned by the <em>get</em> method of Axios is stored in the variable <em>promise</em>. The registration of the callback happens by giving the <em>eventHandler</em> variable, referring to the event-handler function, as a parameter to the <em>then</em> method of the promise. It isn''t usually necessary to assign functions and promises to variables, and a more compact way of representing things, as seen further above, is sufficient.-->
-变量<em>eventHandler</em>被赋予一个指向事件处理函数的引用。Axios的<em>get</em>方法返回的promise被存储在变量<em>promise</em>中。回调的注册是通过将<em>eventHandler</em>变量，指向事件处理函数，作为promise的<em>then</em>方法的参数来实现的。通常不必将函数和promise分配给变量，更紧凑的表示方式，如上面所示，就足够了。
+<!-- A reference to an event handler function is assigned to the variable <em>eventHandler</em>. The promise returned by the <em>get</em> method of Axios is stored in the variable <em>promise</em>. The registration of the callback happens by giving the <em>eventHandler</em> variable, referring to the event-handler function, as a parameter to the <em>then</em> method of the promise. It isn't usually necessary to assign functions and promises to variables, and a more compact way of representing things, as seen further above, is sufficient.-->
+ 一个事件处理函数的引用被分配到变量<em>eventHandler</em>。由Axios的<em>get</em>方法返回的 promise 被存储在变量<em>promise</em>中。回调的注册是通过给<em>eventHandler</em>变量，指的是事件处理函数，作为 promise 的<em>then</em>方法的一个参数。通常没有必要把函数和 promise 分配给变量，用更紧凑的方式来表示事情，如上面进一步看到的，就足够了。
 
 ```js
 useEffect(() => {
@@ -693,7 +687,99 @@ Error: listen EADDRINUSE 0.0.0.0:3001
 <!-- it means that port 3001 is already in use by another application, e.g. in use by an already running json-server. Close the other application, or change the port in case that doesn''t work.-->
 这意味着端口3001已被另一个应用程序占用，例如已经在运行的json-server。关闭其他应用程序，或者如果不起作用，更改端口。
 
-<!-- Modify the application such that the initial state of the data is fetched from the server using the <i>axios</i>-library. Complete the fetching with an [Effect hook](https://react.dev/reference/react/useEffect).-->
-修改应用程序，使数据的初始状态通过使用<i>axios</i>库从服务器获取。 使用[Effect hook](https://react.dev/reference/react/useEffect)完成获取。
+<!-- Modify the application such that the initial state of the data is fetched from the server using the <i>axios</i>-library. Complete the fetching with an [Effect hook](https://react.dev/reference/react/hooks#effect-hooks). -->
+ 修改应用，使数据的初始状态是使用<i>axios</i>-library从服务器获取的。用一个[效果钩子](https://zh-hans.react.dev/reference/react/hooks#effect-hooks)来完成获取。
 
+<h4>2.12* Data for countries, step1</h4>
+
+<!-- The API [https://restcountries.com](https://restcountries.com) provides data for different countries in a machine-readable format, a so-called REST API.-->
+ API [https://restcountries.com](https://restcountries.com)以机器可读的格式提供不同国家的数据，这是所谓的REST API。
+
+<!-- Create an application, in which one can look at data of various countries. The application should probably get the data from the endpoint [all](https://restcountries.com/v3.1/all).-->
+ 创建一个应用，在其中可以查看不同国家的数据。这个应用可能应该从端点[all](https://restcountries.com/v3.1/all)获取数据。
+
+<!-- The user interface is very simple. The country to be shown is found by typing a search query into the search field.-->
+ 用户界面非常简单。要显示的国家是通过在搜索栏里输入一个搜索查询来找到的。
+
+<!-- If there are too many (over 10) countries that match the query, then the user is prompted to make their query more specific:-->
+ 如果有太多(超过10个)国家符合查询条件，则会提示用户使他们的查询更具体。
+
+![](../../images/2/19b1.png)
+
+<!-- If there are ten or fewer countries, but more than one, then all countries matching the query are shown:-->
+ 如果有10个或更少的国家，但超过1个，那么就会显示所有符合查询的国家。
+
+![](../../images/2/19b2.png)
+
+<!-- When there is only one country matching the query, then the basic data of the country (eg. capital and area), its flag and the languages spoken there, are shown:-->
+ 如果只有一个国家符合查询条件，则显示该国的基本数据（如首都和面积）、国旗和使用的语言。
+
+![](../../images/2/19c3.png)
+
+<!-- **NB**: It is enough that your application works for most of the countries. Some countries, like <i>Sudan</i>, can be hard to support, since the name of the country is part of the name of another country, <i>South Sudan</i>. You don't need to worry about these edge cases.-->
+ **NB*:你的应用对大多数国家都有效就可以了。有些国家，如<i>苏丹</i>，可能很难支持，因为这个国家的名字是另一个国家<i>南苏丹</i>的名字的一部分。你不需要担心这些边缘情况。
+
+<!-- **WARNING** create-react-app will automatically turn your project into a git-repository unless you create your application inside of an existing git repository. **Most likely you do not want each of your projects to be a separate repository**, so simply run the _rm -rf .git_ command at the root of your application.-->
+ **警告** create-react-app将自动把你的项目变成一个git-repository，除非你在一个现有的git repository中创建你的应用。**你很可能不希望你的每个项目都是一个独立的仓库**，所以只需在你的应用的根部运行_rm -rf .git_命令即可。
+
+<h4>2.13*: Data for countries, step2</h4>
+
+<!-- **There is still a lot to do in this part, so don't get stuck on this exercise!**-->
+ **这部分还有很多事情要做，所以不要在这个练习上卡住！**
+
+<!-- Improve on the application in the previous exercise, such that when the names of multiple countries are shown on the page there is a button next to the name of the country, which when pressed shows the view for that country:-->
+ 改进前一个练习中的应用，当页面上显示多个国家的名称时，在国家名称旁边有一个按钮，按下后会显示该国家的视图。
+
+![](../../images/2/19b4.png)
+
+<!-- In this exercise it is also enough that your application works for most of the countries. Countries whose name appears in the name of another country, like <i>Sudan</i>, can be ignored.-->
+ 在这个练习中，你的应用对大多数国家都有效也就足够了。那些名字出现在另一个国家名称中的国家，如<i>苏丹</i>，可以被忽略。
+
+<h4>2.14*: Data for countries, step3</h4>
+
+<!-- **There is still a lot to do in this part, so don't get stuck on this exercise!**-->
+ **这部分还有很多事情要做，所以不要卡在这个练习上！**。
+
+<!-- Add to the view showing the data of a single country, the weather report for the capital of that country. There are dozens of providers for weather data. One suggested API is [https://openweathermap.org](https://openweathermap.org). Note that it might take some minutes until a generated api key is valid.-->
+ 在显示单一国家数据的视图中，添加该国首都的天气报告。有几十个天气数据的提供者。一个建议的API是[https://openweathermap.org](https://openweathermap.org)。请注意，可能需要一些时间，直到生成的api密钥有效。
+
+![](../../images/2/19x.png)
+
+<!-- If you use Open weather map, [here](https://openweathermap.org/weather-conditions#Icon-list) is the description how to get weather icons.-->
+ 如果你使用Open weather map，[这里](https://openweathermap.org/weather-conditions#Icon-list)是关于如何获得天气图标的描述。
+
+<!-- **NB:** In some browsers (such as Firefox) the chosen API might send an error response, which indicates that HTTPS encryption is not supported, although the request URL starts with _http://_. This issue can be fixed by completing the exercise using Chrome.-->
+ **NB:**在某些浏览器（如Firefox）中，所选择的API可能会发送一个错误响应，这表明不支持HTTPS加密，尽管请求的URL以http://_ 开始。这个问题可以通过使用Chrome浏览器完成练习来解决。
+
+<!-- **NB:** You need an api-key to use almost every weather service. Do not save the api-key to source control! Nor hardcode the api-key to your source code. Instead use an [environment variable](https://create-react-app.dev/docs/adding-custom-environment-variables/) to save the key.-->
+ **NB:**你需要一个api-key来使用几乎所有的气象服务。不要把api-key保存到源码控制中!也不要在你的源代码中硬编码api-key。而是使用一个[环境变量](https://create-react-app.dev/docs/adding-custom-environment-variables/)来保存该密钥。
+
+<!-- Assuming the api-key is <i>t0p53cr3t4p1k3yv4lu3</i>, when the application is started like so:-->
+ 假设api-key是<i>t0p53cr3t4p1k3yv4lu3</i>，当应用像这样启动时。
+
+```bash
+export REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3 && npm start // For Linux/macOS Bash
+($env:REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3) -and (npm start) // For Windows PowerShell
+set REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3 && npm start // For Windows cmd.exe
+```
+
+<!-- you can access the value of the key from the _process.env_ object:-->
+ 你可以从_process.env_对象中访问该键的值。
+
+```js
+const api_key = process.env.REACT_APP_API_KEY
+// variable api_key has now the value set in startup
+```
+
+<!-- Note that if you created the application using `npx create-react-app ...` and you want to use a different name for your environment variable then the environment variable name must still begin with `REACT_APP_`. You can also use a `.env` file rather than defining it on the command line each time by creating a file entitled '.env' in the root of the project and adding the following.-->
+ 注意，如果你用`npx create-react-app ...`创建了应用，并且你想为你的环境变量使用一个不同的名字，那么环境变量的名字仍然必须以`REACT_APP_`开头。你也可以使用`.env`文件，而不是每次都在命令行上定义它，方法是在项目的根部创建一个名为".env"的文件，并加入以下内容。
+
+```
+# .env
+
+REACT_APP_API_KEY=t0p53cr3t4p1k3yv4lu3
+```
+
+<!-- Note that you will need to restart the server to apply the changes.-->
+ 注意你将需要重新启动服务器来应用这些变化。
 </div>

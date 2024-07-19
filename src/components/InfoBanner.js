@@ -45,22 +45,12 @@ const InfoBanner = ({ visible, onHide }) => {
   return (
     <div style={style}>
       <div style={textStyle}>
+        <p style={{ marginBottom: 20}}>
+          The testing libraries used in part 5 were changed 3rd March 2024. In frontend Vite replaced Jest. For End to end-tests Playwright is the new preferred library.
+        </p>  
         <p>
-          There are some changes in part 9. The <i>Patientor</i> example app
-          structure has been refactored to a less complex form to make it easier
-          to concentrate on learning TypeScript.
+          If you have started with Jest or Cypress, you may continue. The relevant material is still available, for Jest, the link is at the top of part 5c and for the Cypress, the link is at the menu at the left.
         </p>
-        <div style={{ marginTop: 10 }}>
-          If you are just working with the old Patientor, no worries, the old
-          material shall stay online for a couple of weeks.
-        </div>
-
-        <div style={{ marginTop: 10 }}>
-          <i>
-            If you have already completed the part 9, this change has absolutely
-            no effect on your progress.
-          </i>
-        </div>
       </div>
       <div style={buttonDiv}>
         <button style={buttonStyle} onClick={onHide}>
